@@ -1,0 +1,9 @@
+robocontrol\elog.o: ..\libs\EasyLogger\src\elog.c
+robocontrol\elog.o: ../libs/EasyLogger/inc/elog.h
+robocontrol\elog.o: ../libs/EasyLogger/inc/elog_cfg.h
+robocontrol\elog.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\elog.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\elog.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
+robocontrol\elog.o: D:\keil\ARM\ARMCC\Bin\..\include\string.h
+robocontrol\elog.o: D:\keil\ARM\ARMCC\Bin\..\include\stdarg.h
+robocontrol\elog.o: D:\keil\ARM\ARMCC\Bin\..\include\stdio.h
