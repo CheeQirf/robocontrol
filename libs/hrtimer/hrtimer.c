@@ -26,16 +26,8 @@ extern TIM_HandleTypeDef htim13;
 
 
 void TIM8_UP_TIM13_IRQHandler(void) {
-    /* enter interrupt */
-    /* Capture compare 1 event */
-    if (__HAL_TIM_GET_FLAG(&htim13, TIM_FLAG_CC1) != RESET) {
-        //hrt_call_isr(0);
-        __HAL_TIM_SET_COUNTER(&htim13, 0);
-        if (__HAL_TIM_GET_IT_SOURCE(&htim13, TIM_IT_CC1) != RESET) {
-            __HAL_TIM_CLEAR_IT(&htim13, TIM_IT_CC1);
-            htim13.Channel = HAL_TIM_ACTIVE_CHANNEL_1;
-        }
-    }
+
+
 
     /* TIM Update event */
     if (__HAL_TIM_GET_FLAG(&htim13, TIM_FLAG_UPDATE) != RESET) {

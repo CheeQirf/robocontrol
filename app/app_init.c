@@ -12,7 +12,9 @@ int app_init(void)
 	//hrtimer init
 	ret = hrtimer_init(); 
 	
-	
+	if(!ret){
+		log_i("app init sucessfully!");
+	}
 	return ret;
 	
 	

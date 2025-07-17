@@ -98,9 +98,9 @@ void elog_port_output_unlock(void) {
  */
 const char *elog_port_get_time(void) {
      static char cur_system_time[16] = { 0 };
-		 //snprintf(cur_system_time, 16, "us:%010d", 213);
-		 //return cur_system_time;
-		 return "awd";
+		 snprintf(cur_system_time, 16, "us:%010lld", hrt_absolute_time());
+		 return cur_system_time;
+	
 
 }
 

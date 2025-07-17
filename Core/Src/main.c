@@ -129,8 +129,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		
-		
+		log_i("wd");
+		HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }
