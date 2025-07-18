@@ -1,4 +1,8 @@
+
+
 #include "app_init.h"
+
+#define LOG_TAG "APP_INIT"
 #include "elog.h"
 #include "hrtimer.h"
 #include "main.h"
@@ -14,13 +18,14 @@ int app_init(void)
 	HAL_Delay(1000);
 	int ret =0;
 	ret = my_log_init();
-	
-	//hrtimer init
 
+	//hrtimer init
+	
+	
 	ret = hrtimer_init(); 
 	cm_backtrace_init("CmBacktrace",HARDWARE_VERSION, SOFTWARE_VERSION);
-	
-	
+
+	//myprintf("1");
 	if(!ret){
 		log_i("app init sucessfully!");
 	}

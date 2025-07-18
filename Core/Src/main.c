@@ -18,11 +18,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 #include "can.h"
 #include "dma.h"
 #include "tim.h"
 #include "usart.h"
-#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -63,7 +63,10 @@ extern CAN_HandleTypeDef hcan2;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
+#define FS_PORT 0
+#define HS_PORT 1
 
 /* USER CODE END PFP */
 
@@ -107,22 +110,25 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_UART4_Init();
-  MX_UART5_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
-  MX_USB_DEVICE_Init();
   MX_TIM13_Init();
   /* USER CODE BEGIN 2 */
 
-  while(app_init()){
-      log_e("Error While app init!");
-  }
-
-
+	app_init();
 
 
 
   /* USER CODE END 2 */
+
+  /* Init scheduler */
+  osKernelInitialize();  /* Call init function for freertos objects (in cmsis_os2.c) */
+  MX_FREERTOS_Init();
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -131,8 +137,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		log_i("wd");
-		HAL_Delay(100);
+
   }
   /* USER CODE END 3 */
 }
@@ -225,7 +230,7 @@ void _sys_exit(int x)
 }
  
 int fputc(int ch, FILE *f){     
-		CDC_Transmit_FS((uint8_t *)&ch,1);
+		//CDC_Transmit_FS((uint8_t *)&ch,1);
     return ch;
 }
 

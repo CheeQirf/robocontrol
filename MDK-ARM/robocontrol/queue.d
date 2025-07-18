@@ -1,0 +1,15 @@
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/queue.c
+robocontrol\queue.o: D:\keil\ARM\ARMCC\Bin\..\include\stdlib.h
+robocontrol\queue.o: D:\keil\ARM\ARMCC\Bin\..\include\string.h
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+robocontrol\queue.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\queue.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\queue.o: ../Core/Inc/FreeRTOSConfig.h
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+robocontrol\queue.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h

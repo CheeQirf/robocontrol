@@ -28,8 +28,9 @@
 
 #ifndef _CMB_CFG_H_
 #define _CMB_CFG_H_
-#include "stdarg.h"
+#include "elog.h"
 extern int myprintf(const char *format,...);
+
 /* print line, must config by user */
 #define cmb_println(...)               myprintf(__VA_ARGS__);myprintf("\r\n")
 /* enable bare metal(no OS) platform */

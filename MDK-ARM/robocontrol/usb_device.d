@@ -3,7 +3,7 @@ robocontrol\usb_device.o: ../USB_DEVICE/App/usb_device.h
 robocontrol\usb_device.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 robocontrol\usb_device.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h
 robocontrol\usb_device.o: ../Drivers/CMSIS/Include/core_cm4.h
-robocontrol\usb_device.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdint.h
+robocontrol\usb_device.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\usb_device.o: ../Drivers/CMSIS/Include/cmsis_version.h
 robocontrol\usb_device.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 robocontrol\usb_device.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -15,7 +15,7 @@ robocontrol\usb_device.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.
 robocontrol\usb_device.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 robocontrol\usb_device.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 robocontrol\usb_device.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-robocontrol\usb_device.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stddef.h
+robocontrol\usb_device.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
 robocontrol\usb_device.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 robocontrol\usb_device.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 robocontrol\usb_device.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -37,9 +37,9 @@ robocontrol\usb_device.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
 robocontrol\usb_device.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
 robocontrol\usb_device.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
 robocontrol\usb_device.o: ../USB_DEVICE/Target/usbd_conf.h
-robocontrol\usb_device.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdio.h
-robocontrol\usb_device.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdlib.h
-robocontrol\usb_device.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\string.h
+robocontrol\usb_device.o: D:\keil\ARM\ARMCC\Bin\..\include\stdio.h
+robocontrol\usb_device.o: D:\keil\ARM\ARMCC\Bin\..\include\stdlib.h
+robocontrol\usb_device.o: D:\keil\ARM\ARMCC\Bin\..\include\string.h
 robocontrol\usb_device.o: ../Core/Inc/main.h
 robocontrol\usb_device.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
 robocontrol\usb_device.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h

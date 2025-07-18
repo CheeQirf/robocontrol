@@ -1,8 +1,8 @@
 robocontrol\hrtimer.o: ..\libs\hrtimer\hrtimer.c
 robocontrol\hrtimer.o: ..\libs\hrtimer\hrtimer.h
-robocontrol\hrtimer.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdbool.h
-robocontrol\hrtimer.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\inttypes.h
-robocontrol\hrtimer.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdint.h
+robocontrol\hrtimer.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
+robocontrol\hrtimer.o: D:\keil\ARM\ARMCC\Bin\..\include\inttypes.h
+robocontrol\hrtimer.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\hrtimer.o: ../Core/Inc/tim.h
 robocontrol\hrtimer.o: ../Core/Inc/main.h
 robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
@@ -19,7 +19,7 @@ robocontrol\hrtimer.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 robocontrol\hrtimer.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-robocontrol\hrtimer.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stddef.h
+robocontrol\hrtimer.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
 robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -36,6 +36,3 @@ robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.
 robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h
-robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
-robocontrol\hrtimer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h

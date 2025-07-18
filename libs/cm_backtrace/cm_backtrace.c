@@ -30,7 +30,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
-
+#include "main.h"
 #if __STDC_VERSION__ < 199901L
     #error "must be C99 or higher. try to add '-std=c99' to compile parameters"
 #endif

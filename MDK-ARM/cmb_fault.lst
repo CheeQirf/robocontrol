@@ -77,10 +77,13 @@ ARM Macro Assembler    Page 2
    46 0000000C         
    47 0000000C                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
-interwork --depend=robocontrol\cmb_fault.d -orobocontrol\cmb_fault.o -I.\RTE\_r
-obocontrol -ID:\keilpacs\ARM\CMSIS\6.1.0\CMSIS\Core\Include --predefine="__UVIS
-ION_VERSION SETA 541" --predefine="STM32F446xx SETA 1" --predefine="_RTE_ SETA 
-1" --list=cmb_fault.lst ..\libs\cm_backtrace\fault_handler\keil\cmb_fault.S
+interwork --depend=robocontrol\cmb_fault.d -orobocontrol\cmb_fault.o -I../Drive
+rs/CMSIS/Include -I.\RTE\_robocontrol -IC:\Users\Retro\AppData\Local\Arm\Packs\
+ARM\CMSIS\5.9.0\CMSIS\Core\Include -IC:\Users\Retro\AppData\Local\Arm\Packs\Kei
+l\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include --predefine="_
+_UVISION_VERSION SETA 539" --predefine="_RTE_ SETA 1" --predefine="STM32F446xx 
+SETA 1" --predefine="_RTE_ SETA 1" --list=cmb_fault.lst ..\libs\cm_backtrace\fa
+ult_handler\keil\cmb_fault.S
 
 
 
