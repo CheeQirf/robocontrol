@@ -1,0 +1,17 @@
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/src/object.c
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtthread.h
+robocontrol\object.o: ../RT-Thread/rtconfig.h
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtdebug.h
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtdef.h
+robocontrol\object.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdarg.h
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/libc/include/sys/signal.h
+robocontrol\object.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdint.h
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/libc/extension/sys/types.h
+robocontrol\object.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stddef.h
+robocontrol\object.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\time.h
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/libc/include/sys/time.h
+robocontrol\object.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\signal.h
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtservice.h
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtm.h
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtthread.h
+robocontrol\object.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rthw.h

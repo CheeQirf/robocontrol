@@ -1,8 +1,10 @@
 #ifndef __APP_INIT 
 #define __APP_INIT 
 
-int app_init();
+int app_init(void);
 
 
 
 #endif
+
+

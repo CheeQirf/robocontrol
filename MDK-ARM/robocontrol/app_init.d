@@ -2,11 +2,11 @@ robocontrol\app_init.o: ..\app\app_init.c
 robocontrol\app_init.o: ..\app\app_init.h
 robocontrol\app_init.o: ../libs/EasyLogger/inc/elog.h
 robocontrol\app_init.o: ../libs/EasyLogger/inc/elog_cfg.h
-robocontrol\app_init.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
-robocontrol\app_init.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
-robocontrol\app_init.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
+robocontrol\app_init.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdint.h
+robocontrol\app_init.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stddef.h
+robocontrol\app_init.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdbool.h
 robocontrol\app_init.o: ../libs/hrtimer/hrtimer.h
-robocontrol\app_init.o: D:\keil\ARM\ARMCC\Bin\..\include\inttypes.h
+robocontrol\app_init.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\inttypes.h
 robocontrol\app_init.o: ../Core/Inc/main.h
 robocontrol\app_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 robocontrol\app_init.o: ../Core/Inc/stm32f4xx_hal_conf.h
@@ -41,3 +41,8 @@ robocontrol\app_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 robocontrol\app_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h
 robocontrol\app_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
 robocontrol\app_init.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
+robocontrol\app_init.o: ../libs/cm_backtrace/cm_backtrace.h
+robocontrol\app_init.o: ../libs/cm_backtrace/cmb_def.h
+robocontrol\app_init.o: ../libs/cm_backtrace/cmb_cfg.h
+robocontrol\app_init.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdarg.h
+robocontrol\app_init.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdlib.h

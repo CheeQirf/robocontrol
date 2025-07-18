@@ -60,7 +60,7 @@ static inline hrt_abstime hrt_elapsed_time(const hrt_abstime *then) {
     return hrt_absolute_time() - *then;
 }
 
-int hrtimer_init();
+int hrtimer_init(void);
 
 /**
  * Store the absolute time in an interrupt-safe fashion.
@@ -69,3 +69,4 @@ int hrtimer_init();
  */
 
 #endif
+

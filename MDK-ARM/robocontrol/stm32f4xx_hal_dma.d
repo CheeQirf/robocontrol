@@ -6,7 +6,7 @@ robocontrol\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/CMSIS/Include/core_cm4.h
-robocontrol\stm32f4xx_hal_dma.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\stm32f4xx_hal_dma.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdint.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/CMSIS/Include/cmsis_version.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -14,7 +14,7 @@ robocontrol\stm32f4xx_hal_dma.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-robocontrol\stm32f4xx_hal_dma.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\stm32f4xx_hal_dma.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stddef.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 robocontrol\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h

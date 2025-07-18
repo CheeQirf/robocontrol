@@ -1,0 +1,17 @@
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/src/kservice.c
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtthread.h
+robocontrol\kservice.o: ../RT-Thread/rtconfig.h
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtdebug.h
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtdef.h
+robocontrol\kservice.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdarg.h
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/libc/include/sys/signal.h
+robocontrol\kservice.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stdint.h
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/libc/extension/sys/types.h
+robocontrol\kservice.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\stddef.h
+robocontrol\kservice.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\time.h
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/libc/include/sys/time.h
+robocontrol\kservice.o: D:\keil\ARM\ARM_Complier5\Bin\..\include\signal.h
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtservice.h
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtm.h
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rtthread.h
+robocontrol\kservice.o: ../Middlewares/Third_Party/RealThread_RTOS_RT-Thread/include/rthw.h
