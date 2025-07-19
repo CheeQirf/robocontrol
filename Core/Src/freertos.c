@@ -40,7 +40,8 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define LOG_TAG "DEFAULT_TASK"
+#include "elog.h"
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -118,12 +119,12 @@ void StartDefaultTask(void *argument)
 		HAL_Delay(2000);
 
 	while(app_init()){
-    //  log_e("Error While app init!");
+    log_e("Error While app init!");
   }
-	
 	
   for(;;)
   {
+
 		HAL_GPIO_TogglePin(LED_PIN_GPIO_Port,LED_PIN_Pin);
     osDelay(1000);
   }

@@ -44,3 +44,6 @@ robocontrol\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 robocontrol\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
 robocontrol\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 robocontrol\freertos.o: ../app/app_init.h
+robocontrol\freertos.o: ../libs/EasyLogger/inc/elog.h
+robocontrol\freertos.o: ../libs/EasyLogger/inc/elog_cfg.h
+robocontrol\freertos.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h

@@ -31,6 +31,7 @@
 #include "stdarg.h"
 #include "hrtimer.h"
 #include "usart.h"
+#include "bsp_uart.h"
 /**
  * EasyLogger port initialize
  *
@@ -59,8 +60,8 @@ int myprintf(const char *format,...)
   rv = vsnprintf((char*)SendBuff,sizeof(SendBuff)+1,(char*)format,arg);
   va_end(arg);
 	//CDC_Transmit_FS((uint8_t *)SendBuff,rv);
-	HAL_UART_Transmit_DMA(&huart4,(uint8_t *)SendBuff,rv);
-
+	//HAL_UART_Transmit_DMA(&huart4,(uint8_t *)SendBuff,rv);
+	USART4_SendData((uint8_t *)SendBuff,rv);
   return rv;
 }
 

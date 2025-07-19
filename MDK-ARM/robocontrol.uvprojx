@@ -341,7 +341,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F446xx,__FPU_PRESENT = 1U,ARM_MATH_CM4,__CC_ARM,__TARGET_FPU_VFP</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../libs/EasyLogger/inc;../app;../libs/hrtimer;../libs/cm_backtrace;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../libs/CherryUSB/common;../libs/CherryUSB/class/cdc;../libs/CherryUSB/core;../libs/CherryUSB/osal;../libs/CherryUSB/third_party/FreeRTOS-10.4/include;../libs/CherryUSB/class/msc;../libs/CherryUSB/class/hub</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../libs/EasyLogger/inc;../app;../libs/hrtimer;../libs/cm_backtrace;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../libs/lwrb</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -395,6 +395,11 @@
         <Group>
           <GroupName>Application/User/Core</GroupName>
           <Files>
+            <File>
+              <FileName>bsp_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\bsp_uart.c</FilePath>
+            </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
@@ -802,6 +807,11 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>bsp_can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\bsp_can.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -946,6 +956,16 @@
               <FileName>cmb_fault.S</FileName>
               <FileType>2</FileType>
               <FilePath>..\libs\cm_backtrace\fault_handler\keil\cmb_fault.S</FilePath>
+            </File>
+            <File>
+              <FileName>lwrb_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libs\lwrb\lwrb_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>lwrb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libs\lwrb\lwrb.c</FilePath>
             </File>
           </Files>
         </Group>

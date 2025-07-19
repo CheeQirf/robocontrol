@@ -115,10 +115,9 @@ int main(void)
   MX_TIM13_Init();
   /* USER CODE BEGIN 2 */
 
-	app_init();
 
 
-
+	
   /* USER CODE END 2 */
 
   /* Init scheduler */
