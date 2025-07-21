@@ -1,5 +1,3 @@
-
-
 #include "app_init.h"
 
 #define LOG_TAG "APP_INIT"

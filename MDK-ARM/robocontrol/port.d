@@ -1,7 +1,7 @@
 robocontrol\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c
 robocontrol\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-robocontrol\port.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
-robocontrol\port.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\port.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\port.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\port.o: ../Core/Inc/FreeRTOSConfig.h
 robocontrol\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 robocontrol\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h

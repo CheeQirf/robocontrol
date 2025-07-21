@@ -1,6 +1,7 @@
---cpu=Cortex-M4.fp.sp
+--cpu=Cortex-M4.fp
 "robocontrol\startup_stm32f446xx.o"
 "robocontrol\bsp_uart.o"
+"robocontrol\bsp_can.o"
 "robocontrol\main.o"
 "robocontrol\gpio.o"
 "robocontrol\freertos.o"
@@ -11,7 +12,6 @@
 "robocontrol\stm32f4xx_it.o"
 "robocontrol\stm32f4xx_hal_msp.o"
 "robocontrol\stm32f4xx_hal_timebase_tim.o"
-"robocontrol\bsp_can.o"
 "robocontrol\stm32f4xx_hal_tim.o"
 "robocontrol\stm32f4xx_hal_tim_ex.o"
 "robocontrol\stm32f4xx_hal_can.o"
@@ -41,6 +41,7 @@
 "robocontrol\lwrb_ex.o"
 "robocontrol\lwrb.o"
 "robocontrol\app_init.o"
+"robocontrol\app_can.o"
 "robocontrol\croutine.o"
 "robocontrol\event_groups.o"
 "robocontrol\list.o"

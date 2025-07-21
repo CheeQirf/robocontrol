@@ -1,7 +1,7 @@
 robocontrol\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/croutine.c
 robocontrol\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-robocontrol\croutine.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
-robocontrol\croutine.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\croutine.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\croutine.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\croutine.o: ../Core/Inc/FreeRTOSConfig.h
 robocontrol\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 robocontrol\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h

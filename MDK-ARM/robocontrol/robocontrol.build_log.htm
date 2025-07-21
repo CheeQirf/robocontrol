@@ -3,59 +3,68 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.39.0.0
-Copyright (C) 2023 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: wa Retro, wd, LIC=NQQMA-1BG4V-LQW0Q-NMKUY-ZKPDD-TJBK5
+IDE-Version: ¦ÌVision V5.24.2.86
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: xiaobai hallo, Hallo, LIC=21E4T-RAQG9-KP2ZY-I8QVI-FI8FR-265XM
  
 Tool Versions:
-Toolchain:       MDK-ARM Plus  Version: 5.39.0.0
-Toolchain Path:  D:\keil\ARM\ARMCC\Bin
+Toolchain:       MDK-ARM Plus  Version: 5.28.0.0
+Toolchain Path:  D:\develop\MCU\Keil\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 6 (build 750)
 Assembler:       Armasm.exe V5.06 update 6 (build 750)
 Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
 Library Manager: ArmAr.exe V5.06 update 6 (build 750)
 Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
-CPU DLL:         SARMCM3.DLL V5.39.0.0
-Dialog DLL:      DCM.DLL V1.17.5.0
-Target DLL:      CMSIS_AGDI.dll V1.33.16.0
-Dialog DLL:      TCM.DLL V1.56.4.0
+CPU DLL:         SARMCM3.DLL V5.28.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      CMSIS_AGDI.dll V1.31.18.0
+Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
-D:\CODE\STM\robocontrol\MDK-ARM\robocontrol.uvprojx
-Project File Date:  07/19/2025
+D:\code\robocontrol\MDK-ARM\robocontrol.uvprojx
+Project File Date:  07/20/2025
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\keil\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\develop\MCU\Keil\ARM\ARMCC\Bin'
 Build target 'robocontrol'
-compiling main.c...
+compiling bsp_can.c...
+compiling app_can.c...
+..\app\app_can.c(20): warning:  #177-D: variable "i"  was declared but never referenced
+      uint8_t i = 0;
+..\app\app_can.c(90): warning:  #1-D: last line of file ends without a newline
+  }
+..\app\app_can.c(8): warning:  #177-D: variable "xCANSendQueue"  was declared but never referenced
+  static xQueueHandle xCANSendQueue = NULL; //
+..\app\app_can.c(16): warning:  #177-D: function "CAN_Rx_Task"  was declared but never referenced
+  static void CAN_Rx_Task(void *pvParameters)
+..\app\app_can.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=33988 RO-data=3988 RW-data=216 ZI-data=26072  
+Program Size: Code=33458 RO-data=4014 RW-data=224 ZI-data=26096  
 FromELF: creating hex file...
-"robocontrol\robocontrol.axf" - 0 Error(s), 0 Warning(s).
+"robocontrol\robocontrol.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.5.9.0.pack
-                ARM::CMSIS@5.9.0
-                CMSIS (Common Microcontroller Software Interface Standard)
-   * Component: CORE Version: 5.6.0
+                http://www.keil.com/pack/ARM.CMSIS.5.5.1.pack
+                ARM.CMSIS.5.5.1
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.2.0
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.13.0.pack
-                Keil::STM32F4xx_DFP@2.13.0
+                Keil.STM32F4xx_DFP.2.13.0
                 STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
-  ./RTE/_robocontrol
-  C:/Users/Retro/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
-  C:/Users/Retro/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.13.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include
+  .\RTE\_robocontrol
+  D:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include
+  D:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE@5.6.0
-      Include file:  CMSIS/Core/Include/tz_context.h
-Build Time Elapsed:  00:00:02
+   * Component: ARM::CMSIS:CORE:5.2.0
+Build Time Elapsed:  00:00:08
 </pre>
 </body>
 </html>

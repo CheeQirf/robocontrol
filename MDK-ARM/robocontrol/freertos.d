@@ -1,7 +1,7 @@
 robocontrol\freertos.o: ../Core/Src/freertos.c
 robocontrol\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-robocontrol\freertos.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
-robocontrol\freertos.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\freertos.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\freertos.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\freertos.o: ../Core/Inc/FreeRTOSConfig.h
 robocontrol\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 robocontrol\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
@@ -46,4 +46,4 @@ robocontrol\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
 robocontrol\freertos.o: ../app/app_init.h
 robocontrol\freertos.o: ../libs/EasyLogger/inc/elog.h
 robocontrol\freertos.o: ../libs/EasyLogger/inc/elog_cfg.h
-robocontrol\freertos.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
+robocontrol\freertos.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
