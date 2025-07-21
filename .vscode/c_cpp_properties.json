@@ -3,7 +3,11 @@
     {
       "name": "windows-gcc-x64",
       "includePath": [
-        "${workspaceFolder}/**"
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/app/**",
+        "${workspaceFolder}/Core/Inc/**"
+
+
       ],
       "compilerPath": "D:/strawberry/c/bin/gcc.exe",
       "cStandard": "${default}",

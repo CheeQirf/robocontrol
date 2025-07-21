@@ -2,16 +2,31 @@
 #include "FreeRTOS.h"
 #include "cmsis_os.h"
 #include "can.h"
+#define LOG_TAG "APP_CAN"
 #include "elog.h"
 #include "queue.h"
+#include "bsp_can.h"
+#include "app_motor.h"
+
 
 static xQueueHandle xCANSendQueue = NULL; //
 static xQueueHandle xCANRcvQueue = NULL;  //
 
+static motorMeasure_t motor_arm[4];
+static motorMeasure_t motor_wrist[2];
+static motorMeasure_t motor_lift[4];
+static motorMeasure_t motor_stretch;
 
-M2006_Motor_t g_m2006_motors[MAX_M2006_MOTORS];
-M3508_Motor_t g_m3508_motors[MAX_M3508_MOTORS];
-Go_M8010_6_Motor_t g_gom8010_6_motors[MAX_GO8010_6_MOTORS];
+
+#define get_dji_motor_measure(ptr, data)                                    \
+    {                                                                   \
+        (ptr)->last_angle = (ptr)->angle;                                   \
+        (ptr)->angle = (uint16_t)((data)[0] << 8 | (data)[1]);            \
+        (ptr)->rpm = (uint16_t)((data)[2] << 8 | (data)[3]);      \
+        (ptr)->current = (uint16_t)((data)[4] << 8 | (data)[5]);  \
+        (ptr)->temperture = (data)[6];                                   \
+    }
+
 
 static void CAN_Rx_Task(void *pvParameters)
 {
@@ -22,7 +37,12 @@ static void CAN_Rx_Task(void *pvParameters)
     {
         if (xQueueReceive(xCANRcvQueue, &RxMsg, 100) == pdTRUE)
         { // 接收队列中的消息
-          // canDispatch(&msg); // 我们重写这个函数
+
+            taskENTER_CRITICAL(); //临界区保护
+            canDispatch(&RxMsg); // 我们重写这个函数
+            taskEXIT_CRITICAL();
+
+
             /*  canDispatch 函数： 传参（can msg的指针）
                  实现can 的分发 与 处理
             */
@@ -41,50 +61,79 @@ void CAN_Rcv_DateFromISR(CanMessage_t *RxMsg)
         portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
     }
 }
-void canDispatch(CanMessage_t *msg)
+void  canDispatch(CanMessage_t *msg)
 {
-    if (msg == NULL)
+   /*
+    CAN1: 两个编码器 4 个3508
+    CAN2: 6个M2006  1 个3508
+   */
+    uint32_t id = msg->id;
+    uint8_t  can_index = msg->can_index;
+    uint8_t len = msg->dlc;
+    uint8_t*  data = msg->data;
+
+    if(can_index == 1)
     {
-        log_e("canDispatch: Received NULL message pointer");
-        return;
-    }
-    uint32_t can_id = msg->id;
-    uint8_t *data = msg->data;
-    uint8_t can_port = msg->can_num;
-    if (can_port == 1) // 处理M2006电机
-    {
-        if (can_id >= 0x201 && can_id <= 0x206)
+        switch (id)
         {
-            uint8_t motor_idx = can_id - 0x201;
-            if (motor_idx < MAX_M2006_MOTORS)
-            {
-                M2006_Motor_t *motor = &g_m2006_motors[motor_idx];
-                motor->rotor_mech_angle = (data[0] << 8) | data[1];
-                motor->rotor_speed = (data[2] << 8) | data[3];
-                motor->actual_torque_current = (data[4] << 8) | data[5];
-            }
+            //编码器处理
+            //0x122 0x123是编码器的 id号 需要上位机设置一下先
+        case 0x122:
+        case 0x123:
+            //TODO 完成编码器canframe解析
+            break;
+            //电机处理
+        case 0x201:
+        case 0x202:
+        case 0x203: 
+        case 0x204:
+            
+            get_dji_motor_measure(&motor_lift[id-0x201],data);
+            break;
+        
+        default:
+            break;
         }
-    }
-    else if (can_port == 2) // 处理M3508电机和宇树电机
+
+
+
+    }else if(can_index == 2) 
     {
-        if (can_id >= 0x201 && can_id <= 0x205)
+        switch (id)
         {
-            uint8_t motor_idx = can_id - 0x201;
-            if (motor_idx < MAX_M3508_MOTORS)
-            {
-                M3508_Motor_t *motor = &g_m3508_motors[motor_idx];
-                motor->rotor_mech_angle = (data[0] << 8) | data[1];
-                motor->rotor_speed = (data[2] << 8) | data[3];
-                motor->actual_torque_current = (data[4] << 8) | data[5];
-                motor->motor_temperature = data[6];
-            }
+        case 0x201: 
+        case 0x202: 
+        case 0x203: 
+        case 0x204: 
+        case 0x205:
+        case 0x206: 
+         get_dji_motor_measure(&motor_arm[id-0x201],data);
+         break;
+        case 0x207: 
+         get_dji_motor_measure(&motor_stretch,data);
+        break;
+        
+        default:
+            break;
         }
-        else if (can_id > 0x999) // 示例
-        {
-        }
+
     }
-    else
-    {
-        log_e("canDispatch: Invalid CAN port number %d for ID 0x%X", can_port, can_id);
-    }
+
+}
+
+inline motorMeasure_t* get_motor_arm_measure_ptr(uint8_t i)
+{
+    return &motor_arm[i];
+}
+inline motorMeasure_t* get_motor_lift_measure_ptr(uint8_t i)
+{
+return &motor_lift[i];
+}
+inline motorMeasure_t* get_motor_stretch_measure_ptr(uint8_t i)
+{
+return &motor_stretch;
+}
+inline motorMeasure_t* get_motor_wrist_measure_ptr(uint8_t i)
+{
+return &motor_wrist[i];
 }

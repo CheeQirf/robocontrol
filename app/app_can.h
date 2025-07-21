@@ -4,35 +4,22 @@
 
 #include "main.h"
 void CAN_Rcv_DateFromISR(CanMessage_t *RxMsg);
-typedef struct {
-    uint16_t rotor_mech_angle; // ×ª×Ó»úĞµ½Ç¶È (DATA[0]¸ß8Î» | DATA[1]µÍ8Î»)
-    int16_t rotor_speed;       // ×ª×Ó×ªËÙ (DATA[2]¸ß8Î» | DATA[3]µÍ8Î»)
-    int16_t actual_torque_current; // Êµ¼Ê×ª¾ØµçÁ÷ (DATA[4]¸ß8Î» | DATA[5]µÍ8Î»)
-    int8_t motor_temperature;  // µç»úÎÂ¶È (DATA[6]ÊÇ8Î»£¬ËùÒÔÓÃint8_t»òuint8_t)
-    uint8_t motor_id;          // µç»úID (1-5)
-} M3508_Motor_t;
-typedef struct {
-    uint16_t rotor_mech_angle; 
-    int16_t rotor_speed;       
-    int16_t actual_torque_current; 
-    uint8_t motor_id;     //   µç»úID (1-6)  
-} M2006_Motor_t;
 
-typedef struct {
-    uint16_t position;         // ½Ç¶È»òÎ»ÖÃ
-    int16_t velocity;          // ËÙ¶È
-    int16_t torque;            // Á¦¾Ø/µçÁ÷
-    uint8_t error_code;        // ´íÎóÂë
-    uint8_t motor_id;          // µç»úID (1-2)
 
-} Go_M8010_6_Motor_t;
+/*
+è·å–ç”µæœºæµ‹é‡å€¼çš„ æŒ‡é’ˆ ä¸ºä»€ä¹ˆè¦è¿™ä¹ˆåšï¼Ÿ é˜²æ­¢åˆå§‹åŒ–é—®é¢˜ è®©æµ‹é‡ç»“æ„ä½“å…ˆåˆå§‹åŒ– è¿™æ ·canæ¥æ”¶ä¼šç©ºæŒ‡é’ˆçš„é”™è¯¯
+*/
 
-#define MAX_M3508_MOTORS 5
-#define MAX_M2006_MOTORS 6
-#define MAX_GO8010_6_MOTORS 2
+motorMeasure_t* get_motor_arm_measure_ptr(uint8_t i);
 
-extern M3508_Motor_t g_m3508_motors[MAX_M3508_MOTORS];
-extern M2006_Motor_t g_m2006_motors[MAX_M2006_MOTORS];
-extern Go_M8010_6_Motor_t g_go8010_6_motors[MAX_GO8010_6_MOTORS];
+motorMeasure_t* get_motor_lift_measure_ptr(uint8_t i);
+
+motorMeasure_t* get_motor_stretch_measure_ptr(uint8_t i);//è¿™é‡Œiæ²¡æœ‰ç”¨ æ‡’å¾—åˆ é™¤äº†
+
+motorMeasure_t* get_motor_wrist_measure_ptr(uint8_t i);
+
+
+
+
 
 #endif
