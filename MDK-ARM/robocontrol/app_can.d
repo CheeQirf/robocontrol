@@ -1,5 +1,7 @@
 robocontrol\app_can.o: ..\app\app_can.c
 robocontrol\app_can.o: ..\app\app_can.h
+robocontrol\app_can.o: ..\app\app_motor.h
+robocontrol\app_can.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\app_can.o: ../Core/Inc/bsp_can.h
 robocontrol\app_can.o: ../Core/Inc/main.h
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
@@ -9,7 +11,6 @@ robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 robocontrol\app_can.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 robocontrol\app_can.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h
 robocontrol\app_can.o: ../Drivers/CMSIS/Include/core_cm4.h
-robocontrol\app_can.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\app_can.o: ../Drivers/CMSIS/Include/cmsis_version.h
 robocontrol\app_can.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 robocontrol\app_can.o: ../Drivers/CMSIS/Include/cmsis_armcc.h

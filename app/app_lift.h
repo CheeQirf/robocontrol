@@ -1,5 +1,5 @@
 #ifndef __APP_LIFT
-#define __APP_LEFT
+#define __APP_LIFT
 #include "app_motor.h"
 #include "stdbool.h"
 typedef enum{

@@ -26,6 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "app_init.h"
+#include "bsp_rs485.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -132,7 +133,23 @@ void StartDefaultTask(void *argument)
 	while(app_init()){
     log_e("Error While app init!");
   }
-	
+	uint8_t data_to_send_hex[] = {
+        0xFE, 0xEE, 0x10, 0x00, 0x00, 0x53, 0x06, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x8C,
+        0x6C, 
+    };
+	uint16_t send_length = sizeof(data_to_send_hex); 
+  if (HAL_OK == RS485_1_Transmit_IT(data_to_send_hex, send_length))
+        {
+            // 发送成功
+            // 可以添加日志输出或状态指示
+             log_i("RS485_1 Hex data sent successfully!");
+        }
+        else
+        {
+            // 发送失败
+            // log_e("Failed to send RS485_1 Hex data!");
+        }
   for(;;)
   {
 

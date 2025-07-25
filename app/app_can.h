@@ -1,9 +1,10 @@
 #ifndef __APP_CAN
 #define __APP_CAN
+#include "app_motor.h"
 #include "bsp_can.h"
 
 #include "main.h"
-void CAN_Rcv_DateFromISR(CanMessage_t *RxMsg);
+void CAN_Rcv_DataFromISR(CanMessage_t *RxMsg);
 
 
 /*

@@ -35,6 +35,7 @@ robocontrol\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.
 robocontrol\bsp_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 robocontrol\bsp_can.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
 robocontrol\bsp_can.o: ../app/app_can.h
+robocontrol\bsp_can.o: ../app/app_motor.h
 robocontrol\bsp_can.o: ../Core/Inc/can.h
 robocontrol\bsp_can.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\string.h
 robocontrol\bsp_can.o: ../libs/EasyLogger/inc/elog.h

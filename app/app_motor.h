@@ -1,7 +1,7 @@
 #ifndef __APP_MOTOR
 #define __APP_MOTOR
-#include "stm32f411xe.h"
-
+//#include "stm32f411xe.h"
+#include <stdint.h>
 typedef struct 
 {
     uint16_t angle;  //转子角度 当前 编码器测量的
@@ -9,7 +9,7 @@ typedef struct
     int16_t current; //测量电流
     uint16_t last_angle;  //上一次的角度 用来积分
     int pos;    //积分的角度
-    uint8_t temperture  //温度
+    uint8_t temperture;  //温度
 }motorMeasure_t; //can接收到的数据
 
 
@@ -41,7 +41,7 @@ typedef struct {
 
 typedef struct{
 
-
+	uint32_t encoder_count;
 
 
 }OAIDI_Encoder_t;

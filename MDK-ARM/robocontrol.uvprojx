@@ -139,7 +139,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2V8M.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F446xx,__FPU_PRESENT = 1U,ARM_MATH_CM4,__CC_ARM,__TARGET_FPU_VFP</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../libs/EasyLogger/inc;../app;../libs/hrtimer;../libs/cm_backtrace;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../libs/lwrb</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../libs/EasyLogger/inc;../app;../libs/hrtimer;../libs/cm_backtrace;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../libs/lwrb;../libs/pid</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -801,6 +801,11 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>bsp_rs485.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\bsp_rs485.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -956,6 +961,11 @@
               <FileType>1</FileType>
               <FilePath>..\libs\lwrb\lwrb.c</FilePath>
             </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\libs\pid\pid.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -970,6 +980,36 @@
               <FileName>app_can.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\app_can.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_485.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_485.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_arm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_arm.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_joint.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_joint.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_lift.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_lift.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_robot.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_robot.c</FilePath>
             </File>
           </Files>
         </Group>

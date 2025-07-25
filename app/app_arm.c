@@ -29,7 +29,8 @@ int arm_init(Arm_t *arm)
     {
         arm->wrist_motor[i].measure = get_motor_wrist_measure_ptr(i);
     }
-    arm->stretch_motor.measure = get_motor_stretch_measure_ptr(i);
+		//to be fixed 
+    //arm->stretch_motor.measure = get_motor_stretch_measure_ptr(i);
 
     //PID init
 

@@ -13,6 +13,7 @@ typedef struct
     uint8_t can_index; // 是哪个CAN发过来的 can1 还是can2 里面就是数字1 2
 }CanMessage_t;
 
+
 void CAN_Init(void);
 HAL_StatusTypeDef CAN_Transmit(CanMessage_t *msg);
 #endif

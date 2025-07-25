@@ -66,6 +66,17 @@
     "task.h": "c",
     "main.h": "c",
     "stm32f4xx_hal.h": "c",
-    "portable.h": "c"
+    "portable.h": "c",
+    "app_485.h": "c",
+    "bsp_uart.h": "c",
+    "app_can.h": "c",
+    "hrtimer.h": "c",
+    "elog.h": "c",
+    "freertos.h": "c",
+    "usart.h": "c",
+    "queue.h": "c",
+    "app_motor.h": "c",
+    "cmsis_os.h": "c",
+    "pid.h": "c"
   }
 }
