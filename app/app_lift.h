@@ -16,7 +16,7 @@ typedef enum{
 typedef struct{
 
     M3508_Motor_t motors[4];
-    OAIDI_Encoder_t* encoders[2];
+    OID_Encoder_t* encoders[2];
     float height;  // 测量到的height当前高度 获取于编码器欧姆特
     float height_set; //设定的抬升高度
     LiftStatusCode_t status; //用于指示状态

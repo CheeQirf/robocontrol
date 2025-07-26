@@ -11,27 +11,34 @@
 static xQueueHandle xCANSendQueue = NULL; //
 static xQueueHandle xCANRcvQueue = NULL;  //
 
-static motorMeasure_t motor_arm[4];
+static motorMeasure_t motor_claw[4];//爪子的4个M2006电机
 static motorMeasure_t motor_wrist[2];
 static motorMeasure_t motor_lift[4];
-static motorMeasure_t motor_stretch;
+static motorMeasure_t motor_stretch;//一个M3508
+static OID_Encoder_t motor_encoder[2];
 
 void canDispatch(CanMessage_t *msg);
 
 #define get_dji_motor_measure(ptr, data)                         \
-    {                                                            \
+    do{                                                            \
         (ptr)->last_angle = (ptr)->angle;                        \
         (ptr)->angle = (uint16_t)((data)[0] << 8 | (data)[1]);   \
         (ptr)->rpm = (uint16_t)((data)[2] << 8 | (data)[3]);     \
         (ptr)->current = (uint16_t)((data)[4] << 8 | (data)[5]); \
         (ptr)->temperture = (data)[6];                           \
-    }
+    }while(0)
+#define get_encoder_count(ptr, data) \
+		do{                                  \
+			(ptr)->encoder_count = data[5] << 16 | data[4] << 8 | data[3];\
+		}while(0)
+#define get_encoder_rads_count(ptr,data)\
+		do{                         \
+			(ptr)->encoder_rads_count = data[6]<<24 | data[5] <<16 | data[4]<<8 | data[3];\
+		}while(0)
 
 static void CAN_Rx_Task(void *pvParameters)
 {
     static CanMessage_t RxMsg; // 接受用的变量
-    // static Message msg;  // 这个是CanOpen的message 我们要把它注释掉
-    // uint8_t i = 0;
     for (;;)
     {
         if (xQueueReceive(xCANRcvQueue, &RxMsg, 100) == pdTRUE)
@@ -74,23 +81,21 @@ void canDispatch(CanMessage_t *msg)
     {
         switch (id)
         {
-            // 编码器处理
-            // 0x122 0x123是编码器的 id号 需要上位机设置一下先
-        case 0x122:
-        case 0x123:
-            // TODO 完成编码器canframe解析
-					log_i("test:id:0x123\n");
-            break;
-            // 电机处理
+        case 0x01:
+        case 0x02:
+						if(data[2]==0x01)
+								get_encoder_count(&motor_encoder[id-0x01],data);
+						else if (data[2]==0x0A)
+								get_encoder_rads_count(&motor_encoder[id-0x01],data);
+						break;
         case 0x201:
         case 0x202:
         case 0x203:
         case 0x204:
-						log_i("test:id:0x201\n");
             get_dji_motor_measure(&motor_lift[id - 0x201], data);
             break;
-
         default:
+						log_w("No compatible id for can %d\n",can_index);
             break;
         }
     }
@@ -104,31 +109,36 @@ void canDispatch(CanMessage_t *msg)
         case 0x204:
         case 0x205:
         case 0x206:
-            get_dji_motor_measure(&motor_arm[id - 0x201], data);
+            get_dji_motor_measure(&motor_claw[id - 0x201], data);
             break;
-        case 0x207:
+        case 0x207://M3508
             get_dji_motor_measure(&motor_stretch, data);
             break;
 
         default:
+					log_w("No compatible id for can %d\n",can_index);
             break;
         }
     }
 }
 
-inline motorMeasure_t *get_motor_arm_measure_ptr(uint8_t i)
+inline motorMeasure_t *get_motor_claw_measure_ptr(uint8_t i)
 {
-    return &motor_arm[i];
+    return &motor_claw[i];
 }
 inline motorMeasure_t *get_motor_lift_measure_ptr(uint8_t i)
 {
     return &motor_lift[i];
 }
-inline motorMeasure_t *get_motor_stretch_measure_ptr(uint8_t i)
+inline motorMeasure_t *get_motor_stretch_measure_ptr(void)
 {
     return &motor_stretch;
 }
 inline motorMeasure_t *get_motor_wrist_measure_ptr(uint8_t i)
 {
     return &motor_wrist[i];
+}
+inline OID_Encoder_t * get_encoder_measuer_ptr(uint8_t i)
+{
+	return &motor_encoder[i];
 }

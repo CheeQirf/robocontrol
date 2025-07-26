@@ -45,3 +45,4 @@ robocontrol\app_init.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 robocontrol\app_init.o: ../Core/Inc/bsp_uart.h
 robocontrol\app_init.o: ../Core/Inc/bsp_can.h
 robocontrol\app_init.o: ../Core/Inc/bsp_rs485.h
+robocontrol\app_init.o: ../Core/Inc/gpio.h

@@ -111,85 +111,7 @@ HAL_StatusTypeDef CAN_SetAllReceivingFilters(void)
     return result;
 }
 
-///// 设置CAN1的过滤器（主CAN）
-// static void CAN1_Filter_Config(void)
-//{
-//	CAN_FilterTypeDef sFilterConfig;
-//     CAN_FilterRegTypeDef IDH = {0};
-//     CAN_FilterRegTypeDef IDL = {0};
 
-//	IDH.Sub.IDE  = 0;								// 标准帧
-//	IDH.Sub.STID = 0;								// 标准帧ID值
-//    IDH.Sub.EXID = (CAN1_BASE_ID >> 16) & 0xFFFF;	// 扩展帧高16位ID值
-//
-//	IDL.Sub.IDE  = 1;								// 扩展帧
-//	IDL.Sub.STID = 0;								// 标准帧ID值
-//    IDL.Sub.EXID = (CAN1_BASE_ID & 0xFFFF);			// 扩展帧低16位ID值
-
-//	sFilterConfig.FilterBank           = CAN1_FILTER_BANK;								// 设置过滤器组编号
-// #if CAN1_FILTER_MODE_MASK_ENABLE
-//    sFilterConfig.FilterMode           = CAN_FILTERMODE_IDMASK;							// 屏蔽位模式
-// #else
-//	sFilterConfig.FilterMode           = CAN_FILTERMODE_IDLIST;							// 列表模式
-// #endif
-//    sFilterConfig.FilterScale          = CAN_FILTERSCALE_32BIT;							// 32位宽
-//    sFilterConfig.FilterIdHigh         = IDH.value;										// 标识符寄存器一ID高十六位，放入扩展帧位
-//    sFilterConfig.FilterIdLow          = IDL.value;										// 标识符寄存器一ID低十六位，放入扩展帧位
-//    sFilterConfig.FilterMaskIdHigh     = IDH.value;										// 标识符寄存器二ID高十六位，放入扩展帧位
-//    sFilterConfig.FilterMaskIdLow      = IDL.value;										// 标识符寄存器二ID低十六位，放入扩展帧位
-//    sFilterConfig.FilterFIFOAssignment = CAN_RX_FIFO0;									// 过滤器组关联到FIFO0
-//    sFilterConfig.FilterActivation     = ENABLE;										// **过滤器
-//    sFilterConfig.SlaveStartFilterBank = CAN2_FILTER_BANK;								// 设置CAN2的起始过滤器组（对于单CAN的CPU或从CAN此参数无效；对于双CAN的CPU此参数为从CAN的起始过滤器组编号）
-//    if (HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig) != HAL_OK)
-//    {
-//        Error_Handler();
-//    }
-//	{
-//		FMR_TypeDef regval = {0};
-//		regval.value = hcan1.Instance->FMR;
-//		log_i("------ CAN1:> FMR:0x%0X  CAN2SB:0x%X ", regval.value, regval.Sub.CAN2SB);
-//	}
-//}
-
-///// 设置CAN2的过滤器（从CAN）
-// static void CAN2_Filter_Config(void)
-//{
-//	CAN_FilterTypeDef sFilterConfig;
-//     CAN_FilterRegTypeDef IDH = {0};
-//     CAN_FilterRegTypeDef IDL = {0};
-
-//	  IDH.Sub.IDE  = 0;
-//	  IDH.Sub.STID = 0;
-//    IDH.Sub.EXID = (CAN2_BASE_ID >> 16) & 0xFFFF;
-//
-//	  IDL.Sub.IDE  = 1;
-//	  IDL.Sub.STID = 0;
-//    IDL.Sub.EXID = (CAN2_BASE_ID & 0xFFFF);
-
-//    sFilterConfig.FilterBank           = CAN2_FILTER_BANK;								// 设置过滤器组编号
-// #if CAN2_FILTER_MODE_MASK_ENABLE
-//    sFilterConfig.FilterMode           = CAN_FILTERMODE_IDMASK;							// 屏蔽位模式
-// #else
-//	sFilterConfig.FilterMode           = CAN_FILTERMODE_IDLIST;							// 列表模式
-// #endif
-//    sFilterConfig.FilterScale          = CAN_FILTERSCALE_32BIT;							// 32位宽
-//    sFilterConfig.FilterIdHigh         = IDH.value;										// 标识符寄存器一ID高十六位，放入扩展帧位
-//    sFilterConfig.FilterIdLow          = IDL.value;										// 标识符寄存器一ID低十六位，放入扩展帧位
-//    sFilterConfig.FilterMaskIdHigh     = IDH.value;										// 标识符寄存器二ID高十六位，放入扩展帧位
-//    sFilterConfig.FilterMaskIdLow      = IDL.value;										// 标识符寄存器二ID低十六位，放入扩展帧位
-//    sFilterConfig.FilterFIFOAssignment = CAN_RX_FIFO0;									// 过滤器组关联到FIFO0
-//    sFilterConfig.FilterActivation     = ENABLE;										// **过滤器
-//    sFilterConfig.SlaveStartFilterBank = 28;											// 无效
-//    if (HAL_CAN_ConfigFilter(&hcan2, &sFilterConfig) != HAL_OK)
-//    {
-//        Error_Handler();
-//    }
-//	{
-//		FMR_TypeDef regval = {0};
-//		regval.value = hcan2.Instance->FMR;
-//		log_i("------ CAN2:> FMR:0x%0X  CAN2SB:0x%X  ", regval.value, regval.Sub.CAN2SB);
-//	}
-//}
 
 /// CAN初始化
 void CAN_Init(void)
@@ -218,7 +140,8 @@ HAL_StatusTypeDef CAN_Transmit(CanMessage_t *msg)
         return HAL_ERROR;
     }
     pTXHeader.DLC = (uint32_t)msg->dlc;
-    pTXHeader.IDE = CAN_ID_STD;
+    //pTXHeader.IDE = CAN_ID_STD;
+		pTXHeader.IDE = msg->ide ? CAN_ID_EXT : CAN_ID_STD;
     if (msg->ide)
     {
         pTXHeader.ExtId = msg->id;

@@ -23,7 +23,7 @@ int arm_init(Arm_t *arm)
     
     for(int i = 0; i < 4 ; ++i)
     {
-        arm->close_motor[i].measure = get_motor_arm_measure_ptr(i);
+        arm->close_motor[i].measure = get_motor_claw_measure_ptr(i);
     }
     for(int i = 0 ;i <2 ; ++i)
     {

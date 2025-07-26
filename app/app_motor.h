@@ -1,6 +1,7 @@
 #ifndef __APP_MOTOR
 #define __APP_MOTOR
-//#include "stm32f411xe.h"
+
+
 #include <stdint.h>
 typedef struct 
 {
@@ -19,9 +20,8 @@ typedef struct {
     int pos_set;     //设定角度
     int16_t current_set;   //设定电流
 
-
-
 } M3508_Motor_t;
+
 typedef struct {
     const motorMeasure_t* measure;  //保存测量值
     float speed_set;   //设定速度
@@ -30,21 +30,41 @@ typedef struct {
 
 } M2006_Motor_t;
 
-typedef struct {
-    uint16_t position;         // 角度或位置
-    int16_t velocity;          // 速度
-    int16_t torque;            // 力矩/电流
-    uint8_t error_code;        // 错误码
-   // uint8_t motor_id;          // 电机ID (1-2)
+//typedef struct {
+//		const motorMeasure_t * measure;
+//    uint16_t position;         // 角度或位置
+//    int16_t velocity;          // 速度
+//    int16_t torque;            // 力矩/电流
+//    uint8_t error_code;        // 错误码
+//		int8_t temperature;          // 电机ID (1-2)
+//		float speed_set;  
+//    int pos_set; 
+//} Go_M8010_6_Motor_t;
 
-} Go_M8010_6_Motor_t;
+typedef struct
+{
+    uint8_t  id;            // 目标电机 ID
+    uint8_t  status;        // 电机工作模式
+    int16_t  tau_fbk;       // 实际输出转矩 (原始值)
+    int16_t  omega_fbk_raw; // 实际输出速度 (原始值)
+    int32_t  theta_fbk_raw; // 实际输出位置 (原始值)
+    uint8_t  temp;          // 电机温度
+    uint8_t  merror;        // 电机错误标识
+    uint16_t force_raw;     // 足端力 (原始数据，12bit)
+
+    // 转换为实际物理量的值
+    float    tau_N_m;       // 实际输出转矩 (N.m) = tau_fbk / 256
+    float    omega_rad_s;   // 实际输出速度 (rad/s) = omega_fbk_raw / 256
+    float    theta_rad;     // 实际输出位置 (rad) = theta_fbk_raw / 32768 * 2 * PI
+
+} UnitreeMotor_Measure_t;
 
 typedef struct{
 
 	uint32_t encoder_count;
+	int32_t encoder_rads_count;
 
-
-}OAIDI_Encoder_t;
+}OID_Encoder_t;
 
 
 

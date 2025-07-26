@@ -17,7 +17,7 @@ typedef enum{
 
 typedef struct 
 {
-    Go_M8010_6_Motor_t motor[2];
+    UnitreeMotor_Measure_t motor[2];
     JointStatus_t status;    
 
     

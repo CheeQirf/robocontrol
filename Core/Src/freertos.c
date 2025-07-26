@@ -139,7 +139,7 @@ void StartDefaultTask(void *argument)
         0x6C, 
     };
 	uint16_t send_length = sizeof(data_to_send_hex); 
-  if (HAL_OK == RS485_1_Transmit_IT(data_to_send_hex, send_length))
+  if (HAL_OK == BSP_RS485_1_Transmit_IT(data_to_send_hex, send_length))
         {
             // 发送成功
             // 可以添加日志输出或状态指示

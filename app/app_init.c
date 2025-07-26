@@ -18,7 +18,7 @@ int app_init(void)
 	int ret =0;
 	USART4_Init();//uart4 init
 	CAN_Init();//can init
-	RS485_Init();
+	BSP_RS485_Init();
 	ret = my_log_init();//log init
 	ret = hrtimer_init(); 	//hrtimer init
 	cm_backtrace_init("CmBacktrace",HARDWARE_VERSION, SOFTWARE_VERSION);//cm backtrace_init
