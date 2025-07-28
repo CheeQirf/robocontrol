@@ -46,3 +46,5 @@ robocontrol\app_init.o: ../Core/Inc/bsp_uart.h
 robocontrol\app_init.o: ../Core/Inc/bsp_can.h
 robocontrol\app_init.o: ../Core/Inc/bsp_rs485.h
 robocontrol\app_init.o: ../Core/Inc/gpio.h
+robocontrol\app_init.o: ..\app\app_can.h
+robocontrol\app_init.o: ..\app\app_motor.h

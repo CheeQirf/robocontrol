@@ -402,6 +402,11 @@
               <FilePath>..\Core\Src\bsp_can.c</FilePath>
             </File>
             <File>
+              <FileName>bsp_rs485.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\bsp_rs485.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
@@ -800,11 +805,6 @@
                   </Cads>
                 </FileArmAds>
               </FileOption>
-            </File>
-            <File>
-              <FileName>bsp_rs485.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\bsp_rs485.c</FilePath>
             </File>
           </Files>
         </Group>

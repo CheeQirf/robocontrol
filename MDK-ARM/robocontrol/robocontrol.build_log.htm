@@ -22,25 +22,29 @@ Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
 D:\code\robocontrol\MDK-ARM\robocontrol.uvprojx
-Project File Date:  07/26/2025
+Project File Date:  07/28/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\develop\MCU\Keil\ARM\ARMCC\Bin'
 Build target 'robocontrol'
-compiling app_485.c...
-..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_485.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif // __APP_485_H
-../Core/Inc/bsp_rs485.h(26): warning:  #1-D: last line of file ends without a newline
+assembling startup_stm32f446xx.s...
+compiling elog_port.c...
+compiling usart.c...
+compiling gpio.c...
+compiling bsp_uart.c...
+compiling bsp_rs485.c...
+../Core/Inc/bsp_rs485.h(24): warning:  #1-D: last line of file ends without a newline
   #endif 
-..\app\app_485.c(206): warning:  #1-D: last line of file ends without a newline
-  }
-..\app\app_485.c: 4 warnings, 0 errors
+../app/app_motor.h(72): warning:  #1-D: last line of file ends without a newline
+  #endif
+../app/app_485.h(26): warning:  #1-D: last line of file ends without a newline
+  #endif // __APP_485_H
+..\Core\Src\bsp_rs485.c: 3 warnings, 0 errors
+compiling main.c...
 linking...
-Program Size: Code=32766 RO-data=4046 RW-data=236 ZI-data=26108  
+Program Size: Code=33270 RO-data=4046 RW-data=248 ZI-data=25992  
 FromELF: creating hex file...
-"robocontrol\robocontrol.axf" - 0 Error(s), 4 Warning(s).
+"robocontrol\robocontrol.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -63,7 +67,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:06
+Build Time Elapsed:  00:00:12
 </pre>
 </body>
 </html>

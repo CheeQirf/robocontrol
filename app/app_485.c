@@ -12,24 +12,6 @@ xQueueHandle xUnitreeRxQueue = NULL; // 用于从中断中接收完整的宇树电机反馈帧
 
 static void Unitree_Parse_Feedback_Frame(uint8_t *frame_data);
 
-// CRC16 函数实现 (示例，请根据协议具体实现)
-uint16_t unitree_crc16(const uint8_t *data, uint32_t len)
-{
-    uint16_t crc = 0x0000; // 协议中通常会指定初始值，例如 0xFFFF 或 0x0000
-    // 对于 CRC16-CCITT (XModem)，多项式为 0x1021
-    // 您需要根据宇树电机的具体实现来编写这个函数
-    for (uint32_t i = 0; i < len; i++) {
-        crc ^= ((uint16_t)data[i] << 8); // Cast data[i] to uint16_t before shifting
-        for (int j = 0; j < 8; j++) {
-            if (crc & 0x8000) {
-                crc = (crc << 1) ^ 0x1021;
-            } else {
-                crc <<= 1;
-            }
-        }
-    }
-    return crc;
-}
 
 /**
  * @brief 初始化 RS485 任务和队列
@@ -40,7 +22,7 @@ void app_485_Init(void)
     xUnitreeRxQueue = xQueueCreate(5, UNITREE_RX_FRAME_SIZE); // 队列深度5，每个项大小为一帧
 
     // 调用 BSP 层初始化 RS485 硬件和启动接收
-    BSP_RS485_Init();
+    RS485_Init();
 
     log_i("Unitree RS485 app initialized.");
 }
@@ -61,27 +43,7 @@ void Unitree_RS485_Rx_Task(void *pvParameters)
             // 1. 检查帧头
             if (received_frame[0] == 0xFD && received_frame[1] == 0xEE)
             {
-                // 2. 校验 CRC
-                // CRC 在帧的最后两个字节 (Byte 14 和 Byte 15)
-                // 假设 CRC 是高字节在前 (Big-Endian)，即 data[14]是高8位，data[15]是低8位
-                // **请根据宇树电机协议确认 CRC 字节顺序**
-                uint16_t received_crc = (uint16_t)((received_frame[UNITREE_RX_FRAME_SIZE - 2] << 8) | received_frame[UNITREE_RX_FRAME_SIZE - 1]);
-                uint16_t calculated_crc = unitree_crc16(received_frame, UNITREE_RX_FRAME_SIZE - 2); // 校验前 14 字节
-
-                if (received_crc == calculated_crc)
-                {
-                    // 3. CRC 校验通过，解析数据
                     Unitree_Parse_Feedback_Frame(received_frame);
-                    // log_i("Unitree feedback frame parsed. ID: %d", received_frame[2] & 0x0F);
-                }
-                else
-                {
-                    log_w("Unitree feedback CRC error! Received: 0x%04X, Calculated: 0x%04X", received_crc, calculated_crc);
-                }
-            }
-            else
-            {
-                // log_w("Unitree feedback frame head error! 0x%02X 0x%02X", received_frame[0], received_frame[1]);
             }
         }
     }
@@ -178,9 +140,9 @@ void Unitree_RS485_Send_Command(uint8_t motor_id, int16_t tau_set, int16_t omega
     tx_buffer[14] = (uint8_t)((Kp_spd >> 8) & 0xFF);
 
     // 计算并填充 CRC16 (CRC 覆盖前 15 字节，共 17 字节，CRC 是最后 2 字节)
-    uint16_t crc = unitree_crc16(tx_buffer, 15); // CRC 校验前 15 字节
-    tx_buffer[15] = (uint8_t)(crc & 0xFF); // CRC 低字节
-    tx_buffer[16] = (uint8_t)((crc >> 8) & 0xFF); // CRC 高字节
+//    uint16_t crc = unitree_crc16(tx_buffer, 15); // CRC 校验前 15 字节
+//    tx_buffer[15] = (uint8_t)(crc & 0xFF); // CRC 低字节
+//    tx_buffer[16] = (uint8_t)((crc >> 8) & 0xFF); // CRC 高字节
 
     // 调用 BSP 层发送函数，它会处理方向切换
     if (BSP_RS485_1_Transmit_IT(tx_buffer, sizeof(tx_buffer)) != HAL_OK)

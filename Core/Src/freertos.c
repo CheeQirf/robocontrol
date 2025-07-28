@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "app_init.h"
 #include "bsp_rs485.h"
+#include "bsp_can.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -141,18 +142,17 @@ void StartDefaultTask(void *argument)
 	uint16_t send_length = sizeof(data_to_send_hex); 
   if (HAL_OK == BSP_RS485_1_Transmit_IT(data_to_send_hex, send_length))
         {
-            // 发送成功
-            // 可以添加日志输出或状态指示
              log_i("RS485_1 Hex data sent successfully!");
         }
-        else
-        {
-            // 发送失败
-            // log_e("Failed to send RS485_1 Hex data!");
-        }
+	CanMessage_t msg;
+	msg.ide = 0;
+	msg.dlc = 8;
+	msg.id = 0x44;
+			msg.can_index = 1 ;
+	msg.data[0]=0;
+	CAN_Transmit(&msg);
   for(;;)
   {
-
 		HAL_GPIO_TogglePin(LED_PIN_GPIO_Port,LED_PIN_Pin);
     osDelay(1000);
   }

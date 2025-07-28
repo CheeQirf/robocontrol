@@ -15,7 +15,7 @@ HAL_StatusTypeDef BSP_RS485_1_Transmit_IT(uint8_t *pData, uint16_t Size)
     return HAL_UART_Transmit_IT(&huart1, pData, Size);
 }
 
-void BSP_RS485_Init(void)
+void RS485_Init(void)
 {
     // RS485_1 默认设置为接收模式，以便监听总线
     RS485_1_RECEIVE_MODE();

@@ -4,7 +4,6 @@
 #include "can.h"
 #include "string.h"
 
-
 #include "elog.h"
 
 #define CAN1_FILTER_MODE_MASK_ENABLE 1 ///< CAN1过滤器模式选择：=1：屏蔽位模式  =0：屏蔽列表模式
@@ -16,6 +15,7 @@
 #define CAN1_FILTER_BANK 0  ///< 主CAN过滤器组编号
 #define CAN2_FILTER_BANK 14 ///< 从CAN过滤器组编号
 
+#define CAN_QUEUE_LENGTH 10
 
 /// CAN过滤器寄存器位宽类型定义
 typedef union
@@ -140,16 +140,15 @@ HAL_StatusTypeDef CAN_Transmit(CanMessage_t *msg)
         return HAL_ERROR;
     }
     pTXHeader.DLC = (uint32_t)msg->dlc;
-    //pTXHeader.IDE = CAN_ID_STD;
-		pTXHeader.IDE = msg->ide ? CAN_ID_EXT : CAN_ID_STD;
-    if (msg->ide)
-    {
-        pTXHeader.ExtId = msg->id;
-    }
-    else
+    pTXHeader.IDE = CAN_ID_STD;
+		//pTXHeader.IDE = msg->ide ? CAN_ID_EXT : CAN_ID_STD;
+    if (msg->ide==0)
     {
         pTXHeader.StdId = msg->id;
-    }
+    }else{
+			log_w("Discard EXT can frame");
+			return HAL_ERROR;
+		}
 
     // pTXHeader.TransmitGlobalTime = DISABLE; 不知道啥用 先注释了
 

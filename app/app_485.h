@@ -21,6 +21,6 @@ void Unitree_RS485_Rx_Task(void *pvParameters); // 宇树电机接收处理任务
 void Unitree_RS485_Send_Command(uint8_t motor_id, int16_t tau_set, int16_t omega_set, int32_t theta_set, int16_t Kp_pos, int16_t Kp_spd, uint8_t motor_mode);
 UnitreeMotor_Measure_t* get_unitree_motor_measure_ptr(uint8_t i); // 获取宇树电机测量数据的指针
 
-uint16_t unitree_crc16(const uint8_t *data, uint32_t len);
+//uint16_t unitree_crc16(const uint8_t *data, uint32_t len);
 
 #endif // __APP_485_H

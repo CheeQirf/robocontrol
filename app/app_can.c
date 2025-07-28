@@ -14,10 +14,12 @@ static xQueueHandle xCANRcvQueue = NULL;  //
 static motorMeasure_t motor_claw[4];//爪子的4个M2006电机
 static motorMeasure_t motor_wrist[2];
 static motorMeasure_t motor_lift[4];
-static motorMeasure_t motor_stretch;//一个M3508
+static motorMeasure_t motor_stretch;//一个M3508 用来伸长手臂
 static OID_Encoder_t motor_encoder[2];
 
 void canDispatch(CanMessage_t *msg);
+
+#define CAN_QUEUE_LENGTH 5
 
 #define get_dji_motor_measure(ptr, data)                         \
     do{                                                            \
@@ -36,10 +38,14 @@ void canDispatch(CanMessage_t *msg);
 			(ptr)->encoder_rads_count = data[6]<<24 | data[5] <<16 | data[4]<<8 | data[3];\
 		}while(0)
 
+void APP_CAN_Init(void) {
+    xCANSendQueue = xQueueCreate(CAN_QUEUE_LENGTH, sizeof(CanMessage_t));
+    xCANRcvQueue = xQueueCreate(CAN_QUEUE_LENGTH, sizeof(CanMessage_t));
+}
 static void CAN_Rx_Task(void *pvParameters)
 {
     static CanMessage_t RxMsg; // 接受用的变量
-    for (;;)
+    for (;;) 
     {
         if (xQueueReceive(xCANRcvQueue, &RxMsg, 100) == pdTRUE)
         { // 接收队列中的消息
@@ -87,15 +93,17 @@ void canDispatch(CanMessage_t *msg)
 								get_encoder_count(&motor_encoder[id-0x01],data);
 						else if (data[2]==0x0A)
 								get_encoder_rads_count(&motor_encoder[id-0x01],data);
+						log_i("test_encoder\n");
 						break;
         case 0x201:
         case 0x202:
         case 0x203:
         case 0x204:
             get_dji_motor_measure(&motor_lift[id - 0x201], data);
+						log_i("test_m3508\n");
             break;
         default:
-						log_w("No compatible id for can %d\n",can_index);
+						//log_w("No compatible id for can %d\n",can_index);
             break;
         }
     }
@@ -116,7 +124,7 @@ void canDispatch(CanMessage_t *msg)
             break;
 
         default:
-					log_w("No compatible id for can %d\n",can_index);
+					//log_w("No compatible id for can %d\n",can_index);
             break;
         }
     }

@@ -6,7 +6,7 @@
 #include "main.h"
 void CAN_Rcv_DataFromISR(CanMessage_t *RxMsg);
 
-
+void APP_CAN_Init(void);
 /*
 获取电机测量值的 指针 为什么要这么做？ 防止初始化问题 让测量结构体先初始化 这样can接收会空指针的错误
 */

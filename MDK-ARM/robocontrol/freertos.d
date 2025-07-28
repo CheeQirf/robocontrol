@@ -46,6 +46,7 @@ robocontrol\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
 robocontrol\freertos.o: ../app/app_init.h
 robocontrol\freertos.o: ../Core/Inc/bsp_rs485.h
 robocontrol\freertos.o: ../Core/Inc/gpio.h
+robocontrol\freertos.o: ../Core/Inc/bsp_can.h
+robocontrol\freertos.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
 robocontrol\freertos.o: ../libs/EasyLogger/inc/elog.h
 robocontrol\freertos.o: ../libs/EasyLogger/inc/elog_cfg.h
-robocontrol\freertos.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
