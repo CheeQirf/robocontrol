@@ -1,9 +1,9 @@
 robocontrol\app_arm.o: ..\app\app_arm.c
 robocontrol\app_arm.o: ..\app\app_arm.h
 robocontrol\app_arm.o: ..\app\app_motor.h
-robocontrol\app_arm.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\app_arm.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\app_arm.o: ..\app\app_lift.h
-robocontrol\app_arm.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+robocontrol\app_arm.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 robocontrol\app_arm.o: ..\app\app_joint.h
 robocontrol\app_arm.o: ..\app\app_can.h
 robocontrol\app_arm.o: ../Core/Inc/bsp_can.h
@@ -22,7 +22,7 @@ robocontrol\app_arm.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 robocontrol\app_arm.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 robocontrol\app_arm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 robocontrol\app_arm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-robocontrol\app_arm.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\app_arm.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
 robocontrol\app_arm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 robocontrol\app_arm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 robocontrol\app_arm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h

@@ -1,10 +1,10 @@
 robocontrol\app_485.o: ..\app\app_485.c
 robocontrol\app_485.o: ..\app\app_485.h
-robocontrol\app_485.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdint.h
-robocontrol\app_485.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+robocontrol\app_485.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\app_485.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 robocontrol\app_485.o: ..\app\app_motor.h
 robocontrol\app_485.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-robocontrol\app_485.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\app_485.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
 robocontrol\app_485.o: ../Core/Inc/FreeRTOSConfig.h
 robocontrol\app_485.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 robocontrol\app_485.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
@@ -47,7 +47,7 @@ robocontrol\app_485.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.
 robocontrol\app_485.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 robocontrol\app_485.o: ../Core/Inc/gpio.h
 robocontrol\app_485.o: ../Core/Inc/main.h
-robocontrol\app_485.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\string.h
+robocontrol\app_485.o: D:\keil\ARM\ARMCC\Bin\..\include\string.h
 robocontrol\app_485.o: ../libs/EasyLogger/inc/elog.h
 robocontrol\app_485.o: ../libs/EasyLogger/inc/elog_cfg.h
-robocontrol\app_485.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\math.h
+robocontrol\app_485.o: D:\keil\ARM\ARMCC\Bin\..\include\math.h

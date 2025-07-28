@@ -4421,53 +4421,53 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-         0          0          0          4          0        692   app_485.o
-       148         80         32          8          0       3784   app_can.o
-       148         88          9          0          0        551   app_init.o
+         0          0          0          4          0        688   app_485.o
+       148         80         32          8          0       3792   app_can.o
+       148         88          9          0          0        555   app_init.o
        424        146        175          0         48       3791   bsp_can.o
-       196         56          0          4         16       5171   bsp_rs485.o
-      1404         64          0          4       2464     733407   bsp_uart.o
-       392         36          0          4         80       2414   can.o
-      1844        364       2393         24        308       9384   cm_backtrace.o
-        12          0          0          0          0        428   cmb_fault.o
-       324         22          0          4       1720      64887   cmsis_os2.o
-        44          4          0          0          0        742   dma.o
-      1972        728        211         28        420      15261   elog.o
-       198         50          0          0        216       5266   elog_port.o
-       244         98         35          0          0       2697   elog_utils.o
-         0          0          0          0          0      19396   event_groups.o
-       288        146        111          8          0       2524   freertos.o
-       196         16          0          0          0        947   gpio.o
-       472         24          0         32      15360       4851   heap_4.o
-       116         22          0          8          0       2498   hrtimer.o
-       138          0          0          0          0       3446   list.o
-       544         30          0          0          0       5454   lwrb.o
-         0          0          0          0          0       1000   lwrb_ex.o
-       240         16          0          0          0      14019   main.o
-       786         80          0         12          0      11293   port.o
-      1510         18          0          0         64      17192   queue.o
-        64         26        452          0       3072        828   startup_stm32f446xx.o
-       116         18          0         12          0       8458   stm32f4xx_hal.o
-      1448          6          0          0          0      13192   stm32f4xx_hal_can.o
-       158         14          0          0          0      32914   stm32f4xx_hal_cortex.o
-      1084         16          8          0          0       7218   stm32f4xx_hal_dma.o
-       474         40          0          0          0       2865   stm32f4xx_hal_gpio.o
-        56          4          0          0          0        834   stm32f4xx_hal_msp.o
-       436         54          0          0          0       3483   stm32f4xx_hal_rcc.o
-      1060         34          0          0          0       2958   stm32f4xx_hal_rcc_ex.o
-      1746        108          0          0          0      15256   stm32f4xx_hal_tim.o
-       148         28          0          0          0       2501   stm32f4xx_hal_tim_ex.o
-       152         20          0          0         72       1428   stm32f4xx_hal_timebase_tim.o
-      1958         86          0          0          0      16833   stm32f4xx_hal_uart.o
-        82         36          0          0          0      11205   stm32f4xx_it.o
-        28          6         24          4          0       1107   system_stm32f4xx.o
-      2066        160          0         60       1220      26524   tasks.o
-       612         60          0          0        216       4206   tim.o
-       972         82          0         20        280      29415   timers.o
-       544         72          0          0        456       3168   usart.o
+       196         56          0          4         16       5195   bsp_rs485.o
+      1404         64          0          4       2464     733399   bsp_uart.o
+       392         36          0          4         80       2434   can.o
+      1844        364       2393         24        308       9412   cm_backtrace.o
+        12          0          0          0          0        432   cmb_fault.o
+       324         22          0          4       1720      64895   cmsis_os2.o
+        44          4          0          0          0        750   dma.o
+      1972        728        211         28        420      15281   elog.o
+       198         50          0          0        216       5294   elog_port.o
+       244         98         35          0          0       2709   elog_utils.o
+         0          0          0          0          0      19380   event_groups.o
+       288        146        111          8          0       2544   freertos.o
+       196         16          0          0          0        955   gpio.o
+       472         24          0         32      15360       4863   heap_4.o
+       116         22          0          8          0       2510   hrtimer.o
+       138          0          0          0          0       3458   list.o
+       544         30          0          0          0       5486   lwrb.o
+         0          0          0          0          0        968   lwrb_ex.o
+       240         16          0          0          0      14035   main.o
+       786         80          0         12          0      11341   port.o
+      1510         18          0          0         64      17240   queue.o
+        64         26        452          0       3072        832   startup_stm32f446xx.o
+       116         18          0         12          0       8486   stm32f4xx_hal.o
+      1448          6          0          0          0      13268   stm32f4xx_hal_can.o
+       158         14          0          0          0      32922   stm32f4xx_hal_cortex.o
+      1084         16          8          0          0       7254   stm32f4xx_hal_dma.o
+       474         40          0          0          0       2881   stm32f4xx_hal_gpio.o
+        56          4          0          0          0        842   stm32f4xx_hal_msp.o
+       436         54          0          0          0       3503   stm32f4xx_hal_rcc.o
+      1060         34          0          0          0       2970   stm32f4xx_hal_rcc_ex.o
+      1746        108          0          0          0      15336   stm32f4xx_hal_tim.o
+       148         28          0          0          0       2517   stm32f4xx_hal_tim_ex.o
+       152         20          0          0         72       1440   stm32f4xx_hal_timebase_tim.o
+      1958         86          0          0          0      16929   stm32f4xx_hal_uart.o
+        82         36          0          0          0      11233   stm32f4xx_it.o
+        28          6         24          4          0       1119   system_stm32f4xx.o
+      2066        160          0         60       1220      26616   tasks.o
+       612         60          0          0        216       4238   tim.o
+       972         82          0         20        280      29455   timers.o
+       544         72          0          0        456       3192   usart.o
 
     ----------------------------------------------------------------------
-     24898       2958       3491        236      26012    1115488   Object Totals
+     24898       2958       3491        236      26012    1116440   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         54          0          9          0          0          0   (incl. Padding)
 
@@ -4588,8 +4588,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     32766       3232       4046        236      26108    1094116   Grand Totals
-     32766       3232       4046        236      26108    1094116   ELF Image Totals
+     32766       3232       4046        236      26108    1095068   Grand Totals
+     32766       3232       4046        236      26108    1095068   ELF Image Totals
      32766       3232       4046        236          0          0   ROM Totals
 
 ==============================================================================

@@ -1,0 +1,43 @@
+# Keil uVision project files to ignore
+MDK-ARM/*.uvoptx.bak
+MDK-ARM/*.uvprojx.bak
+MDK-ARM/*.uvprojx
+MDK-ARM/*.uvoptx
+MDK-ARM/*.tmp
+MDK-ARM/*.sct
+MDK-ARM/*.fed
+MDK-ARM/*.log
+MDK-ARM/*.lst
+MDK-ARM/*.iex
+MDK-ARM/*.lin
+MDK-ARM/*.bak
+MDK-ARM/*.ini
+MDK-ARM/*.uvguix.USER
+
+# Keil uVision generated output files
+MDK-ARM/robocontrol/*.axf
+MDK-ARM/robocontrol/*.hex
+MDK-ARM/robocontrol/*.map
+MDK-ARM/robocontrol/*.htm
+MDK-ARM/robocontrol/*.dep
+MDK-ARM/robocontrol/*.crf
+MDK-ARM/robocontrol/*.d
+MDK-ARM/robocontrol/*.o
+MDK-ARM/robocontrol/*.build_log.htm
+# 如果你列表中的文件不是通配符形式，也按你列出的精确路径添加
+MDK-ARM/robocontrol/app_init.crf
+MDK-ARM/robocontrol/app_init.o
+MDK-ARM/robocontrol/app_motor.o
+MDK-ARM/robocontrol/app_robot.o
+MDK-ARM/robocontrol/bsp_uart.crf
+MDK-ARM/robocontrol/bsp_uart.o
+MDK-ARM/robocontrol/cmsis_os2.o
+MDK-ARM/robocontrol/crc_table.crf
+MDK-ARM/robocontrol/crc_table.d
+MDK-ARM/robocontrol/crc_table.o
+MDK-ARM/robocontrol/croutine.o
+MDK-ARM/robocontrol/dma.crf
+MDK-ARM/robocontrol/dma.o
+MDK-ARM/robocontrol/elog.o
+MDK-ARM/robocontrol/elog_async.o
+MDK-ARM/robocontrol/elog_buf.o

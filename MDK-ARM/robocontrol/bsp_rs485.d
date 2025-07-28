@@ -1,6 +1,6 @@
 robocontrol\bsp_rs485.o: ..\Core\Src\bsp_rs485.c
 robocontrol\bsp_rs485.o: ../Core/Inc/bsp_rs485.h
-robocontrol\bsp_rs485.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\bsp_rs485.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\bsp_rs485.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 robocontrol\bsp_rs485.o: ../Core/Inc/stm32f4xx_hal_conf.h
 robocontrol\bsp_rs485.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
@@ -15,7 +15,7 @@ robocontrol\bsp_rs485.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 robocontrol\bsp_rs485.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 robocontrol\bsp_rs485.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 robocontrol\bsp_rs485.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-robocontrol\bsp_rs485.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\bsp_rs485.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
 robocontrol\bsp_rs485.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 robocontrol\bsp_rs485.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 robocontrol\bsp_rs485.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -36,7 +36,7 @@ robocontrol\bsp_rs485.o: ../Core/Inc/gpio.h
 robocontrol\bsp_rs485.o: ../Core/Inc/main.h
 robocontrol\bsp_rs485.o: ../Core/Inc/usart.h
 robocontrol\bsp_rs485.o: ../app/app_485.h
-robocontrol\bsp_rs485.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+robocontrol\bsp_rs485.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 robocontrol\bsp_rs485.o: ../app/app_motor.h
 robocontrol\bsp_rs485.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 robocontrol\bsp_rs485.o: ../Core/Inc/FreeRTOSConfig.h
