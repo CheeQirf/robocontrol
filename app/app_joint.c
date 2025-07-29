@@ -28,3 +28,16 @@ int joint_check(Joint_t* joint)
 
 
 }
+void joint_debug(Joint_t* joint)
+{
+
+
+
+
+
+}
+int joint_control(Joint_t* joint)
+{
+
+
+}

@@ -77,6 +77,11 @@
     "queue.h": "c",
     "app_motor.h": "c",
     "cmsis_os.h": "c",
-    "pid.h": "c"
+    "pid.h": "c",
+    "app_lift.h": "c",
+    "app_arm.h": "c",
+    "app_joint.h": "c",
+    "stdbool.h": "c",
+    "stdint.h": "c"
   }
 }

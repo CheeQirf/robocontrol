@@ -38,6 +38,4 @@ int robot_control(Robot_t *robot);
 
 
 
-
-
 #endif

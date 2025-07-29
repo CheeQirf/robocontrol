@@ -15,8 +15,8 @@ typedef enum{
     LIFT_LOCK
 }LiftStatusCode_t;
 
-const int LIFT_LEFT_SIDE = 0;
-const int LIFT_RIGHT_SIDE =1;
+//const int LIFT_LEFT_SIDE = 0;
+//const int LIFT_RIGHT_SIDE =1;
 
 
 typedef struct{

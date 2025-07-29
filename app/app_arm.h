@@ -23,9 +23,9 @@ typedef enum
 typedef enum 
 {
 
-    CLOSE_ANGLE,
-    STRETCH_SPEED,
-    STRETCH_POS
+    CLOSE_ANGLE=0x01,
+    STRETCH_SPEED=0x02,
+    STRETCH_POS=0x04
 
 }ArmControlMode_t;
 
@@ -58,6 +58,7 @@ typedef struct
     PID_t close_speed_pid[2];
     PID_t close_angle_pid[2];
     float angle_closed_set; //设置量
+		int16_t	close_control_current[2];
         /*
                 | 爪子的中轴线
                 |
@@ -92,12 +93,6 @@ typedef struct
     //电流环 + 速度环 + 位置环
 
     
-    
-
-
-
-
-
 }Arm_t;
 
 // ! 详细函数说明查看C文件

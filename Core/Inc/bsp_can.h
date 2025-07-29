@@ -3,17 +3,19 @@
 #include "main.h"
 #include "stdbool.h"
 
-typedef struct 
+typedef struct
 {
     /* data */
     bool ide;        // 是否为扩展帧 true为扩展帧
     uint8_t data[8]; // 存放can数据
     uint8_t dlc;
-    uint32_t id;     // 存放id号
+    uint32_t id;       // 存放id号
     uint8_t can_index; // 是哪个CAN发过来的 can1 还是can2 里面就是数字1 2
-}CanMessage_t;
-
+} CanMessage_t;
 
 void CAN_Init(void);
 HAL_StatusTypeDef CAN_Transmit(CanMessage_t *msg);
+HAL_StatusTypeDef CAN_send_motor_currents(uint8_t can_index, uint32_t id_tag,
+                                          int16_t current1, int16_t current2,
+                                          int16_t current3, int16_t current4);
 #endif

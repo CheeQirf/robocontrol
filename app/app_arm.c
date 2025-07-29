@@ -3,17 +3,19 @@
 #include "app_can.h"
 #include "hrtimer.h"
 
-#define MOTOR_POS_TO_STRETCH 0.0f
+#define LOG_TAG "app_arm"
 
+#include "elog.h"
+
+#define MOTOR_POS_TO_STRETCH 0.0f
 
 #define CALIBRATE_CLOSE_SPEED 0.0f
 #define CALIBRATE_CURRENT 0.0f
 #define ENCODER_TO_ARM_CLOSE_ANGLE 0.0f
 #define RPM_TO_ARM_STRETCH_SPEED 0.0f
-//全局变量：
-motorMeasure_t arm_m2006_measure[6]; //6个电机测量值
-motorMeasure_t arm_m3508_measure;    //单个3508 测量值 在手臂部分的
-
+// 全局变量：
+motorMeasure_t arm_m2006_measure[6]; // 6个电机测量值
+motorMeasure_t arm_m3508_measure;    // 单个3508 测量值 在手臂部分的
 
 Arm_t Arm;
 /*
@@ -44,7 +46,8 @@ static float arm_set_wrist_current_control(Arm_t *arm, int index, float target_c
 // 1. 设置抓取电机（闭合）的角度控制
 static float arm_set_close_angle_control(Arm_t *arm, int index, float target_angle)
 {
-    if (arm == NULL || index < 0 || index >= 2) {
+    if (arm == NULL || index < 0 || index >= 2)
+    {
         return 0.0f; // 或者返回上一次的有效输出
     }
     // 计算相对于校准零点的角度
@@ -60,7 +63,8 @@ static float arm_set_close_angle_control(Arm_t *arm, int index, float target_ang
 // 2. 设置抓取电机（闭合）的速度控制
 static float arm_set_close_speed_control(Arm_t *arm, int index, float target_speed)
 {
-    if (arm == NULL || index < 0 || index >= 2) {
+    if (arm == NULL || index < 0 || index >= 2)
+    {
         return 0.0f;
     }
     float actual_speed = arm->avg_close_speed[index];
@@ -74,7 +78,8 @@ static float arm_set_close_speed_control(Arm_t *arm, int index, float target_spe
 // 3. 设置抓取电机（闭合）的电流控制
 static float arm_set_close_current_control(Arm_t *arm, int index, float target_current)
 {
-    if (arm == NULL || index < 0 || index >= 2) {
+    if (arm == NULL || index < 0 || index >= 2)
+    {
         return 0.0f;
     }
     float actual_current = arm->avg_close_current[index];
@@ -87,7 +92,8 @@ static float arm_set_close_current_control(Arm_t *arm, int index, float target_c
 // 4. 设置伸缩电机的位置控制
 static float arm_set_stretch_position_control(Arm_t *arm, float target_position)
 {
-    if (arm == NULL) {
+    if (arm == NULL)
+    {
         return 0.0f;
     }
     float actual_position = arm->stretch; // 需要从电机数据计算得出
@@ -101,7 +107,8 @@ static float arm_set_stretch_position_control(Arm_t *arm, float target_position)
 // 5. 设置伸缩电机的速度控制
 static float arm_set_stretch_speed_control(Arm_t *arm, float target_speed)
 {
-    if (arm == NULL) {
+    if (arm == NULL)
+    {
         return 0.0f;
     }
     // 假设 stretch_motor.measure 包含了速度信息
@@ -116,7 +123,8 @@ static float arm_set_stretch_speed_control(Arm_t *arm, float target_speed)
 // 6. 设置伸缩电机的电流控制
 static float arm_set_stretch_current_control(Arm_t *arm, float target_current)
 {
-    if (arm == NULL) {
+    if (arm == NULL)
+    {
         return 0.0f;
     }
     float actual_current = arm->stretch_motor.measure->current;
@@ -128,11 +136,12 @@ static float arm_set_stretch_current_control(Arm_t *arm, float target_current)
 // 7. 设置腕部电机的位置控制
 static float arm_set_wrist_speed_control(Arm_t *arm, int index, float target_angle)
 {
-    if (arm == NULL || index < 0 || index >= 2) {
+    if (arm == NULL || index < 0 || index >= 2)
+    {
         return 0.0f;
     }
     // 假设 wrist_motor.measure 包含角度信息
-    float actual_angle = arm->wrist_motor[index].measure->rpm; // 需要确认数据结构
+    float actual_angle = arm->wrist_motor[index].measure->angle; // 需要确认数据结构
     // 位置PID计算电流设定值 (假设腕部只用位置和电流环)
     float target_current = pid_calculate(&arm->wrist_speed_pid[index], target_angle, actual_angle, 0.0f, arm->dt);
     // 传递给电流环
@@ -143,7 +152,8 @@ static float arm_set_wrist_speed_control(Arm_t *arm, int index, float target_ang
 // 8. 设置腕部电机的电流控制
 static float arm_set_wrist_current_control(Arm_t *arm, int index, float target_current)
 {
-    if (arm == NULL || index < 0 || index >= 2) {
+    if (arm == NULL || index < 0 || index >= 2)
+    {
         return 0.0f;
     }
     float actual_current = arm->wrist_motor[index].measure->current;
@@ -152,58 +162,53 @@ static float arm_set_wrist_current_control(Arm_t *arm, int index, float target_c
     return motor_cmd;
 }
 
-
-
-
-
 int arm_init(Arm_t *arm)
 {
 
     if (arm == NULL)
     {
         /* code */
+        log_w("ptr arm created failed\n");
         return 1;
     }
-    
-    for(int i = 0; i < 4 ; ++i)
+
+    for (int i = 0; i < 4; ++i)
     {
-        arm->close_motor[i].measure = get_motor_claw_measure_ptr(i);
+        arm->close_motor[i].measure = get_motor_arm_measure_ptr(i);
     }
-    for(int i = 0 ;i <2 ; ++i)
+    for (int i = 0; i < 2; ++i)
     {
         arm->wrist_motor[i].measure = get_motor_wrist_measure_ptr(i);
     }
-		//to be fixed 
+    // to be fixed
     arm->stretch_motor.measure = get_motor_stretch_measure_ptr();
 
-    //PID init
+    // PID init
 
-
-    for(int i = 0 ; i < 2 ; ++i)
+    for (int i = 0; i < 2; ++i)
     {
-        pid_init(&arm->close_angle_pid[i],PID_MODE_DERIVATIV_NONE,0.001);
-        pid_init(&arm->close_current_pid[i],PID_MODE_DERIVATIV_NONE,0.001);
-        pid_init(&arm->close_speed_pid[i],PID_MODE_DERIVATIV_NONE,0.001);
-        pid_init(&arm->wrist_current_pid[i],PID_MODE_DERIVATIV_NONE,0.001);
-        pid_init(&arm->wrist_speed_pid[i],PID_MODE_DERIVATIV_NONE,0.001);
+        pid_init(&arm->close_angle_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
+        pid_init(&arm->close_current_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
+        pid_init(&arm->close_speed_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
+        pid_init(&arm->wrist_current_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
+        pid_init(&arm->wrist_speed_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
     }
-    //set params
-    pid_set_parameters(&arm->close_angle_pid[0],0,0,0,0,0);
-    pid_set_parameters(&arm->close_angle_pid[1],0,0,0,0,0);
-    pid_set_parameters(&arm->close_current_pid[0],0,0,0,0,0);
-    pid_set_parameters(&arm->close_current_pid[1],0,0,0,0,0);
-    pid_set_parameters(&arm->close_speed_pid[0],0,0,0,0,0);
-    pid_set_parameters(&arm->close_speed_pid[1],0,0,0,0,0);
-    pid_set_parameters(&arm->wrist_current_pid[0],0,0,0,0,0);
-    pid_set_parameters(&arm->wrist_current_pid[1],0,0,0,0,0);
-    pid_set_parameters(&arm->wrist_speed_pid[0],0,0,0,0,0);
-    pid_set_parameters(&arm->wrist_speed_pid[1],0,0,0,0,0);
-
-
+    // set params
+    pid_set_parameters(&arm->close_angle_pid[0], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->close_angle_pid[1], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->close_current_pid[0], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->close_current_pid[1], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->close_speed_pid[0], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->close_speed_pid[1], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->wrist_current_pid[0], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->wrist_current_pid[1], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->wrist_speed_pid[0], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->wrist_speed_pid[1], 0, 0, 0, 0, 0);
 
     arm->status = ARM_INIT;
-    arm->calibrated=false;
-    for(int i = 0; i < 2; i++) {
+    arm->calibrated = false;
+    for (int i = 0; i < 2; i++)
+    {
         arm->close_calibrated[i] = false;
         arm->close_angle_offset[i] = 0.0f;
         arm->avg_close_angle[i] = 0.0f;
@@ -224,115 +229,119 @@ int arm_init(Arm_t *arm)
 int arm_calibrate(Arm_t *arm)
 {
 
-    const float close_cali_speed = CALIBRATE_CLOSE_SPEED;
+    const float close_cali_speed = CALIBRATE_CLOSE_SPEED; // 校准想要的闭合速度，需更改
     float close_cmd[2];
     float close_current[2];
-    for(int i = 0 ; i< 2  ; ++i)
+    for (int i = 0; i < 2; ++i)
     {
-        if(arm->avg_close_current[i]>CALIBRATE_CURRENT &&\
-           arm->avg_close_speed[i] < CALIBRATE_CLOSE_SPEED * 0.5){
-            if(arm->close_calibrated[i]==false){
-                arm->close_calibrated[i]=true;
+        if (arm->avg_close_current[i] > CALIBRATE_CURRENT &&
+            arm->avg_close_speed[i] < CALIBRATE_CLOSE_SPEED * 0.5)
+        {
+            if (arm->close_calibrated[i] == false)
+            {
+                arm->close_calibrated[i] = true;
                 pid_reset_integral(&arm->close_current_pid[i]);
-                pid_reset_integral(&arm->close_speed_pid[i]);    
+                pid_reset_integral(&arm->close_speed_pid[i]);
                 arm->close_angle_offset[i] = arm->avg_close_angle[i];
-
-            }else{
-                arm_set_close_speed_control(arm,i,0);
+            }
+            else
+            {
+                arm_set_close_speed_control(arm, i, 0);
             }
         }
-        else{
-            close_current[i]=pid_calculate(&arm->close_speed_pid[i],close_cali_speed,arm->avg_close_speed[i],0,arm->dt);
-            close_cmd[i] = pid_calculate(&arm->avg_close_current[i],close_current[i],arm->avg_close_current[i],0,arm->dt);
+        else
+        {
+            close_current[i] = pid_calculate(&arm->close_speed_pid[i], close_cali_speed, arm->avg_close_speed[i], 0, arm->dt);
+            // close_cmd[i] = pid_calculate(&arm->avg_close_current[i],close_current[i],arm->avg_close_current[i],0,arm->dt);
+            close_cmd[i] = pid_calculate(&arm->close_current_pid[i], close_current[i], arm->avg_close_current[i], 0, arm->dt);
         }
     }
-
-
 }
 /*
         根据M3508 和M2006测量数据 更新Arm的数据
         这里只是更新Arm的数据 比如说抓握的角度等等
-        
+
 */
 int arm_update_data(Arm_t *arm)
 {
-    
+
     hrt_abstime now = hrt_absolute_time();
-    arm->dt = (float)(now-arm->last_update_t)/1e-6;
-    if(arm->last_update_t ==0 || arm->last_update_t>=now){
+    arm->dt = (float)(now - arm->last_update_t) / 1e-6;
+    if (arm->last_update_t == 0 || arm->last_update_t >= now)
+    {
         arm->dt = 0.001;
     }
-    //通过电机的测量值 更新arm的状态值
-    //抓取部分
-    for(int i = 0 ; i< 2 ;++i)
+    // 通过电机的测量值 更新arm的状态值
+    // 抓取部分
+    for (int i = 0; i < 2; ++i)
     {
-    arm->avg_close_current[i] = 0.5f*(arm->close_motor[i].measure->current + arm->close_motor[i+2].measure->current);
-    arm->avg_close_speed[i] = 0.5f*(arm->close_motor[i].measure->rpm + arm->close_motor[i+2].measure->rpm);
-    arm->avg_close_angle[i] = ENCODER_TO_ARM_CLOSE_ANGLE * 0.5f * \
-    (arm->close_motor[i].measure->pos + arm->close_motor[i+2].measure->pos)\
-    -arm->close_angle_offset[i];
-    } 
-    
+        arm->avg_close_current[i] = 0.5f * (arm->close_motor[i].measure->current + arm->close_motor[i + 2].measure->current);
+        arm->avg_close_speed[i] = 0.5f * (arm->close_motor[i].measure->rpm + arm->close_motor[i + 2].measure->rpm);
+        arm->avg_close_angle[i] = ENCODER_TO_ARM_CLOSE_ANGLE * 0.5f *
+                                      (arm->close_motor[i].measure->pos + arm->close_motor[i + 2].measure->pos) -
+                                  arm->close_angle_offset[i];
+    }
+
     arm->stretch_speed = RPM_TO_ARM_STRETCH_SPEED * arm->stretch_motor.measure->rpm;
 
     arm->last_update_t = now;
-
 }
-
 
 int arm_check(Arm_t *arm)
 {
     arm_update_data(arm);
-    if(arm->status==ARM_CALIBRATING)return; //因为校准的时候会有碰撞
-    //TODO 检测电流过高报警
-
-} 
-
-
-
+    if (arm->status == ARM_CALIBRATING)
+        return 1; // 因为校准的时候会有碰撞
+    // TODO 检测电流过高报警
+}
 
 static int arm_error_solve(Arm_t *arm)
 {
-    //TODO 如果报警 修正
-
-
+    // TODO 如果报警 修正
 }
 
-
+void arm_debug(Arm_t *arm)
+{
+}
 int arm_control(Arm_t *arm)
 {
-    if(arm->status==ARM_CALIBRATING){
-        arm_set_wrist_speed_control(arm,0,0);
-        arm_set_wrist_speed_control(arm,1,0);
-        arm_set_stretch_speed_control(arm,0);
-    }
-    if(arm->status==ARM_LOCK)
+    if (arm->status == ARM_CALIBRATING)
     {
-        arm_set_close_speed_control(arm,0,0);
-        arm_set_close_speed_control(arm,1,0);
-        arm_set_wrist_speed_control(arm,0,0);
-        arm_set_wrist_speed_control(arm,1,0);
-        arm_set_stretch_speed_control(arm,0);
+        arm_set_wrist_speed_control(arm, 0, 0);
+        arm_set_wrist_speed_control(arm, 1, 0);
+        arm_set_stretch_speed_control(arm, 0);
     }
-    if(arm->status==ARM_CONTROL){
-        if(arm->mode | CLOSE_ANGLE){
-            arm_set_close_angle_control(arm,0,arm->angle_closed_set);
-            arm_set_close_angle_control(arm,1,arm->angle_closed_set);
-            
-        }else{
-            arm_set_close_speed_control(arm,0,0);
-            arm_set_close_speed_control(arm,1,0);
-        }
-        if(arm->mode | STRETCH_POS){
-            arm_set_stretch_position_control(arm,arm->stretch_set);
-            
-        }else if(arm->mode | STRETCH_SPEED){
-            arm_set_stretch_speed_control(arm,arm->stretch_speed_set);
-        }else{
-            arm_set_stretch_speed_control(arm,0);
-        }
-
-
+    if (arm->status == ARM_LOCK)
+    {
+        arm_set_close_speed_control(arm, 0, 0);
+        arm_set_close_speed_control(arm, 1, 0);
+        arm_set_wrist_speed_control(arm, 0, 0);
+        arm_set_wrist_speed_control(arm, 1, 0);
+        arm_set_stretch_speed_control(arm, 0);
     }
-
+    if (arm->status == ARM_CONTROL)
+    {
+        if (arm->mode | CLOSE_ANGLE)
+        {
+            arm_set_close_angle_control(arm, 0, arm->angle_closed_set);
+            arm_set_close_angle_control(arm, 1, arm->angle_closed_set);
+        }
+        else
+        {
+            arm_set_close_speed_control(arm, 0, 0);
+            arm_set_close_speed_control(arm, 1, 0);
+        }
+        if (arm->mode | STRETCH_POS)
+        {
+            arm_set_stretch_position_control(arm, arm->stretch_set);
+        }
+        else if (arm->mode | STRETCH_SPEED)
+        {
+            arm_set_stretch_speed_control(arm, arm->stretch_speed_set);
+        }
+        else
+        {
+            arm_set_stretch_speed_control(arm, 0);
+        }
+    }
 }

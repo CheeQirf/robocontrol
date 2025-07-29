@@ -1,7 +1,7 @@
 robocontrol\app_can.o: ..\app\app_can.c
 robocontrol\app_can.o: ..\app\app_can.h
 robocontrol\app_can.o: ..\app\app_motor.h
-robocontrol\app_can.o: D:\keil\ARM\ARMCC\Bin\..\include\stdint.h
+robocontrol\app_can.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 robocontrol\app_can.o: ../Core/Inc/bsp_can.h
 robocontrol\app_can.o: ../Core/Inc/main.h
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
@@ -18,7 +18,7 @@ robocontrol\app_can.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 robocontrol\app_can.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-robocontrol\app_can.o: D:\keil\ARM\ARMCC\Bin\..\include\stddef.h
+robocontrol\app_can.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stddef.h
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -35,7 +35,7 @@ robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 robocontrol\app_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-robocontrol\app_can.o: D:\keil\ARM\ARMCC\Bin\..\include\stdbool.h
+robocontrol\app_can.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
 robocontrol\app_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 robocontrol\app_can.o: ../Core/Inc/FreeRTOSConfig.h
 robocontrol\app_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h

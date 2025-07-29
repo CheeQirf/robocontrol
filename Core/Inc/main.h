@@ -65,8 +65,6 @@ void Error_Handler(void);
 #define BUZZ_PIN_GPIO_Port GPIOB
 #define USER_KEY_Pin GPIO_PIN_15
 #define USER_KEY_GPIO_Port GPIOA
-#define RS485_DIR_2_Pin GPIO_PIN_3
-#define RS485_DIR_2_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

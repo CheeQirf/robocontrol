@@ -26,7 +26,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "app_init.h"
-#include "bsp_rs485.h"
+#include "bsp_can.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -63,6 +64,13 @@ const osThreadAttr_t canRxTask_attributes = {
   .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityHigh,
 };
+/* Definitions for robotTask */
+osThreadId_t robotTaskHandle;
+const osThreadAttr_t robotTask_attributes = {
+  .name = "robotTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityHigh1,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -71,6 +79,7 @@ const osThreadAttr_t canRxTask_attributes = {
 
 void StartDefaultTask(void *argument);
 void CAN_Rx_Task(void *argument);
+void robot_loop(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -107,6 +116,9 @@ void MX_FREERTOS_Init(void) {
   /* creation of canRxTask */
   canRxTaskHandle = osThreadNew(CAN_Rx_Task, NULL, &canRxTask_attributes);
 
+  /* creation of robotTask */
+  robotTaskHandle = osThreadNew(robot_loop, NULL, &robotTask_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -133,23 +145,7 @@ void StartDefaultTask(void *argument)
 	while(app_init()){
     log_e("Error While app init!");
   }
-	uint8_t data_to_send_hex[] = {
-        0xFE, 0xEE, 0x10, 0x00, 0x00, 0x53, 0x06, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x8C,
-        0x6C, 
-    };
-	uint16_t send_length = sizeof(data_to_send_hex); 
-  if (HAL_OK == BSP_RS485_1_Transmit_IT(data_to_send_hex, send_length))
-        {
-            // 发送成功
-            // 可以添加日志输出或状态指示
-             log_i("RS485_1 Hex data sent successfully!");
-        }
-        else
-        {
-            // 发送失败
-            // log_e("Failed to send RS485_1 Hex data!");
-        }
+
   for(;;)
   {
 
@@ -175,6 +171,24 @@ __weak void CAN_Rx_Task(void *argument)
     osDelay(1);
   }
   /* USER CODE END CAN_Rx_Task */
+}
+
+/* USER CODE BEGIN Header_robot_loop */
+/**
+* @brief Function implementing the robotTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_robot_loop */
+__weak void robot_loop(void *argument)
+{
+  /* USER CODE BEGIN robot_loop */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END robot_loop */
 }
 
 /* Private application code --------------------------------------------------*/

@@ -3,141 +3,56 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.39.0.0
-Copyright (C) 2023 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: wa Retro, wd, LIC=NQQMA-1BG4V-LQW0Q-NMKUY-ZKPDD-TJBK5
+IDE-Version: ¦ÌVision V5.24.2.86
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: xiaobai hallo, Hallo, LIC=21E4T-RAQG9-KP2ZY-I8QVI-FI8FR-265XM
  
 Tool Versions:
-Toolchain:       MDK-ARM Plus  Version: 5.39.0.0
-Toolchain Path:  D:\keil\ARM\ARMCC\Bin
+Toolchain:       MDK-ARM Plus  Version: 5.28.0.0
+Toolchain Path:  D:\develop\MCU\Keil\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 6 (build 750)
 Assembler:       Armasm.exe V5.06 update 6 (build 750)
 Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
 Library Manager: ArmAr.exe V5.06 update 6 (build 750)
 Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
-CPU DLL:         SARMCM3.DLL V5.39.0.0
-Dialog DLL:      DCM.DLL V1.17.5.0
-Target DLL:      CMSIS_AGDI.dll V1.33.16.0
-Dialog DLL:      TCM.DLL V1.56.4.0
+CPU DLL:         SARMCM3.DLL V5.28.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      CMSIS_AGDI.dll V1.31.18.0
+Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
-D:\CODE\STM\robocontrol\MDK-ARM\robocontrol.uvprojx
-Project File Date:  07/28/2025
+D:\code\robocontrol\MDK-ARM\robocontrol.uvprojx
+Project File Date:  07/29/2025
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\keil\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\develop\MCU\Keil\ARM\ARMCC\Bin'
 Build target 'robocontrol'
-assembling startup_stm32f446xx.s...
-compiling dma.c...
-compiling stm32f4xx_hal_timebase_tim.c...
-compiling gpio.c...
-compiling usart.c...
-compiling can.c...
-compiling bsp_uart.c...
-compiling bsp_rs485.c...
-../Core/Inc/bsp_rs485.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif 
-../app/app_motor.h(72): warning:  #1-D: last line of file ends without a newline
+compiling app_robot.c...
+..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
   #endif
-../app/app_485.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif // __APP_485_H
-..\Core\Src\bsp_rs485.c: 3 warnings, 0 errors
+..\app\app_lift.h(52): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_joint.h(45): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_arm.h(113): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_robot.h(41): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_robot.c(61): warning:  #940-D: missing return statement at end of non-void function "robot_recv_command" 
+  }
+..\app\app_robot.c(165): warning:  #940-D: missing return statement at end of non-void function "robot_control" 
+  }
+..\app\app_robot.c(174): warning:  #550-D: variable "ret"  was set but never used
+          int ret = 0;
+..\app\app_robot.c: 8 warnings, 0 errors
 compiling bsp_can.c...
 ../app/app_motor.h(72): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\Core\Src\bsp_can.c: 1 warning, 0 errors
-compiling freertos.c...
-../Core/Inc/bsp_rs485.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif 
-../Core/Src/freertos.c: 1 warning, 0 errors
-compiling stm32f4xx_hal_can.c...
-compiling main.c...
-compiling stm32f4xx_it.c...
-compiling stm32f4xx_hal_tim.c...
-compiling tim.c...
-compiling stm32f4xx_hal_tim_ex.c...
-compiling stm32f4xx_hal_msp.c...
-compiling elog.c...
-compiling elog_async.c...
-compiling elog_buf.c...
-compiling elog_utils.c...
-compiling stm32f4xx_hal_pwr_ex.c...
-compiling stm32f4xx_hal_pwr.c...
-compiling system_stm32f4xx.c...
-compiling stm32f4xx_hal_dma_ex.c...
-compiling stm32f4xx_hal_flash_ramfunc.c...
-compiling stm32f4xx_hal.c...
-compiling stm32f4xx_hal_dma.c...
-assembling cmb_fault.S...
-compiling stm32f4xx_hal_exti.c...
-compiling lwrb_ex.c...
-compiling lwrb.c...
-compiling stm32f4xx_hal_flash.c...
-compiling stm32f4xx_hal_flash_ex.c...
-compiling stm32f4xx_hal_gpio.c...
-compiling stm32f4xx_hal_cortex.c...
-compiling pid.c...
-..\libs\pid\pid.h(86): warning:  #1-D: last line of file ends without a newline
-  #endif // PID_H
-..\libs\pid\pid.c(171): warning:  #1-D: last line of file ends without a newline
-  }
-..\libs\pid\pid.c: 2 warnings, 0 errors
-compiling app_joint.c...
-..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_joint.h(42): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_joint.c(9): warning:  #940-D: missing return statement at end of non-void function "joint_init" 
-  }
-..\app\app_joint.c(16): warning:  #940-D: missing return statement at end of non-void function "joint_calibrate" 
-  }
-..\app\app_joint.c(22): warning:  #940-D: missing return statement at end of non-void function "joint_update_data" 
-  }
-..\app\app_joint.c(30): warning:  #1-D: last line of file ends without a newline
-  }
-..\app\app_joint.c(30): warning:  #940-D: missing return statement at end of non-void function "joint_check" 
-  }
-..\app\app_joint.c: 7 warnings, 0 errors
-compiling stm32f4xx_hal_uart.c...
-compiling stm32f4xx_hal_rcc.c...
-compiling app_motor.c...
-..\app\app_motor.c(1): warning:  #1-D: last line of file ends without a newline
-  #include "app_motor.h"
-..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_motor.c: 2 warnings, 0 errors
-compiling app_robot.c...
-..\app\app_robot.c(1): warning:  #1-D: last line of file ends without a newline
-  #include "app_robot.h"
-..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_lift.h(39): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_joint.h(42): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_arm.h(42): warning:  #381-D: extra ";" ignored
-      float angle_closed;; //æ‰‹çš„é—­åˆé‡?
-..\app\app_arm.h(87): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_robot.h(24): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_robot.c: 7 warnings, 0 errors
-compiling stm32f4xx_hal_rcc_ex.c...
-compiling croutine.c...
-compiling event_groups.c...
-compiling list.c...
-compiling stream_buffer.c...
-compiling queue.c...
-compiling tasks.c...
-compiling elog_port.c...
-compiling timers.c...
-compiling heap_4.c...
-compiling port.c...
-compiling hrtimer.c...
 compiling app_lift.c...
 ..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_lift.h(39): warning:  #1-D: last line of file ends without a newline
+..\app\app_lift.h(52): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\app\app_lift.c(21): warning:  #940-D: missing return statement at end of non-void function "lift_calibrate" 
   }
@@ -145,87 +60,80 @@ compiling app_lift.c...
   }
 ..\app\app_lift.c(33): warning:  #940-D: missing return statement at end of non-void function "lift_update_data" 
   }
-..\app\app_lift.c: 5 warnings, 0 errors
+..\app\app_lift.c(38): warning:  #940-D: missing return statement at end of non-void function "lift_control" 
+  }
+..\app\app_lift.c(43): warning:  #1-D: last line of file ends without a newline
+  }
+..\app\app_lift.c: 7 warnings, 0 errors
 compiling app_arm.c...
 ..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_lift.h(39): warning:  #1-D: last line of file ends without a newline
+..\app\app_lift.h(52): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_joint.h(42): warning:  #1-D: last line of file ends without a newline
+..\app\app_joint.h(45): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_arm.h(42): warning:  #381-D: extra ";" ignored
-      float angle_closed;; //æ‰‹çš„é—­åˆé‡?
-..\app\app_arm.h(87): warning:  #1-D: last line of file ends without a newline
+..\app\app_arm.h(113): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_arm.c(51): warning:  #940-D: missing return statement at end of non-void function "arm_calibrate" 
+..\app\app_arm.c(238): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              arm->avg_close_speed[i] < CALIBRATE_CLOSE_SPEED * 0.5)
+..\app\app_arm.c(259): warning:  #940-D: missing return statement at end of non-void function "arm_calibrate" 
   }
-..\app\app_arm.c(61): warning:  #940-D: missing return statement at end of non-void function "arm_update_data" 
+..\app\app_arm.c(233): warning:  #550-D: variable "close_cmd"  was set but never used
+      float close_cmd[2];
+..\app\app_arm.c(269): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      arm->dt = (float)(now - arm->last_update_t) / 1e-6;
+..\app\app_arm.c(288): warning:  #940-D: missing return statement at end of non-void function "arm_update_data" 
   }
-..\app\app_arm.c(81): warning:  #940-D: missing return statement at end of non-void function "arm_check" 
-  } 
-..\app\app_arm.c(91): warning:  #1-D: last line of file ends without a newline
+..\app\app_arm.c(296): warning:  #940-D: missing return statement at end of non-void function "arm_check" 
   }
-..\app\app_arm.c(91): warning:  #940-D: missing return statement at end of non-void function "arm_error_solve" 
+..\app\app_arm.c(301): warning:  #940-D: missing return statement at end of non-void function "arm_error_solve" 
   }
-..\app\app_arm.c(86): warning:  #177-D: function "arm_error_solve"  was declared but never referenced
+..\app\app_arm.c(347): warning:  #1-D: last line of file ends without a newline
+  }
+..\app\app_arm.c(347): warning:  #940-D: missing return statement at end of non-void function "arm_control" 
+  }
+..\app\app_arm.c(41): warning:  #177-D: function "arm_set_wrist_position_control"  was declared but never referenced
+  static float arm_set_wrist_position_control(Arm_t *arm, int index, float target_angle);
+..\app\app_arm.c(298): warning:  #177-D: function "arm_error_solve"  was declared but never referenced
   static int arm_error_solve(Arm_t *arm)
-..\app\app_arm.c: 11 warnings, 0 errors
-compiling cm_backtrace.c...
-compiling app_485.c...
-..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_485.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif // __APP_485_H
-../Core/Inc/bsp_rs485.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif 
-..\app\app_485.c(206): warning:  #1-D: last line of file ends without a newline
-  }
-..\app\app_485.c: 4 warnings, 0 errors
+..\app\app_arm.c: 15 warnings, 0 errors
 compiling app_init.c...
-../Core/Inc/bsp_rs485.h(26): warning:  #1-D: last line of file ends without a newline
-  #endif 
-..\app\app_init.c: 1 warning, 0 errors
+compiling freertos.c...
 compiling app_can.c...
 ..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_can.c(77): warning:  #177-D: variable "len"  was declared but never referenced
+..\app\app_can.c(75): warning:  #177-D: variable "len"  was declared but never referenced
       uint8_t len = msg->dlc;
 ..\app\app_can.c(144): warning:  #1-D: last line of file ends without a newline
   }
-..\app\app_can.c(11): warning:  #177-D: variable "xCANSendQueue"  was declared but never referenced
-  static xQueueHandle xCANSendQueue = NULL; //
-..\app\app_can.c(39): warning:  #177-D: function "CAN_Rx_Task"  was declared but never referenced
-  static void CAN_Rx_Task(void *pvParameters)
-..\app\app_can.c: 5 warnings, 0 errors
-compiling cmsis_os2.c...
+..\app\app_can.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=32766 RO-data=4046 RW-data=236 ZI-data=26108  
+Program Size: Code=46346 RO-data=4126 RW-data=240 ZI-data=27568  
 FromELF: creating hex file...
-"robocontrol\robocontrol.axf" - 0 Error(s), 49 Warning(s).
+"robocontrol\robocontrol.axf" - 0 Error(s), 34 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.5.9.0.pack
-                ARM::CMSIS@5.9.0
-                CMSIS (Common Microcontroller Software Interface Standard)
-   * Component: CORE Version: 5.6.0
+                http://www.keil.com/pack/ARM.CMSIS.5.5.1.pack
+                ARM.CMSIS.5.5.1
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.2.0
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.13.0.pack
-                Keil::STM32F4xx_DFP@2.13.0
+                Keil.STM32F4xx_DFP.2.13.0
                 STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
-  ./RTE/_robocontrol
-  C:/Users/Retro/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/CMSIS/Core/Include
-  C:/Users/Retro/AppData/Local/Arm/Packs/Keil/STM32F4xx_DFP/2.13.0/Drivers/CMSIS/Device/ST/STM32F4xx/Include
+  .\RTE\_robocontrol
+  D:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include
+  D:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE@5.6.0
-      Include file:  CMSIS/Core/Include/tz_context.h
-Build Time Elapsed:  00:00:22
+   * Component: ARM::CMSIS:CORE:5.2.0
+Build Time Elapsed:  00:00:11
 </pre>
 </body>
 </html>

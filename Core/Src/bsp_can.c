@@ -4,7 +4,6 @@
 #include "can.h"
 #include "string.h"
 
-
 #include "elog.h"
 
 #define CAN1_FILTER_MODE_MASK_ENABLE 1 ///< CAN1过滤器模式选择：=1：屏蔽位模式  =0：屏蔽列表模式
@@ -15,7 +14,6 @@
 
 #define CAN1_FILTER_BANK 0  ///< 主CAN过滤器组编号
 #define CAN2_FILTER_BANK 14 ///< 从CAN过滤器组编号
-
 
 /// CAN过滤器寄存器位宽类型定义
 typedef union
@@ -111,8 +109,6 @@ HAL_StatusTypeDef CAN_SetAllReceivingFilters(void)
     return result;
 }
 
-
-
 /// CAN初始化
 void CAN_Init(void)
 {
@@ -140,8 +136,9 @@ HAL_StatusTypeDef CAN_Transmit(CanMessage_t *msg)
         return HAL_ERROR;
     }
     pTXHeader.DLC = (uint32_t)msg->dlc;
-    //pTXHeader.IDE = CAN_ID_STD;
-		pTXHeader.IDE = msg->ide ? CAN_ID_EXT : CAN_ID_STD;
+    // pTXHeader.IDE = CAN_ID_STD;
+    pTXHeader.IDE = msg->ide ? CAN_ID_EXT : CAN_ID_STD;
+    pTXHeader.RTR = CAN_RTR_DATA;
     if (msg->ide)
     {
         pTXHeader.ExtId = msg->id;
@@ -151,7 +148,7 @@ HAL_StatusTypeDef CAN_Transmit(CanMessage_t *msg)
         pTXHeader.StdId = msg->id;
     }
 
-    // pTXHeader.TransmitGlobalTime = DISABLE; 不知道啥用 先注释了
+    pTXHeader.TransmitGlobalTime = DISABLE;
 
     if (HAL_CAN_AddTxMessage(msg->can_index == 1 ? &hcan1 : &hcan2, &pTXHeader, msg->data, &txmailbox) != HAL_OK)
     {
@@ -161,8 +158,29 @@ HAL_StatusTypeDef CAN_Transmit(CanMessage_t *msg)
     }
     return HAL_OK;
 }
+HAL_StatusTypeDef CAN_send_motor_currents(uint8_t can_index, uint32_t id_tag,
+                                          int16_t current1, int16_t current2,
+                                          int16_t current3, int16_t current4)
+{
+    CanMessage_t msg;
 
+    msg.can_index = can_index;
+    msg.ide = 0; // 标准帧
+    msg.id = id_tag;
+    msg.dlc = 8;
 
+    // 填充数据 (高位在前)
+    msg.data[0] = (uint8_t)(current1 >> 8);
+    msg.data[1] = (uint8_t)(current1);
+    msg.data[2] = (uint8_t)(current2 >> 8);
+    msg.data[3] = (uint8_t)(current2);
+    msg.data[4] = (uint8_t)(current3 >> 8);
+    msg.data[5] = (uint8_t)(current3);
+    msg.data[6] = (uint8_t)(current4 >> 8);
+    msg.data[7] = (uint8_t)(current4);
+
+       return CAN_Transmit(&msg);
+}
 
 /**
  * CAN FIFO0 数据接收中断回调函数
@@ -175,7 +193,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
     static CAN_RxHeaderTypeDef RxMessage;
     static CanMessage_t Message;
     HAL_StatusTypeDef status;
-    status = HAL_CAN_GetRxMessage(hcan,CAN_RX_FIFO0, &RxMessage, Message.data); // 接收CAN消息
+    status = HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxMessage, Message.data); // 接收CAN消息
     if (HAL_OK == status)
     {
         Message.ide = (RxMessage.IDE == 0) ? false : true;
@@ -184,44 +202,3 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
         CAN_Rcv_DataFromISR(&Message);
     }
 }
-
-
-//uint8_t CAN1_RX_STA = 0; ///< CAN1数据接收标志：[7]:数据 [6:0]:未使用
-//uint8_t CAN2_RX_STA = 0; ///< CAN2数据接收标志：[7]:数据 [6:0]:未使用
-
-//uint8_t CAN1_RX_BUF[8]; ///< CAN1数据接收缓存
-//uint8_t CAN2_RX_BUF[8]; ///< CAN2数据接收缓存
-
-//uint8_t CAN1_TX_BUF[8]; ///< CAN1数据发送缓存
-//uint8_t CAN2_TX_BUF[8]; ///< CAN2数据发送缓存
-
-///< CAN数据处理函数
-//inline void CAN_RecvHandler(void)
-//{
-//    // CAN1有数据收到
-//    if (CAN1_RX_STA & 0x80)
-//    {
-//        int i = 0;
-//        memcpy(CAN1_TX_BUF, CAN1_RX_BUF, sizeof(CAN1_RX_BUF)); // 拷贝出数据
-//        CAN1_RX_STA = 0;                                       // 重置CAN1接收状态
-//        for (i = 0; i != 8; i++)
-//        {
-//            log_i("CAN1_TX_BUF[%d]:0x%X", i, CAN1_TX_BUF[i]);
-//        }
-//        log_i("\r\n\r\n");
-//    }
-
-//    // CAN2有数据收到
-//    if (CAN2_RX_STA & 0x80)
-//    {
-//        int i = 0;
-//        memcpy(CAN2_TX_BUF, CAN2_RX_BUF, sizeof(CAN2_RX_BUF)); // 拷贝出数据
-//        CAN2_RX_STA = 0;                                       // 重置CAN1接收状态
-//        for (i = 0; i != 8; i++)
-//        {
-//            log_i("CAN2_TX_BUF[%d]:0x%X", i, CAN2_TX_BUF[i]);
-//        }
-//        log_i("\r\n\r\n");
-//    }
-//}
-
