@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F446xx,__FPU_PRESENT = 1U,ARM_MATH_CM4,__CC_ARM,__TARGET_FPU_VFP</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../libs/EasyLogger/inc;../app;../libs/hrtimer;../libs/cm_backtrace;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../libs/lwrb;../libs/pid;../libs/unitree</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../libs/EasyLogger/inc;../app;../libs/hrtimer;../libs/cm_backtrace;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../libs/lwrb;../libs/unitree</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -957,11 +957,6 @@
               <FilePath>..\libs\lwrb\lwrb.c</FilePath>
             </File>
             <File>
-              <FileName>pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\libs\pid\pid.c</FilePath>
-            </File>
-            <File>
               <FileName>GO-M8010-6.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\libs\unitree\GO-M8010-6.c</FilePath>
@@ -1000,6 +995,11 @@
               <FileName>app_robot.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\app_robot.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\pid.c</FilePath>
             </File>
           </Files>
         </Group>

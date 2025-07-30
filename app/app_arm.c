@@ -19,6 +19,8 @@ static int g_debug_motor_group = 0;   // -1:关闭调试, 0:左爪, 1:右爪, 2:
 static int g_debug_mode = 0;          // 0:直接电流, 1:速度环, 2:位置环
 static float g_debug_target = 500.0f; // 你的目标值 (e.g., 500mA, 100rpm, 30deg)
 
+const float GRAVITY_COMPENSATION_CURRENT = 1600.0f;
+
 // 全局变量：
 // motorMeasure_t arm_m2006_measure[6]; // 6个电机测量值
 // motorMeasure_t arm_m3508_measure;    // 单个3508 测量值 在手臂部分的
@@ -29,12 +31,6 @@ Arm_t Arm;
     这个初始化针对于程序的初始化 不是现实世界初始化 现实世界的是calibrate
 
 */
-// 1. 设置抓取电机（闭合）的角度控制
-static void arm_set_close_angle_control(Arm_t *arm, int index, float target_angle);
-// 2. 设置抓取电机（闭合）的速度控制
-static float arm_set_close_speed_control(Arm_t *arm, int index, float target_speed);
-// 3. 设置抓取电机（闭合）的电流控制
-static float arm_set_close_current_control(Arm_t *arm, int index, float target_current);
 
 // 4. 设置伸缩电机的位置控制
 static void arm_set_stretch_position_control(Arm_t *arm, float target_position);
@@ -48,57 +44,48 @@ static void arm_set_wrist_position_control(Arm_t *arm, int index, float target_a
 // 8. 设置腕部电机的电流控制
 static float arm_set_wrist_current_control(Arm_t *arm, int index, float target_current);
 
-// --- 静态辅助函数实现 ---
-// 1. 设置抓取电机（闭合）的角度控制
-static void arm_set_close_angle_control(Arm_t *arm, int index, float target_angle)
+static float arm_calculate_current_from_current(Arm_t *arm, int index, float target_current)
 {
-    if (arm == NULL || index < 0 || index >= 2)
-    {
-        return; // 或者返回上一次的有效输出
-    }
-    // 计算相对于校准零点的角度
-    float actual_angle = arm->avg_close_angle[index];
-    // 使用角度PID计算速度设定值 (或直接输出电流，取决于你的级联结构)
-
-    float target_speed = pid_calculate(&arm->close_angle_pid[index], target_angle, actual_angle, 0.0f, arm->dt);
-
-    float target_current = arm_set_close_speed_control(arm, index, target_speed);
-
-    target_current = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, target_current));
-    arm->motor_cmd_current[index] = (int16_t)target_current;
-    arm->motor_cmd_current[index + 2] = (int16_t)target_current;
+    return pid_calculate(&arm->close_current_pid[index], target_current, arm->avg_close_current[index], 0, arm->dt);
 }
 
-// 2. 设置抓取电机（闭合）的速度控制
-static float arm_set_close_speed_control(Arm_t *arm, int index, float target_speed)
+static float arm_calculate_current_from_speed(Arm_t *arm, int index, float target_speed)
 {
-    if (arm == NULL || index < 0 || index >= 2)
-    {
-        return 0.0f;
-    }
-    float actual_speed = arm->avg_close_speed[index];
-    // 使用速度PID计算电流设定值
-    float target_current = pid_calculate(&arm->close_speed_pid[index], target_speed, actual_speed, 0.0f, arm->dt);
-    // 将电流设定值传递给下一级 (电流环)
-    float motor_current_cmd = arm_set_close_current_control(arm, index, target_current);
-    motor_current_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, motor_current_cmd));
-    arm->motor_cmd_current[index] = (int16_t)motor_current_cmd;
-    arm->motor_cmd_current[index + 2] = (int16_t)motor_current_cmd;
-    return motor_current_cmd;
+    float target_current = pid_calculate(&arm->close_speed_pid[index], target_speed, arm->avg_close_speed[index], 0, arm->dt);
+    return arm_calculate_current_from_current(arm, index, target_current);
 }
 
-// 3. 设置抓取电机（闭合）的电流控制
-static float arm_set_close_current_control(Arm_t *arm, int index, float target_current)
+static float arm_calculate_current_from_angle(Arm_t *arm, int index, float target_angle)
 {
-    if (arm == NULL || index < 0 || index >= 2)
-    {
-        return 0.0f;
-    }
-    float actual_current = arm->avg_close_current[index];
-    // 使用电流PID计算最终的 PWM 或 CAN 指令 (如果需要更底层的控制)
-    // 这里假设电流PID直接输出就是给电机的指令 (例如，单位化或已标定)
-    float motor_cmd = pid_calculate(&arm->close_current_pid[index], target_current, actual_current, 0.0f, arm->dt);
-    return motor_cmd;
+    float target_speed = pid_calculate(&arm->close_angle_pid[index], target_angle, arm->avg_close_angle[index], 0, arm->dt);
+    return arm_calculate_current_from_speed(arm, index, target_speed);
+}
+
+void arm_set_close_current(Arm_t *arm, int index, float target_current)
+{
+    float final_cmd = arm_calculate_current_from_current(arm, index, target_current);
+    final_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_cmd));
+    arm->motor_cmd_current[index] = (int16_t)final_cmd;
+    arm->motor_cmd_current[index + 2] = (int16_t)(-final_cmd);
+}
+
+void arm_set_close_speed(Arm_t *arm, int index, float target_speed)
+{
+    float final_cmd = arm_calculate_current_from_speed(arm, index, target_speed);
+    // 进行机械臂重力补偿
+    final_cmd = final_cmd + GRAVITY_COMPENSATION_CURRENT;
+
+    final_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_cmd));
+    arm->motor_cmd_current[index] = (int16_t)final_cmd;
+    arm->motor_cmd_current[index + 2] = (int16_t)(-final_cmd);
+}
+
+void arm_set_close_angle(Arm_t *arm, int index, float target_angle)
+{
+    float final_cmd = arm_calculate_current_from_angle(arm, index, target_angle);
+    final_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_cmd));
+    arm->motor_cmd_current[index] = (int16_t)final_cmd;
+    arm->motor_cmd_current[index + 2] = (int16_t)(-final_cmd);
 }
 
 // 4. 设置伸缩电机的位置控制
@@ -212,9 +199,9 @@ int arm_init(Arm_t *arm)
     // set params
     pid_set_parameters(&arm->close_angle_pid[0], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->close_angle_pid[1], 0, 0, 0, 0, 0);
-    pid_set_parameters(&arm->close_current_pid[0], 0.5, 0, 0, 0, 0);
-    pid_set_parameters(&arm->close_current_pid[1], 0, 0, 0, 0, 0);
-    pid_set_parameters(&arm->close_speed_pid[0], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->close_current_pid[0], 0.6, 1, 0, 3000, 8000);
+    pid_set_parameters(&arm->close_current_pid[1], 0.6, 1, 0, 3000, 8000);
+    pid_set_parameters(&arm->close_speed_pid[0], 9, 1, 0, 0, 0);
     pid_set_parameters(&arm->close_speed_pid[1], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->wrist_current_pid[0], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->wrist_current_pid[1], 0, 0, 0, 0, 0);
@@ -262,7 +249,7 @@ int arm_calibrate(Arm_t *arm)
             }
             else
             {
-                arm->motor_cmd_current[i] = arm->motor_cmd_current[i + 2] = (int16_t)arm_set_close_speed_control(arm, i, 0);
+                // arm->motor_cmd_current[i] = arm->motor_cmd_current[i + 2] = (int16_t)arm_set_close_speed_control(arm, i, 0);
             }
         }
         else
@@ -295,8 +282,8 @@ int arm_update_data(Arm_t *arm)
     // 抓取部分
     for (int i = 0; i < 2; ++i)
     {
-        arm->avg_close_current[i] = 0.5f * (arm->close_motor[i].measure->current + arm->close_motor[i + 2].measure->current);
-        // arm->avg_close_speed[i] = 0.5f * (arm->close_motor[i].measure->rpm + arm->close_motor[i + 2].measure->rpm);
+        arm->avg_close_current[i] = 0.5f * (arm->close_motor[i].measure->current - arm->close_motor[i + 2].measure->current);
+        arm->avg_close_speed[i] = 0.5f * (arm->close_motor[i].measure->rpm - arm->close_motor[i + 2].measure->rpm);
         // arm->avg_close_angle[i] = ENCODER_TO_ARM_CLOSE_ANGLE * 0.5f *
         //                               (arm->close_motor[i].measure->pos + arm->close_motor[i + 2].measure->pos) -
         //                           arm->close_angle_offset[i];
@@ -326,30 +313,39 @@ static int arm_error_solve(Arm_t *arm)
 void arm_debug(Arm_t *arm)
 {
     // --- 虚拟遥控器 ---
-    int g_debug_motor_group = 0;   // 0 = 左爪
+    int g_debug_motor_group = 1;   // 0 = 左爪
     int g_debug_mode = 0;          // 0 = 直接电流控制
-    float g_debug_target = 200.0f; // 目标电流: 200mA (从一个小值开始！)
+    float g_debug_target = 700.0f; // 目标
     // ---------------------
 
-    float final_current_cmd = 0.0f;
+    // float final_current_cmd = 0.0f;
 
     if (g_debug_motor_group == 0) // 调试左爪
     {
         if (g_debug_mode == 0)
         {
-            // 【核心】我们只调用最底层的电流环PID
-            // 它的输出将是发送给电调的“调整后”的电流指令
-            // 注意：这里我们假设电调能接受一个更精细的指令，
-            // 实际上我们还是在给大疆电调发目标电流，这是一个逻辑上的模拟。
-            final_current_cmd = pid_calculate(&arm->close_current_pid[0], g_debug_target, arm->avg_close_current[0], 0, arm->dt);
-            myprintf("%f,%f\n", g_debug_target, final_current_cmd);
+            arm_set_close_current(arm, 0, g_debug_target);
+            myprintf("%f,%f\n", g_debug_target, (float)arm->avg_close_current[0]);
+        }
+        else if (g_debug_mode == 1)
+        {
+            // 【核心】进入速度环调试
+
+            // 1. 调用速度环的 Caller 函数
+            arm_set_close_speed(arm, 0, g_debug_target);
+
+            // 2. 打印速度的目标值和实际值，用于Vofa+绘图
+            myprintf("%f,%f\n", g_debug_target, (float)arm->avg_close_speed[0]);
         }
     }
-
-    // 安全限幅并赋值
-    final_current_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_current_cmd));
-    arm->motor_cmd_current[0] = (int16_t)final_current_cmd;
-    arm->motor_cmd_current[2] = (int16_t)final_current_cmd;
+    else if (g_debug_motor_group == 1) // 调试右爪
+    {
+        if (g_debug_mode == 0)
+        {
+            arm_set_close_current(arm, 1, g_debug_target);
+            myprintf("%f,%f\n", g_debug_target, (float)arm->avg_close_current[1]);
+        }
+    }
 }
 int arm_control(Arm_t *arm)
 {
@@ -368,8 +364,8 @@ int arm_control(Arm_t *arm)
         }
         else if (arm->status == ARM_LOCK)
         {
-            arm_set_close_speed_control(arm, 0, 0);
-            arm_set_close_speed_control(arm, 1, 0);
+            // arm_set_close_speed_control(arm, 0, 0);
+            // arm_set_close_speed_control(arm, 1, 0);
             arm_set_wrist_position_control(arm, 0, 0);
             arm_set_wrist_position_control(arm, 1, 0);
             arm_set_stretch_speed_control(arm, 0);
@@ -378,13 +374,13 @@ int arm_control(Arm_t *arm)
         {
             if (arm->mode & CLOSE_ANGLE)
             {
-                arm_set_close_angle_control(arm, 0, arm->angle_closed_set);
-                arm_set_close_angle_control(arm, 1, arm->angle_closed_set);
+                // arm_set_close_angle_control(arm, 0, arm->angle_closed_set);
+                // arm_set_close_angle_control(arm, 1, arm->angle_closed_set);
             }
             else
             {
-                arm_set_close_speed_control(arm, 0, 0);
-                arm_set_close_speed_control(arm, 1, 0);
+                // arm_set_close_speed_control(arm, 0, 0);
+                // arm_set_close_speed_control(arm, 1, 0);
             }
             if (arm->mode & STRETCH_POS)
             {

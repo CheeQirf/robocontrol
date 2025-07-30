@@ -28,7 +28,6 @@
 #include "app_init.h"
 #include "bsp_can.h"
 #include "string.h"
-#include "usart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -150,9 +149,7 @@ void StartDefaultTask(void *argument)
 
   for (;;)
   {
-//		float a = 100.0;
-//		float b = 200.0;
-//		myprintf("%f,%f\n",a,b);
+
     HAL_GPIO_TogglePin(LED_PIN_GPIO_Port, LED_PIN_Pin);
     osDelay(1000);
   }

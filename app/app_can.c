@@ -8,11 +8,10 @@
 #include "bsp_can.h"
 #include "app_motor.h"
 
-
 #define CAN_QUEUE_LENGTH 5
 
-//static xQueueHandle xCANSendQueue = NULL; //
-static xQueueHandle xCANRcvQueue = NULL;  //
+// static xQueueHandle xCANSendQueue = NULL; //
+static xQueueHandle xCANRcvQueue = NULL; //
 
 static motorMeasure_t motor_arm[4];
 static motorMeasure_t motor_wrist[2];
@@ -21,21 +20,21 @@ static motorMeasure_t motor_stretch;
 
 void canDispatch(CanMessage_t *msg);
 
-#define get_dji_motor_measure(ptr, data)                         \
-    {                                                            \
-        (ptr)->last_angle = (ptr)->angle;                        \
-        (ptr)->angle = (uint16_t)((data)[0] << 8 | (data)[1]);   \
-        (ptr)->rpm = (uint16_t)((data)[2] << 8 | (data)[3]);     \
-        (ptr)->current = (uint16_t)((data)[4] << 8 | (data)[5]); \
-        (ptr)->temperture = (data)[6];                           \
+#define get_dji_motor_measure(ptr, data)                        \
+    {                                                           \
+        (ptr)->last_angle = (ptr)->angle;                       \
+        (ptr)->angle = (uint16_t)((data)[0] << 8 | (data)[1]);  \
+        (ptr)->rpm = (int16_t)((data)[2] << 8 | (data)[3]);     \
+        (ptr)->current = (int16_t)((data)[4] << 8 | (data)[5]); \
+        (ptr)->temperture = (data)[6];                          \
     }
-#define get_encoder_data(ptr, data) \
-    {                               \
-        (ptr)->encoder_count = data[3] << 16 | data[4] << 8 | data[5];\
-		}
+#define get_encoder_data(ptr, data)                                    \
+    {                                                                  \
+        (ptr)->encoder_count = data[3] << 16 | data[4] << 8 | data[5]; \
+    }
 void CAN_Rx_Task(void *pvParameters)
 {
-		xCANRcvQueue = xQueueCreate(CAN_QUEUE_LENGTH, sizeof(CanMessage_t));
+    xCANRcvQueue = xQueueCreate(CAN_QUEUE_LENGTH, sizeof(CanMessage_t));
     CanMessage_t RxMsg; // 接受用的变量
     for (;;)
     {
