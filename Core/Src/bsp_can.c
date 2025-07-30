@@ -3,7 +3,7 @@
 #include "app_can.h"
 #include "can.h"
 #include "string.h"
-
+#include "cmsis_os.h"
 #include "elog.h"
 
 #define CAN1_FILTER_MODE_MASK_ENABLE 1 ///< CAN1过滤器模式选择：=1：屏蔽位模式  =0：屏蔽列表模式
@@ -168,7 +168,7 @@ HAL_StatusTypeDef CAN_send_motor_currents(uint8_t can_index, uint32_t id_tag,
     msg.ide = 0; // 标准帧
     msg.id = id_tag;
     msg.dlc = 8;
-
+	
     // 填充数据 (高位在前)
     msg.data[0] = (uint8_t)(current1 >> 8);
     msg.data[1] = (uint8_t)(current1);
@@ -179,7 +179,20 @@ HAL_StatusTypeDef CAN_send_motor_currents(uint8_t can_index, uint32_t id_tag,
     msg.data[6] = (uint8_t)(current4 >> 8);
     msg.data[7] = (uint8_t)(current4);
 
-       return CAN_Transmit(&msg);
+    uint8_t retry_count = 0;
+    while (CAN_Transmit(&msg) != HAL_OK)
+    {
+        retry_count++;
+        if (retry_count > 3) // 如果重试3次还不行，就真的报错放弃
+        {
+            log_e("CAN send failed after 5 retries!");
+            return HAL_ERROR;
+        }
+        // 等待一个非常短的时间，给硬件发送的机会
+        // 如果在RTOS任务中，用osDelay(1)；如果可能在中断中，用HAL_Delay()或微秒延时
+        osDelay(1); // 等待1ms
+    }
+    return HAL_OK;
 }
 
 /**

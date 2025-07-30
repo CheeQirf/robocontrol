@@ -38,5 +38,16 @@ robocontrol\bsp_can.o: ../app/app_can.h
 robocontrol\bsp_can.o: ../app/app_motor.h
 robocontrol\bsp_can.o: ../Core/Inc/can.h
 robocontrol\bsp_can.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\string.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+robocontrol\bsp_can.o: ../Core/Inc/FreeRTOSConfig.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+robocontrol\bsp_can.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 robocontrol\bsp_can.o: ../libs/EasyLogger/inc/elog.h
 robocontrol\bsp_can.o: ../libs/EasyLogger/inc/elog_cfg.h

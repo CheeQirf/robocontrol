@@ -131,7 +131,7 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef* canHandle)
   else if(canHandle->Instance==CAN2)
   {
   /* USER CODE BEGIN CAN2_MspInit 0 */
-
+		//__HAL_RCC_CAN1_CLK_ENABLE();
   /* USER CODE END CAN2_MspInit 0 */
     /* CAN2 clock enable */
     __HAL_RCC_CAN2_CLK_ENABLE();
@@ -190,7 +190,7 @@ void HAL_CAN_MspDeInit(CAN_HandleTypeDef* canHandle)
   else if(canHandle->Instance==CAN2)
   {
   /* USER CODE BEGIN CAN2_MspDeInit 0 */
-
+		 
   /* USER CODE END CAN2_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_CAN2_CLK_DISABLE();

@@ -27,90 +27,11 @@ Project File Date:  07/29/2025
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\develop\MCU\Keil\ARM\ARMCC\Bin'
 Build target 'robocontrol'
-compiling app_robot.c...
-..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_lift.h(52): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_joint.h(45): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_arm.h(113): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_robot.h(41): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_robot.c(61): warning:  #940-D: missing return statement at end of non-void function "robot_recv_command" 
-  }
-..\app\app_robot.c(165): warning:  #940-D: missing return statement at end of non-void function "robot_control" 
-  }
-..\app\app_robot.c(174): warning:  #550-D: variable "ret"  was set but never used
-          int ret = 0;
-..\app\app_robot.c: 8 warnings, 0 errors
-compiling bsp_can.c...
-../app/app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\Core\Src\bsp_can.c: 1 warning, 0 errors
-compiling app_lift.c...
-..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_lift.h(52): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_lift.c(21): warning:  #940-D: missing return statement at end of non-void function "lift_calibrate" 
-  }
-..\app\app_lift.c(27): warning:  #940-D: missing return statement at end of non-void function "lift_check" 
-  }
-..\app\app_lift.c(33): warning:  #940-D: missing return statement at end of non-void function "lift_update_data" 
-  }
-..\app\app_lift.c(38): warning:  #940-D: missing return statement at end of non-void function "lift_control" 
-  }
-..\app\app_lift.c(43): warning:  #1-D: last line of file ends without a newline
-  }
-..\app\app_lift.c: 7 warnings, 0 errors
-compiling app_arm.c...
-..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_lift.h(52): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_joint.h(45): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_arm.h(113): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_arm.c(238): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-              arm->avg_close_speed[i] < CALIBRATE_CLOSE_SPEED * 0.5)
-..\app\app_arm.c(259): warning:  #940-D: missing return statement at end of non-void function "arm_calibrate" 
-  }
-..\app\app_arm.c(233): warning:  #550-D: variable "close_cmd"  was set but never used
-      float close_cmd[2];
-..\app\app_arm.c(269): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-      arm->dt = (float)(now - arm->last_update_t) / 1e-6;
-..\app\app_arm.c(288): warning:  #940-D: missing return statement at end of non-void function "arm_update_data" 
-  }
-..\app\app_arm.c(296): warning:  #940-D: missing return statement at end of non-void function "arm_check" 
-  }
-..\app\app_arm.c(301): warning:  #940-D: missing return statement at end of non-void function "arm_error_solve" 
-  }
-..\app\app_arm.c(347): warning:  #1-D: last line of file ends without a newline
-  }
-..\app\app_arm.c(347): warning:  #940-D: missing return statement at end of non-void function "arm_control" 
-  }
-..\app\app_arm.c(41): warning:  #177-D: function "arm_set_wrist_position_control"  was declared but never referenced
-  static float arm_set_wrist_position_control(Arm_t *arm, int index, float target_angle);
-..\app\app_arm.c(298): warning:  #177-D: function "arm_error_solve"  was declared but never referenced
-  static int arm_error_solve(Arm_t *arm)
-..\app\app_arm.c: 15 warnings, 0 errors
-compiling app_init.c...
-compiling freertos.c...
-compiling app_can.c...
-..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_can.c(75): warning:  #177-D: variable "len"  was declared but never referenced
-      uint8_t len = msg->dlc;
-..\app\app_can.c(144): warning:  #1-D: last line of file ends without a newline
-  }
-..\app\app_can.c: 3 warnings, 0 errors
+compiling can.c...
 linking...
-Program Size: Code=46346 RO-data=4126 RW-data=240 ZI-data=27568  
+Program Size: Code=47012 RO-data=4160 RW-data=252 ZI-data=27284  
 FromELF: creating hex file...
-"robocontrol\robocontrol.axf" - 0 Error(s), 34 Warning(s).
+"robocontrol\robocontrol.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -133,7 +54,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:11
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
