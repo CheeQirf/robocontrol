@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * File Name          : freertos.c
-  * Description        : Code for freertos applications
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * File Name          : freertos.c
+ * Description        : Code for freertos applications
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2025 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -28,6 +28,7 @@
 #include "app_init.h"
 #include "bsp_can.h"
 #include "string.h"
+#include "usart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,23 +54,23 @@
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+    .name = "defaultTask",
+    .stack_size = 128 * 4,
+    .priority = (osPriority_t)osPriorityNormal,
 };
 /* Definitions for canRxTask */
 osThreadId_t canRxTaskHandle;
 const osThreadAttr_t canRxTask_attributes = {
-  .name = "canRxTask",
-  .stack_size = 1024 * 4,
-  .priority = (osPriority_t) osPriorityHigh,
+    .name = "canRxTask",
+    .stack_size = 1024 * 4,
+    .priority = (osPriority_t)osPriorityHigh,
 };
 /* Definitions for robotTask */
 osThreadId_t robotTaskHandle;
 const osThreadAttr_t robotTask_attributes = {
-  .name = "robotTask",
-  .stack_size = 1024 * 4,
-  .priority = (osPriority_t) osPriorityHigh1,
+    .name = "robotTask",
+    .stack_size = 1024 * 4,
+    .priority = (osPriority_t)osPriorityHigh1,
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -84,11 +85,12 @@ void robot_loop(void *argument);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
-  * @brief  FreeRTOS initialization
-  * @param  None
-  * @retval None
-  */
-void MX_FREERTOS_Init(void) {
+ * @brief  FreeRTOS initialization
+ * @param  None
+ * @retval None
+ */
+void MX_FREERTOS_Init(void)
+{
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -126,30 +128,32 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
-
 }
 
 /* USER CODE BEGIN Header_StartDefaultTask */
 /**
-  * @brief  Function implementing the defaultTask thread.
-  * @param  argument: Not used
-  * @retval None
-  */
+ * @brief  Function implementing the defaultTask thread.
+ * @param  argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
-		HAL_Delay(2000);
+  HAL_Delay(2000);
 
-	while(app_init()){
+  while (app_init())
+  {
     log_e("Error While app init!");
   }
 
-  for(;;)
+  for (;;)
   {
-
-		HAL_GPIO_TogglePin(LED_PIN_GPIO_Port,LED_PIN_Pin);
+//		float a = 100.0;
+//		float b = 200.0;
+//		myprintf("%f,%f\n",a,b);
+    HAL_GPIO_TogglePin(LED_PIN_GPIO_Port, LED_PIN_Pin);
     osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
@@ -157,16 +161,16 @@ void StartDefaultTask(void *argument)
 
 /* USER CODE BEGIN Header_CAN_Rx_Task */
 /**
-* @brief Function implementing the canRxTask thread.
-* @param argument: Not used
-* @retval None
-*/
+ * @brief Function implementing the canRxTask thread.
+ * @param argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_CAN_Rx_Task */
 __weak void CAN_Rx_Task(void *argument)
 {
   /* USER CODE BEGIN CAN_Rx_Task */
   /* Infinite loop */
-  for(;;)
+  for (;;)
   {
     osDelay(1);
   }
@@ -175,16 +179,16 @@ __weak void CAN_Rx_Task(void *argument)
 
 /* USER CODE BEGIN Header_robot_loop */
 /**
-* @brief Function implementing the robotTask thread.
-* @param argument: Not used
-* @retval None
-*/
+ * @brief Function implementing the robotTask thread.
+ * @param argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_robot_loop */
 __weak void robot_loop(void *argument)
 {
   /* USER CODE BEGIN robot_loop */
   /* Infinite loop */
-  for(;;)
+  for (;;)
   {
     osDelay(1);
   }
@@ -195,4 +199,3 @@ __weak void robot_loop(void *argument)
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
-

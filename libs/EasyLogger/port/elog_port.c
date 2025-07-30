@@ -57,7 +57,7 @@ int myprintf(const char *format,...)
   int rv;
 
   va_start(arg,format);
-  rv = vsnprintf((char*)SendBuff,sizeof(SendBuff)+1,(char*)format,arg);
+  rv = vsnprintf((char*)SendBuff,sizeof(SendBuff),(char*)format,arg);
   va_end(arg);
 	//CDC_Transmit_FS((uint8_t *)SendBuff,rv);
 	//HAL_UART_Transmit_DMA(&huart4,(uint8_t *)SendBuff,rv);

@@ -6,6 +6,7 @@
 #define LOG_TAG "app_arm"
 
 #include "elog.h"
+#include "usart.h"
 
 #define MOTOR_POS_TO_STRETCH 0.0f
 
@@ -211,7 +212,7 @@ int arm_init(Arm_t *arm)
     // set params
     pid_set_parameters(&arm->close_angle_pid[0], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->close_angle_pid[1], 0, 0, 0, 0, 0);
-    pid_set_parameters(&arm->close_current_pid[0], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->close_current_pid[0], 0.5, 0, 0, 0, 0);
     pid_set_parameters(&arm->close_current_pid[1], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->close_speed_pid[0], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->close_speed_pid[1], 0, 0, 0, 0, 0);
@@ -295,13 +296,13 @@ int arm_update_data(Arm_t *arm)
     for (int i = 0; i < 2; ++i)
     {
         arm->avg_close_current[i] = 0.5f * (arm->close_motor[i].measure->current + arm->close_motor[i + 2].measure->current);
-        arm->avg_close_speed[i] = 0.5f * (arm->close_motor[i].measure->rpm + arm->close_motor[i + 2].measure->rpm);
-        arm->avg_close_angle[i] = ENCODER_TO_ARM_CLOSE_ANGLE * 0.5f *
-                                      (arm->close_motor[i].measure->pos + arm->close_motor[i + 2].measure->pos) -
-                                  arm->close_angle_offset[i];
+        // arm->avg_close_speed[i] = 0.5f * (arm->close_motor[i].measure->rpm + arm->close_motor[i + 2].measure->rpm);
+        // arm->avg_close_angle[i] = ENCODER_TO_ARM_CLOSE_ANGLE * 0.5f *
+        //                               (arm->close_motor[i].measure->pos + arm->close_motor[i + 2].measure->pos) -
+        //                           arm->close_angle_offset[i];
     }
 
-    arm->stretch_speed = RPM_TO_ARM_STRETCH_SPEED * arm->stretch_motor.measure->rpm;
+    // arm->stretch_speed = RPM_TO_ARM_STRETCH_SPEED * arm->stretch_motor.measure->rpm;
 
     arm->last_update_t = now;
     return 0;
@@ -321,41 +322,34 @@ static int arm_error_solve(Arm_t *arm)
     // TODO 如果报警 修正
 }
 
+// in app_arm.c
 void arm_debug(Arm_t *arm)
 {
-    if (g_debug_motor_group == -1)
-    {
-        return; // 调试关闭，所有电机将在arm_control中被设为0
-    }
-    float final_current = 0.0f;
-    // --- 调试爪子电机 (以左爪为例, group 0) ---
-    if (g_debug_motor_group == 0)
-    {
-        if (g_debug_mode == 0) // 【第1步】直接电流注入
-        {
-            // 在这个模式下，我们绕过所有PID，直接发送电流指令
-            final_current = g_debug_target;
-        }
-        else if (g_debug_mode == 1) // 【第2步】调试速度环
-        {
-            // 使用速度PID，它的输出是目标电流
-            float target_current = pid_calculate(&arm->close_speed_pid[0], g_debug_target, arm->avg_close_speed[0], 0, arm->dt);
-            // 调用电流PID（如果有的话，对于DJI电机通常不需要）
-            final_current = arm_set_close_current_control(arm, 0, target_current);
-        }
-        else if (g_debug_mode == 2) // 【第3步】调试位置环
-        {
-            // 使用位置PID，输出目标速度
-            float target_speed = pid_calculate(&arm->close_angle_pid[0], g_debug_target, arm->avg_close_angle[0], 0, arm->dt);
-            // 将目标速度送入速度PID
-            final_current = arm_set_close_speed_control(arm, 0, target_speed);
-        }
+    // --- 虚拟遥控器 ---
+    int g_debug_motor_group = 0;   // 0 = 左爪
+    int g_debug_mode = 0;          // 0 = 直接电流控制
+    float g_debug_target = 200.0f; // 目标电流: 200mA (从一个小值开始！)
+    // ---------------------
 
-        // 安全限幅并赋值给左爪对应的两个电机
-        final_current = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_current));
-        arm->motor_cmd_current[0] = (int16_t)final_current;
-        arm->motor_cmd_current[2] = (int16_t)final_current;
+    float final_current_cmd = 0.0f;
+
+    if (g_debug_motor_group == 0) // 调试左爪
+    {
+        if (g_debug_mode == 0)
+        {
+            // 【核心】我们只调用最底层的电流环PID
+            // 它的输出将是发送给电调的“调整后”的电流指令
+            // 注意：这里我们假设电调能接受一个更精细的指令，
+            // 实际上我们还是在给大疆电调发目标电流，这是一个逻辑上的模拟。
+            final_current_cmd = pid_calculate(&arm->close_current_pid[0], g_debug_target, arm->avg_close_current[0], 0, arm->dt);
+            myprintf("%f,%f\n", g_debug_target, final_current_cmd);
+        }
     }
+
+    // 安全限幅并赋值
+    final_current_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_current_cmd));
+    arm->motor_cmd_current[0] = (int16_t)final_current_cmd;
+    arm->motor_cmd_current[2] = (int16_t)final_current_cmd;
 }
 int arm_control(Arm_t *arm)
 {

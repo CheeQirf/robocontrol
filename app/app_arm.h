@@ -1,5 +1,6 @@
 #ifndef __APP_ARM
 #define __APP_ARM
+//#pragma import(__use_full_stdio)
 #include "hrtimer.h"
 
 #include "app_motor.h"

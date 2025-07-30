@@ -36,7 +36,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x687CBAE4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x687CBAE4)
 I (../libs/lwrb/lwrb.h)(0x68822940)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\string.h)(0x5CEB79E2)
-I (../Core/Inc/usart.h)(0x6887AB9C)
+I (../Core/Inc/usart.h)(0x688A1F46)
 I (../Core/Inc/dma.h)(0x6882293E)
 F (..\Core\Src\bsp_can.c)(0x6889D723)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\bsp_can.o --omf_browse robocontrol\bsp_can.crf --depend robocontrol\bsp_can.d)
 I (../Core/Inc/bsp_can.h)(0x6888EDE6)
@@ -137,7 +137,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h)(0x687CB
 I (../Core/Inc/can.h)(0x6882293E)
 I (../Core/Inc/dma.h)(0x6882293E)
 I (../Core/Inc/tim.h)(0x6882293E)
-I (../Core/Inc/usart.h)(0x6887AB9C)
+I (../Core/Inc/usart.h)(0x688A1F46)
 I (../Core/Inc/gpio.h)(0x6882293E)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
 I (../libs/EasyLogger/inc/elog.h)(0x68822940)
@@ -178,7 +178,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x687CBAE4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x687CBAE4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x687CBAE4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x687CBAE4)
-F (../Core/Src/freertos.c)(0x688870B6)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\freertos.o --omf_browse robocontrol\freertos.crf --depend robocontrol\freertos.d)
+F (../Core/Src/freertos.c)(0x688A2C13)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\freertos.o --omf_browse robocontrol\freertos.crf --depend robocontrol\freertos.d)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x687CBA97)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
@@ -226,6 +226,7 @@ I (../app/app_init.h)(0x6882293F)
 I (../Core/Inc/bsp_can.h)(0x6888EDE6)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\string.h)(0x5CEB79E2)
+I (../Core/Inc/usart.h)(0x688A1F46)
 I (../libs/EasyLogger/inc/elog.h)(0x68822940)
 I (../libs/EasyLogger/inc/elog_cfg.h)(0x68822940)
 F (../Core/Src/can.c)(0x6889E2A3)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\can.o --omf_browse robocontrol\can.crf --depend robocontrol\can.d)
@@ -331,7 +332,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x687CBAE4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x687CBAE4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x687CBAE4)
 F (../Core/Src/usart.c)(0x6887AB9C)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\usart.o --omf_browse robocontrol\usart.crf --depend robocontrol\usart.d)
-I (../Core/Inc/usart.h)(0x6887AB9C)
+I (../Core/Inc/usart.h)(0x688A1F46)
 I (../Core/Inc/main.h)(0x6887AB9D)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x687CBAE4)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x6882293E)
@@ -1076,7 +1077,7 @@ I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\string.h)(0x5CEB79E2)
-F (..\libs\EasyLogger\port\elog_port.c)(0x68822940)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\elog_port.o --omf_browse robocontrol\elog_port.crf --depend robocontrol\elog_port.d)
+F (..\libs\EasyLogger\port\elog_port.c)(0x688A227B)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\elog_port.o --omf_browse robocontrol\elog_port.crf --depend robocontrol\elog_port.d)
 I (../libs/EasyLogger/inc/elog.h)(0x68822940)
 I (../libs/EasyLogger/inc/elog_cfg.h)(0x68822940)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
@@ -1086,7 +1087,7 @@ I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdio.h)(0x5CEB79E2)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdarg.h)(0x5CEB79E4)
 I (../libs/hrtimer/hrtimer.h)(0x68822940)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\inttypes.h)(0x5CEB79E0)
-I (../Core/Inc/usart.h)(0x6887AB9C)
+I (../Core/Inc/usart.h)(0x688A1F46)
 I (../Core/Inc/main.h)(0x6887AB9D)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x687CBAE4)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x6882293E)
@@ -1213,7 +1214,7 @@ I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\math.h)(0x5CEB79D6)
 F (..\libs\unitree\GO-M8010-6.c)(0x6887ABC0)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\go-m8010-6.o --omf_browse robocontrol\go-m8010-6.crf --depend robocontrol\go-m8010-6.d)
-I (../Core/Inc/usart.h)(0x6887AB9C)
+I (../Core/Inc/usart.h)(0x688A1F46)
 I (../Core/Inc/main.h)(0x6887AB9D)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x687CBAE4)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x6882293E)
@@ -1347,8 +1348,8 @@ I (../Core/Inc/can.h)(0x6882293E)
 I (../libs/EasyLogger/inc/elog.h)(0x68822940)
 I (../libs/EasyLogger/inc/elog_cfg.h)(0x68822940)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x687CBA97)
-F (..\app\app_arm.c)(0x6889CD70)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\app_arm.o --omf_browse robocontrol\app_arm.crf --depend robocontrol\app_arm.d)
-I (..\app\app_arm.h)(0x6889C4AB)
+F (..\app\app_arm.c)(0x688A2C98)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\app_arm.o --omf_browse robocontrol\app_arm.crf --depend robocontrol\app_arm.d)
+I (..\app\app_arm.h)(0x688A1CD1)
 I (../libs/hrtimer/hrtimer.h)(0x68822940)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\inttypes.h)(0x5CEB79E0)
@@ -1393,6 +1394,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x687CBAE4)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\math.h)(0x5CEB79D6)
 I (../libs/EasyLogger/inc/elog.h)(0x68822940)
 I (../libs/EasyLogger/inc/elog_cfg.h)(0x68822940)
+I (../Core/Inc/usart.h)(0x688A1F46)
 F (..\app\app_joint.c)(0x68883943)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\app_joint.o --omf_browse robocontrol\app_joint.crf --depend robocontrol\app_joint.d)
 I (..\app\app_joint.h)(0x68878384)
 I (..\app\app_motor.h)(0x68846AE5)
@@ -1437,9 +1439,9 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x687CBAE4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x687CBAE4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x687CBAE4)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x687CBAE4)
-F (..\app\app_robot.c)(0x6889E18F)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\app_robot.o --omf_browse robocontrol\app_robot.crf --depend robocontrol\app_robot.d)
+F (..\app\app_robot.c)(0x688A2965)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../libs/EasyLogger/inc -I ../app -I ../libs/hrtimer -I ../libs/cm_backtrace -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../libs/lwrb -I ../libs/pid -I ../libs/unitree-I.\RTE\_robocontrol-ID:\develop\MCU\Keil\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\develop\MCU\Keil\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F446xx -DUSE_HAL_DRIVER -DSTM32F446xx -D__FPU_PRESENT="1U" -DARM_MATH_CM4 -D__CC_ARM -D__TARGET_FPU_VFP-o robocontrol\app_robot.o --omf_browse robocontrol\app_robot.crf --depend robocontrol\app_robot.d)
 I (..\app\app_robot.h)(0x6888C0C5)
-I (..\app\app_arm.h)(0x6889C4AB)
+I (..\app\app_arm.h)(0x688A1CD1)
 I (../libs/hrtimer/hrtimer.h)(0x68822940)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
 I (D:\develop\MCU\Keil\ARM\ARMCC\include\inttypes.h)(0x5CEB79E0)

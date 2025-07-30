@@ -45,3 +45,4 @@ robocontrol\app_arm.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 robocontrol\app_arm.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\math.h
 robocontrol\app_arm.o: ../libs/EasyLogger/inc/elog.h
 robocontrol\app_arm.o: ../libs/EasyLogger/inc/elog_cfg.h
+robocontrol\app_arm.o: ../Core/Inc/usart.h

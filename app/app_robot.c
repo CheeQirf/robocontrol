@@ -179,6 +179,7 @@ int robot_control(Robot_t *robot)
 
 void robot_loop(void *param)
 {
+
     Robot_t *robot = &Robot;
 
     robot_init(robot);

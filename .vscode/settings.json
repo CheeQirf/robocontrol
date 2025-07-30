@@ -83,6 +83,7 @@
     "app_joint.h": "c",
     "stdbool.h": "c",
     "stdint.h": "c",
-    "app_robot.h": "c"
+    "app_robot.h": "c",
+    "string.h": "c"
   }
 }

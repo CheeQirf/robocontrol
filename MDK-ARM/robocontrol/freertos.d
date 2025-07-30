@@ -47,5 +47,6 @@ robocontrol\freertos.o: ../app/app_init.h
 robocontrol\freertos.o: ../Core/Inc/bsp_can.h
 robocontrol\freertos.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
 robocontrol\freertos.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\string.h
+robocontrol\freertos.o: ../Core/Inc/usart.h
 robocontrol\freertos.o: ../libs/EasyLogger/inc/elog.h
 robocontrol\freertos.o: ../libs/EasyLogger/inc/elog_cfg.h
