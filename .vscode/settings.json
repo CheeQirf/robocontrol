@@ -85,6 +85,7 @@
     "stdint.h": "c",
     "app_robot.h": "c",
     "string.h": "c",
-    "math.h": "c"
+    "math.h": "c",
+    "cm_backtrace.h": "c"
   }
 }

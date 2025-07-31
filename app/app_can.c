@@ -20,13 +20,40 @@ static motorMeasure_t motor_stretch;
 
 void canDispatch(CanMessage_t *msg);
 
-#define get_dji_motor_measure(ptr, data)                        \
-    {                                                           \
-        (ptr)->last_angle = (ptr)->angle;                       \
-        (ptr)->angle = (uint16_t)((data)[0] << 8 | (data)[1]);  \
-        (ptr)->rpm = (int16_t)((data)[2] << 8 | (data)[3]);     \
-        (ptr)->current = (int16_t)((data)[4] << 8 | (data)[5]); \
-        (ptr)->temperture = (data)[6];                          \
+#define get_dji_motor_measure(ptr, data)                                    \
+    {                                                                       \
+        (ptr)->last_angle = (ptr)->angle;                                   \
+        (ptr)->angle = (uint16_t)((data)[0] << 8 | (data)[1]);              \
+        (ptr)->rpm = (int16_t)((data)[2] << 8 | (data)[3]);                 \
+        (ptr)->current = (int16_t)((data)[4] << 8 | (data)[5]);             \
+        (ptr)->temperture = (data)[6];                                      \
+        int16_t delta_angle = (ptr)->angle - (ptr)->last_angle;             \
+                                                                            \
+        if (delta_angle > 4096)                                             \
+        {                                                                   \
+            /*                                                              \
+             * 发生了反转过零 (下绕)                               \
+             * 物理过程: e.g., 从 10 -> 0 -> 8191 -> 8190              \
+             * 原始读数: last_angle = 10, angle = 8190                  \
+             * 直接计算: delta = 8190 - 10 = 8180 (一个大的正数)  \
+             * 期望结果: 一个小的负数                             \
+             * 修正方法: 减去一整圈                                \
+             */                                                             \
+            delta_angle -= 8192;                                            \
+        }                                                                   \
+        else if (delta_angle < -4096)                                       \
+        {                                                                   \
+            /*                                                              \
+             * 发生了正转过零 (上绕)                               \
+             * 物理过程: e.g., 从 8190 -> 8191 -> 0 -> 10              \
+             * 原始读数: last_angle = 8190, angle = 10                  \
+             * 直接计算: delta = 10 - 8190 = -8180 (一个大的负数) \
+             * 期望结果: 一个小的正数                             \
+             * 修正方法: 加上一整圈                                \
+             */                                                             \
+            delta_angle += 8192;                                            \
+        }                                                                   \
+        (ptr)->pos += delta_angle;                                          \
     }
 #define get_encoder_data(ptr, data)                                    \
     {                                                                  \

@@ -12,7 +12,7 @@
 
 #define CALIBRATE_CLOSE_SPEED 0.0f
 #define CALIBRATE_CURRENT 0.0f
-#define ENCODER_TO_ARM_CLOSE_ANGLE 0.0f
+#define ENCODER_TO_ARM_CLOSE_ANGLE (360.0f / 8192.0f)
 #define RPM_TO_ARM_STRETCH_SPEED 0.0f
 
 static int g_debug_motor_group = 0;   // -1:关闭调试, 0:左爪, 1:右爪, 2:腕0, 3:腕1, 4:伸缩
@@ -57,8 +57,12 @@ static float arm_calculate_current_from_speed(Arm_t *arm, int index, float targe
 
 static float arm_calculate_current_from_angle(Arm_t *arm, int index, float target_angle)
 {
+    // 三环控制
     float target_speed = pid_calculate(&arm->close_angle_pid[index], target_angle, arm->avg_close_angle[index], 0, arm->dt);
     return arm_calculate_current_from_speed(arm, index, target_speed);
+    // 两环控制
+    // float target_current = pid_calculate(&arm->close_angle_pid[index], target_angle, arm->avg_close_angle[index], 0, arm->dt);
+    // return arm_calculate_current_from_current(arm, index, target_current);
 }
 
 void arm_set_close_current(Arm_t *arm, int index, float target_current)
@@ -73,7 +77,7 @@ void arm_set_close_speed(Arm_t *arm, int index, float target_speed)
 {
     float final_cmd = arm_calculate_current_from_speed(arm, index, target_speed);
     // 进行机械臂重力补偿
-    final_cmd = final_cmd + GRAVITY_COMPENSATION_CURRENT;
+    // final_cmd = final_cmd + GRAVITY_COMPENSATION_CURRENT;
 
     final_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_cmd));
     arm->motor_cmd_current[index] = (int16_t)final_cmd;
@@ -82,7 +86,11 @@ void arm_set_close_speed(Arm_t *arm, int index, float target_speed)
 
 void arm_set_close_angle(Arm_t *arm, int index, float target_angle)
 {
+
     float final_cmd = arm_calculate_current_from_angle(arm, index, target_angle);
+    // 进行机械臂重力补偿
+    // final_cmd = final_cmd + GRAVITY_COMPENSATION_CURRENT;
+
     final_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_cmd));
     arm->motor_cmd_current[index] = (int16_t)final_cmd;
     arm->motor_cmd_current[index + 2] = (int16_t)(-final_cmd);
@@ -190,19 +198,20 @@ int arm_init(Arm_t *arm)
 
     for (int i = 0; i < 2; ++i)
     {
-        pid_init(&arm->close_angle_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
+        pid_init(&arm->close_angle_pid[i], PID_MODE_DERIVATIV_NONE, 0.001); // 不使用d项
         pid_init(&arm->close_current_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
         pid_init(&arm->close_speed_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
         pid_init(&arm->wrist_current_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
         pid_init(&arm->wrist_speed_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
     }
     // set params
-    pid_set_parameters(&arm->close_angle_pid[0], 0, 0, 0, 0, 0);
-    pid_set_parameters(&arm->close_angle_pid[1], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->close_angle_pid[0], 1.2, 2, 0, 3000, 8000);
+    pid_set_parameters(&arm->close_angle_pid[1], 1.2, 2, 0, 3000, 8000);
     pid_set_parameters(&arm->close_current_pid[0], 0.6, 1, 0, 3000, 8000);
+    // pid_set_parameters(&arm->close_current_pid[0], 4.65, 8, 0, 3000, 8000);
     pid_set_parameters(&arm->close_current_pid[1], 0.6, 1, 0, 3000, 8000);
-    pid_set_parameters(&arm->close_speed_pid[0], 9, 1, 0, 0, 0);
-    pid_set_parameters(&arm->close_speed_pid[1], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->close_speed_pid[0], 7, 2, 0, 3000, 8000);
+    pid_set_parameters(&arm->close_speed_pid[1], 7, 2, 0, 3000, 8000);
     pid_set_parameters(&arm->wrist_current_pid[0], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->wrist_current_pid[1], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->wrist_speed_pid[0], 0, 0, 0, 0, 0);
@@ -284,9 +293,8 @@ int arm_update_data(Arm_t *arm)
     {
         arm->avg_close_current[i] = 0.5f * (arm->close_motor[i].measure->current - arm->close_motor[i + 2].measure->current);
         arm->avg_close_speed[i] = 0.5f * (arm->close_motor[i].measure->rpm - arm->close_motor[i + 2].measure->rpm);
-        // arm->avg_close_angle[i] = ENCODER_TO_ARM_CLOSE_ANGLE * 0.5f *
-        //                               (arm->close_motor[i].measure->pos + arm->close_motor[i + 2].measure->pos) -
-        //                           arm->close_angle_offset[i];
+        arm->avg_close_angle[i] = ENCODER_TO_ARM_CLOSE_ANGLE * 0.5f *
+                                  (arm->close_motor[i].measure->pos - arm->close_motor[i + 2].measure->pos); //-arm->close_angle_offset[i];
     }
 
     // arm->stretch_speed = RPM_TO_ARM_STRETCH_SPEED * arm->stretch_motor.measure->rpm;
@@ -313,9 +321,9 @@ static int arm_error_solve(Arm_t *arm)
 void arm_debug(Arm_t *arm)
 {
     // --- 虚拟遥控器 ---
-    int g_debug_motor_group = 1;   // 0 = 左爪
-    int g_debug_mode = 0;          // 0 = 直接电流控制
-    float g_debug_target = 700.0f; // 目标
+    int g_debug_motor_group = 0;    // 0 = 左爪
+    int g_debug_mode = 1;           // 0 = 直接电流控制
+    float g_debug_target = -100.0f; // 目标
     // ---------------------
 
     // float final_current_cmd = 0.0f;
@@ -329,13 +337,17 @@ void arm_debug(Arm_t *arm)
         }
         else if (g_debug_mode == 1)
         {
-            // 【核心】进入速度环调试
 
-            // 1. 调用速度环的 Caller 函数
             arm_set_close_speed(arm, 0, g_debug_target);
 
             // 2. 打印速度的目标值和实际值，用于Vofa+绘图
             myprintf("%f,%f\n", g_debug_target, (float)arm->avg_close_speed[0]);
+        }
+        else if (g_debug_mode == 2)
+        {
+            arm_set_close_angle(arm, 0, g_debug_target);
+
+            myprintf("%f,%f\n", g_debug_target, (float)arm->avg_close_angle[0]);
         }
     }
     else if (g_debug_motor_group == 1) // 调试右爪
@@ -344,6 +356,19 @@ void arm_debug(Arm_t *arm)
         {
             arm_set_close_current(arm, 1, g_debug_target);
             myprintf("%f,%f\n", g_debug_target, (float)arm->avg_close_current[1]);
+        }
+        else if (g_debug_mode == 1)
+        {
+
+            arm_set_close_speed(arm, 1, g_debug_target);
+
+            myprintf("%f,%f\n", g_debug_target, (float)arm->avg_close_speed[1]);
+        }
+        else if (g_debug_mode == 2)
+        {
+            arm_set_close_angle(arm, 1, g_debug_target);
+
+            myprintf("%f,%f\n", g_debug_target, (float)arm->avg_close_angle[1]);
         }
     }
 }

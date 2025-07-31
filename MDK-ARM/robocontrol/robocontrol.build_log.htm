@@ -36,11 +36,11 @@ compiling app_arm.c...
   #endif
 ..\app\app_arm.h(113): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_arm.c(241): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\app\app_arm.c(250): warning:  #1035-D: single-precision operand implicitly converted to double-precision
               arm->avg_close_speed[i] < CALIBRATE_CLOSE_SPEED * 0.5)
-..\app\app_arm.c(310): warning:  #940-D: missing return statement at end of non-void function "arm_error_solve" 
+..\app\app_arm.c(318): warning:  #940-D: missing return statement at end of non-void function "arm_error_solve" 
   }
-..\app\app_arm.c(412): warning:  #1-D: last line of file ends without a newline
+..\app\app_arm.c(437): warning:  #1-D: last line of file ends without a newline
   }
 ..\app\app_arm.c(18): warning:  #177-D: variable "g_debug_motor_group"  was declared but never referenced
   static int g_debug_motor_group = 0;   // -1:关闭调试, 0:左爪, 1:右爪, 2:�?0, 3:�?1, 4:伸缩
@@ -48,11 +48,11 @@ compiling app_arm.c...
   static int g_debug_mode = 0;          // 0:直接电流, 1:速度�?, 2:位置�?
 ..\app\app_arm.c(20): warning:  #177-D: variable "g_debug_target"  was declared but never referenced
   static float g_debug_target = 500.0f; // 你的目标�? (e.g., 500mA, 100rpm, 30deg)
-..\app\app_arm.c(307): warning:  #177-D: function "arm_error_solve"  was declared but never referenced
+..\app\app_arm.c(315): warning:  #177-D: function "arm_error_solve"  was declared but never referenced
   static int arm_error_solve(Arm_t *arm)
 ..\app\app_arm.c: 11 warnings, 0 errors
 linking...
-Program Size: Code=46672 RO-data=4168 RW-data=240 ZI-data=27288  
+Program Size: Code=47312 RO-data=4168 RW-data=240 ZI-data=27288  
 FromELF: creating hex file...
 "robocontrol\robocontrol.axf" - 0 Error(s), 11 Warning(s).
 
@@ -77,7 +77,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>
