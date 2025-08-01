@@ -1,15 +1,15 @@
 #include "app_lift.h"
 
 #include "app_can.h"
-
+#include "math.h"
 #include "usart.h"
 Lift_t Lift;
 
-#define M3508_CURRENT_LIMIT 16000
+#define M3508_CURRENT_LIMIT 4000
 
 #define TICKS_TO_LIFT_HEIGHT (0.0019073f)
 
-#define ENCODER_TOTAL_TICKS (16.0f * 16384.0f)
+#define ENCODER_TOTAL_TICKS (16.0f * 4096.0f)
 
 static float lift_calculate_current_from_current(Lift_t *lift, int index, float target_current)
 {
@@ -26,13 +26,23 @@ static float lift_calculate_current_from_speed(Lift_t *lift, int index, float ta
 // 外环：位置控制
 static void lift_set_position_control(Lift_t *lift, float target_height)
 {
-    // <-- 使用一个PID控制器(pos_pid[0])来控制整体高度，输出统一的目标速度
-    float target_rpm = pid_calculate(&lift->pos_pid, target_height, lift->height, 0, lift->dt);
+    // 三环控制
+    // float target_rpm = pid_calculate(&lift->pos_pid, target_height, lift->height, 0, lift->dt);
 
-    // 使用这个统一的目标速度来分别控制左右两侧
+    // for (int i = 0; i < 2; ++i)
+    // {
+    //     float final_cmd = lift_calculate_current_from_speed(lift, i, target_rpm);
+    //     final_cmd = fmaxf(-M3508_CURRENT_LIMIT, fminf(M3508_CURRENT_LIMIT, final_cmd));
+
+    //     lift->motor_cmd_current[i] = (int16_t)final_cmd;
+    //     lift->motor_cmd_current[i + 2] = (int16_t)final_cmd;
+    // }
+    // 两环控制
+    float target_current = pid_calculate(&lift->pos_pid, target_height, lift->height, 0, lift->dt);
+
     for (int i = 0; i < 2; ++i)
     {
-        float final_cmd = lift_calculate_current_from_speed(lift, i, target_rpm);
+        float final_cmd = lift_calculate_current_from_current(lift, i, target_current);
         final_cmd = fmaxf(-M3508_CURRENT_LIMIT, fminf(M3508_CURRENT_LIMIT, final_cmd));
 
         lift->motor_cmd_current[i] = (int16_t)final_cmd;
@@ -68,16 +78,31 @@ int lift_init(Lift_t *lift)
 
     // 设置PID参数
 
-    pid_set_parameters(&lift->pos_pid, 0, 0, 0, 0, 0);
-    pid_set_parameters(&lift->speed_pid[0], 0, 0, 0, 0, 0);
-    pid_set_parameters(&lift->speed_pid[1], 0, 0, 0, 0, 0);
-    pid_set_parameters(&lift->current_pid[0], 0, 0, 0, 0, 0);
-    pid_set_parameters(&lift->current_pid[1], 0, 0, 0, 0, 0);
+    pid_set_parameters(&lift->pos_pid, 3, 0.2, 0, 0, 0);
+    pid_set_parameters(&lift->speed_pid[0], 4, 0.5, 0, 0, 0);
+    pid_set_parameters(&lift->speed_pid[1], 4, 0.5, 0, 0, 0);
+    pid_set_parameters(&lift->current_pid[0], 3, 1, 0, 0, 0);
+    pid_set_parameters(&lift->current_pid[1], 3, 1, 0, 0, 0);
 
     lift->calibrated = false;
     lift->height = 0.0f;
     lift->height_set = 0.0f;
     lift->height_offset = 0.0f;
+
+    for (int i = 0; i < 2; ++i)
+    {
+        lift->avg_speed[i] = 0.0f;
+        lift->avg_current[i] = 0.0f;
+        lift->avg_pos[i] = 0.0f;
+    }
+    for (int i = 0; i < 4; ++i)
+    {
+        lift->motor_cmd_current[i] = 0;
+    }
+
+    lift->last_update_t = 0;
+    lift->dt = 0.001f;
+
     lift->status = LIFT_INIT;
     return 0;
 }
@@ -150,7 +175,8 @@ int lift_update_data(Lift_t *lift)
     int32_t left_total_ticks = (int32_t)lift->encoders[0]->encoder_count;
     int32_t right_total_ticks = (int32_t)lift->encoders[1]->encoder_count;
 
-    float avg_total_ticks = 0.5f * (float)(left_total_ticks + right_total_ticks);
+    // float avg_total_ticks = 0.5f * (float)(left_total_ticks + right_total_ticks);
+    float avg_total_ticks = right_total_ticks;
 
     // lift->height = (avg_total_ticks - lift->height_offset) * TICKS_TO_LIFT_HEIGHT;
     lift->height = avg_total_ticks * TICKS_TO_LIFT_HEIGHT;
@@ -201,9 +227,9 @@ void lift_debug(Lift_t *lift)
 {
     // --- 虚拟遥控器 (设置为 static, 以便在调试器中修改后能保持值) ---
     // 您可以在调试模式下，通过IDE修改这些变量的值，实时改变调试目标，无需重新编译
-    static int g_debug_motor_group = 0;    // 调试对象: 0 = 左侧电机组(1&3), 1 = 右侧电机组(2&4)
-    static int g_debug_mode = 0;           // 调试模式: 0 = 电流环, 1 = 速度环, 2 = 位置环
-    static float g_debug_target = 1000.0f; // 调试目标值 (单位: mA, rpm, 或 mm)
+    static int g_debug_motor_group = 1;  // 调试对象: 0 = 左侧电机组(1&3), 1 = 右侧电机组(2&4)
+    static int g_debug_mode = 2;         // 调试模式: 0 = 电流环, 1 = 速度环, 2 = 位置环
+    static float g_debug_target = 40.0f; // 调试目标值 (单位: mA, rpm, 或 mm)
     // ----------------------------------------------------------------
 
     if (g_debug_mode == 0)
@@ -223,7 +249,6 @@ void lift_debug(Lift_t *lift)
     {
         lift_set_speed_control(lift, g_debug_motor_group, g_debug_target);
 
-        // 通过串口打印目标值和实际值
         myprintf("%f,%f\n", g_debug_target, lift->avg_speed[g_debug_motor_group]);
     }
     else if (g_debug_mode == 2)
@@ -233,7 +258,6 @@ void lift_debug(Lift_t *lift)
         // 调用最外层的位置控制函数
         lift_set_position_control(lift, lift->height_set);
 
-        // 通过串口打印目标值和实际值
         myprintf("%f,%f\n", g_debug_target, lift->height);
     }
 }

@@ -8,16 +8,16 @@
 #include "elog.h"
 #include "usart.h"
 
-#define MOTOR_POS_TO_STRETCH 0.0f
-
 #define CALIBRATE_CLOSE_SPEED 0.0f
 #define CALIBRATE_CURRENT 0.0f
-#define ENCODER_TO_ARM_CLOSE_ANGLE (360.0f / 8192.0f)
-#define RPM_TO_ARM_STRETCH_SPEED 0.0f
 
-// 全局变量：
-// motorMeasure_t arm_m2006_measure[6]; // 6个电机测量值
-// motorMeasure_t arm_m3508_measure;    // 单个3508 测量值 在手臂部分的
+#define ENCODER_TO_ARM_CLOSE_ANGLE (360.0f / 8192.0f)
+
+#define MOTOR_POS_TO_STRETCH 0.0f
+#define RPM_TO_STRETCH_SPEED 0.0f
+
+#define M2006_CURRENT_LIMIT 10000
+#define M3508_CURRENT_LIMIT 16000
 
 Arm_t Arm;
 /*
@@ -25,19 +25,7 @@ Arm_t Arm;
     这个初始化针对于程序的初始化 不是现实世界初始化 现实世界的是calibrate
 
 */
-
-// 4. 设置伸缩电机的位置控制
-static void arm_set_stretch_position_control(Arm_t *arm, float target_position);
-// 5. 设置伸缩电机的速度控制
-static float arm_set_stretch_speed_control(Arm_t *arm, float target_speed);
-// 6. 设置伸缩电机的电流控制
-static float arm_set_stretch_current_control(Arm_t *arm, float target_current);
-
-// 7. 设置腕部电机的位置控制
-static void arm_set_wrist_position_control(Arm_t *arm, int index, float target_angle);
-// 8. 设置腕部电机的电流控制
-static float arm_set_wrist_current_control(Arm_t *arm, int index, float target_current);
-
+/*--------------------------爪子控制相关pid辅助函数------------------------------------*/
 static float arm_calculate_current_from_current(Arm_t *arm, int index, float target_current)
 {
     return pid_calculate(&arm->close_current_pid[index], target_current, arm->avg_close_current[index], 0, arm->dt);
@@ -59,6 +47,53 @@ static float arm_calculate_current_from_angle(Arm_t *arm, int index, float targe
     // return arm_calculate_current_from_current(arm, index, target_current);
 }
 
+/*--------------------------伸缩控制相关pid辅助函数------------------------------------*/
+static float arm_calculate_stretch_current_from_current(Arm_t *arm, float target_current)
+{
+    float actual_current = arm->stretch_motor.measure->current;
+    return pid_calculate(&arm->stretch_current_pid, target_current, actual_current, 0, arm->dt);
+}
+
+static float arm_calculate_stretch_current_from_speed(Arm_t *arm, float target_speed)
+{
+    float target_current = pid_calculate(&arm->stretch_speed_pid, target_speed, arm->stretch_speed, 0, arm->dt);
+    return arm_calculate_stretch_current_from_current(arm, target_current);
+}
+
+static float arm_calculate_stretch_current_from_position(Arm_t *arm, float target_position)
+{
+    // 三环控制
+    float target_speed = pid_calculate(&arm->stretch_pos_pid, target_position, arm->stretch, 0, arm->dt);
+    return arm_calculate_stretch_current_from_speed(arm, target_speed);
+    // 两环控制
+    // float target_current = pid_calculate(&arm->stretch_pos_pid, target_position, arm->stretch, 0, arm->dt);
+    // return arm_calculate_stretch_current_from_current(arm, target_current);
+}
+/*--------------------------腕部控制相关pid辅助函数------------------------------------*/
+static float arm_calculate_wrist_current_from_current(Arm_t *arm, int index, float target_current)
+{
+    float actual_current = arm->wrist_motor[index].measure->current;
+    return pid_calculate(&arm->wrist_current_pid[index], target_current, actual_current, 0, arm->dt);
+}
+
+static float arm_calculate_wrist_current_from_speed(Arm_t *arm, int index, float target_speed)
+{
+    float actual_speed_rpm = arm->wrist_motor[index].measure->rpm;
+    float target_current = pid_calculate(&arm->wrist_speed_pid[index], target_speed, actual_speed_rpm, 0, arm->dt);
+    return arm_calculate_wrist_current_from_current(arm, index, target_current);
+}
+
+static float arm_calculate_wrist_current_from_angle(Arm_t *arm, int index, float target_angle)
+{
+    // 三环控制
+    float target_speed = pid_calculate(&arm->wrist_angle_pid[index], target_angle, arm->wrist_angle[index], 0, arm->dt);
+    return arm_calculate_wrist_current_from_speed(arm, index, target_speed);
+    // 两环控制
+    // float target_current = pid_calculate(&arm->wrist_angle_pid[index], target_angle, arm->wrist_angle[index], 0, arm->dt);
+    // return arm_calculate_wrist_current_from_current(arm, index, target_current);
+}
+
+/*--------------------------爪子控制------------------------------------*/
 void arm_set_close_current(Arm_t *arm, int index, float target_current)
 {
     float final_cmd = arm_calculate_current_from_current(arm, index, target_current);
@@ -70,9 +105,6 @@ void arm_set_close_current(Arm_t *arm, int index, float target_current)
 void arm_set_close_speed(Arm_t *arm, int index, float target_speed)
 {
     float final_cmd = arm_calculate_current_from_speed(arm, index, target_speed);
-    // 进行机械臂重力补偿
-    // final_cmd = final_cmd + GRAVITY_COMPENSATION_CURRENT;
-
     final_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_cmd));
     arm->motor_cmd_current[index] = (int16_t)final_cmd;
     arm->motor_cmd_current[index + 2] = (int16_t)(-final_cmd);
@@ -82,89 +114,41 @@ void arm_set_close_angle(Arm_t *arm, int index, float target_angle)
 {
 
     float final_cmd = arm_calculate_current_from_angle(arm, index, target_angle);
-    // 进行机械臂重力补偿
-    // final_cmd = final_cmd + GRAVITY_COMPENSATION_CURRENT;
-
     final_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_cmd));
     arm->motor_cmd_current[index] = (int16_t)final_cmd;
     arm->motor_cmd_current[index + 2] = (int16_t)(-final_cmd);
 }
 
-// 4. 设置伸缩电机的位置控制
+/*--------------------------伸缩控制------------------------------------*/
 static void arm_set_stretch_position_control(Arm_t *arm, float target_position)
 {
-    if (arm == NULL)
-    {
-        return;
-    }
-    float actual_position = arm->stretch; // 需要从电机数据计算得出
-    // 位置PID计算速度设定值
-    float target_speed = pid_calculate(&arm->stretch_pos_pid, target_position, actual_position, 0.0f, arm->dt);
-    // 传递给速度环
-    float target_current = arm_set_stretch_speed_control(arm, target_speed);
-    target_current = fmaxf(-M3508_CURRENT_LIMIT, fminf(M3508_CURRENT_LIMIT, target_current));
-    arm->motor_cmd_current[6] = (int16_t)target_current;
+    float final_cmd = arm_calculate_stretch_current_from_position(arm, target_position);
+    final_cmd = fmaxf(-M3508_CURRENT_LIMIT, fminf(M3508_CURRENT_LIMIT, final_cmd));
+    arm->motor_cmd_current[6] = (int16_t)final_cmd;
 }
 
-// 5. 设置伸缩电机的速度控制
-static float arm_set_stretch_speed_control(Arm_t *arm, float target_speed)
+static void arm_set_stretch_speed_control(Arm_t *arm, float target_speed)
 {
-    if (arm == NULL)
-    {
-        return 0.0f;
-    }
-
-    float actual_speed = arm->stretch_speed; // 或其他速度单位
-    // 速度PID计算电流设定值
-    float target_current = pid_calculate(&arm->stretch_speed_pid, target_speed, actual_speed, 0.0f, arm->dt);
-    // 传递给电流环
-    float motor_current_cmd = arm_set_stretch_current_control(arm, target_current);
-    motor_current_cmd = fmaxf(-M3508_CURRENT_LIMIT, fminf(M3508_CURRENT_LIMIT, motor_current_cmd));
-    arm->motor_cmd_current[6] = (int16_t)motor_current_cmd;
-    return motor_current_cmd;
+    float final_cmd = arm_calculate_stretch_current_from_speed(arm, target_speed);
+    final_cmd = fmaxf(-M3508_CURRENT_LIMIT, fminf(M3508_CURRENT_LIMIT, final_cmd));
+    arm->motor_cmd_current[6] = (int16_t)final_cmd;
 }
-
-// 6. 设置伸缩电机的电流控制
-static float arm_set_stretch_current_control(Arm_t *arm, float target_current)
-{
-    if (arm == NULL)
-    {
-        return 0.0f;
-    }
-    float actual_current = arm->stretch_motor.measure->current;
-
-    float motor_cmd = pid_calculate(&arm->stretch_current_pid, target_current, actual_current, 0.0f, arm->dt);
-    return motor_cmd;
-}
-
-// 7. 设置腕部电机的位置控制
+/*--------------------------手腕控制------------------------------------*/
 static void arm_set_wrist_position_control(Arm_t *arm, int index, float target_angle)
 {
-    if (arm == NULL || index < 0 || index >= 2)
-    {
-        return;
-    }
-    // 假设 wrist_motor.measure 包含角度信息
-    float actual_angle = arm->wrist_motor[index].measure->angle; // 需要确认数据结构
-    // 位置PID计算电流设定值 (假设腕部只用位置和电流环)
-    float target_current = pid_calculate(&arm->wrist_speed_pid[index], target_angle, actual_angle, 0.0f, arm->dt);
-    // 传递给电流环
-    float motor_current_cmd = arm_set_wrist_current_control(arm, index, target_current);
-    motor_current_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, motor_current_cmd));
-    arm->motor_cmd_current[index + 4] = (int16_t)motor_current_cmd;
+
+    float final_cmd = arm_calculate_wrist_current_from_angle(arm, index, target_angle);
+    final_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_cmd));
+    // 假设两个电机同向转动以提供更大扭矩
+    arm->motor_cmd_current[index + 4] = (int16_t)final_cmd;
 }
 
-// 8. 设置腕部电机的电流控制
-static float arm_set_wrist_current_control(Arm_t *arm, int index, float target_current)
+static void arm_set_wrist_speed_control(Arm_t *arm, int index, float target_speed)
 {
-    if (arm == NULL || index < 0 || index >= 2)
-    {
-        return 0.0f;
-    }
-    float actual_current = arm->wrist_motor[index].measure->current;
-    // 电流PID计算最终指令
-    float motor_cmd = pid_calculate(&arm->wrist_current_pid[index], target_current, actual_current, 0.0f, arm->dt);
-    return motor_cmd;
+
+    float final_cmd = arm_calculate_wrist_current_from_speed(arm, index, target_speed);
+    final_cmd = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, final_cmd));
+    arm->motor_cmd_current[index + 4] = (int16_t)final_cmd;
 }
 
 int arm_init(Arm_t *arm)
@@ -185,20 +169,25 @@ int arm_init(Arm_t *arm)
     {
         arm->wrist_motor[i].measure = get_motor_wrist_measure_ptr(i);
     }
-    // to be fixed
-    arm->stretch_motor.measure = get_motor_stretch_measure_ptr();
 
-    // PID init
+    arm->stretch_motor.measure = get_motor_stretch_measure_ptr();
 
     for (int i = 0; i < 2; ++i)
     {
-        pid_init(&arm->close_angle_pid[i], PID_MODE_DERIVATIV_NONE, 0.001); // 不使用d项
+        /*-----------------------爪子部分----------------------------------*/
+        pid_init(&arm->close_angle_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
         pid_init(&arm->close_current_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
         pid_init(&arm->close_speed_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
+        /*-----------------------手腕部分----------------------------------*/
         pid_init(&arm->wrist_current_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
         pid_init(&arm->wrist_speed_pid[i], PID_MODE_DERIVATIV_NONE, 0.001);
     }
-    // set params
+    /*-----------------------伸缩部分----------------------------------*/
+    pid_init(&arm->stretch_pos_pid, PID_MODE_DERIVATIV_NONE, 0.001);
+    pid_init(&arm->stretch_speed_pid, PID_MODE_DERIVATIV_NONE, 0.001);
+    pid_init(&arm->stretch_current_pid, PID_MODE_DERIVATIV_NONE, 0.001);
+
+    /*-----------------------爪子部分----------------------------------*/
     pid_set_parameters(&arm->close_angle_pid[0], 1.2, 2, 0, 3000, 8000);
     pid_set_parameters(&arm->close_angle_pid[1], 1.2, 2, 0, 3000, 8000);
     pid_set_parameters(&arm->close_current_pid[0], 0.6, 1, 0, 3000, 8000);
@@ -207,10 +196,18 @@ int arm_init(Arm_t *arm)
     pid_set_parameters(&arm->close_speed_pid[0], 7, 2, 0, 3000, 8000);
     pid_set_parameters(&arm->close_speed_pid[1], 7, 2, 0, 3000, 8000);
 
+    /*-----------------------手腕部分----------------------------------*/
     pid_set_parameters(&arm->wrist_current_pid[0], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->wrist_current_pid[1], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->wrist_speed_pid[0], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->wrist_speed_pid[1], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->wrist_angle_pid[0], 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->wrist_angle_pid[1], 0, 0, 0, 0, 0);
+
+    /*-----------------------伸缩部分----------------------------------*/
+    pid_set_parameters(&arm->stretch_pos_pid, 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->stretch_speed_pid, 0, 0, 0, 0, 0);
+    pid_set_parameters(&arm->stretch_current_pid, 0, 0, 0, 0, 0);
 
     arm->status = ARM_INIT;
     arm->calibrated = false;
@@ -221,9 +218,14 @@ int arm_init(Arm_t *arm)
         arm->avg_close_angle[i] = 0.0f;
         arm->avg_close_speed[i] = 0.0f;
         arm->avg_close_current[i] = 0.0f;
+        arm->wrist_angle[i] = 0.0f;
     }
+
     arm->stretch = 0.0f;
     arm->stretch_set = 0.0f;
+    arm->stretch_speed = 0.0f;
+    arm->stretch_speed_set = 0.0f;
+
     arm->last_update_t = 0;
     arm->dt = 0.001f; // 初始值
 
@@ -268,11 +270,7 @@ int arm_calibrate(Arm_t *arm)
     }
     return 0;
 }
-/*
-        根据M3508 和M2006测量数据 更新Arm的数据
-        这里只是更新Arm的数据 比如说抓握的角度等等
 
-*/
 int arm_update_data(Arm_t *arm)
 {
 
@@ -282,8 +280,8 @@ int arm_update_data(Arm_t *arm)
     {
         arm->dt = 0.001;
     }
-    // 通过电机的测量值 更新arm的状态值
-    // 抓取部分
+
+    /*----------------爪子部分-------------------*/
     for (int i = 0; i < 2; ++i)
     {
         arm->avg_close_current[i] = 0.5f * (arm->close_motor[i].measure->current - arm->close_motor[i + 2].measure->current);
@@ -292,7 +290,10 @@ int arm_update_data(Arm_t *arm)
                                   (arm->close_motor[i].measure->pos - arm->close_motor[i + 2].measure->pos); //-arm->close_angle_offset[i];
     }
 
-    // arm->stretch_speed = RPM_TO_ARM_STRETCH_SPEED * arm->stretch_motor.measure->rpm;
+    /*----------------伸缩部分-------------------*/
+    arm->stretch_speed = arm->stretch_motor.measure->rpm * RPM_TO_STRETCH_SPEED;
+    // arm->stretch = (arm->stretch_motor.measure->pos - arm->stretch_offset) * MOTOR_POS_TO_STRETCH_MM;
+    arm->stretch = (arm->stretch_motor.measure->pos) * MOTOR_POS_TO_STRETCH;
 
     arm->last_update_t = now;
     return 0;
@@ -414,10 +415,6 @@ int arm_control(Arm_t *arm)
                 arm_set_stretch_speed_control(arm, 0);
             }
         }
-        // else if (arm->status == ARM_INIT)
-        // {
-        //     return 1;
-        // }
     }
 
     CAN_send_motor_currents(2, 0x200,

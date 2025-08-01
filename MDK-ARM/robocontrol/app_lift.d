@@ -40,4 +40,5 @@ robocontrol\app_lift.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex
 robocontrol\app_lift.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 robocontrol\app_lift.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 robocontrol\app_lift.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+robocontrol\app_lift.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\math.h
 robocontrol\app_lift.o: ../Core/Inc/usart.h

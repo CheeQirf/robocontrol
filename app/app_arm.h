@@ -1,15 +1,12 @@
 #ifndef __APP_ARM
 #define __APP_ARM
-//#pragma import(__use_full_stdio)
+
 #include "hrtimer.h"
 
 #include "app_motor.h"
 #include "app_lift.h"
 #include "app_joint.h"
 #include "stdbool.h"
-
-#define M2006_CURRENT_LIMIT 10000
-#define M3508_CURRENT_LIMIT 16000
 
 typedef enum
 {
@@ -54,7 +51,7 @@ typedef struct
     bool closed;
     bool close_calibrated[2];
     float close_angle_offset[2];
-    float avg_close_angle[2]; // 测量量 两组 分别是左右 一组有两个电机平均值
+    float avg_close_angle[2];
     float avg_close_speed[2];
     float avg_close_current[2];
     PID_t close_current_pid[2];
@@ -81,8 +78,11 @@ closed quality的量 就是爪子张开的角度
 
     // 手腕部分定义 直接锁住
     PID_t wrist_speed_pid[2];
-
-    PID_t wrist_current_pid[2]; // 电流环 + 位置环 不要速度环了
+    PID_t wrist_current_pid[2];
+    PID_t wrist_angle_pid[2];
+    float wrist_angle[2];
+    float wrist_angle_set[2];
+    float wrist_angle_offset[2];
 
     // 伸缩部分
     float stretch_set;

@@ -62,19 +62,15 @@ void canDispatch(CanMessage_t *msg);
 void CAN_Rx_Task(void *pvParameters)
 {
     xCANRcvQueue = xQueueCreate(CAN_QUEUE_LENGTH, sizeof(CanMessage_t));
-    CanMessage_t RxMsg; // 接受用的变量
+    CanMessage_t RxMsg;
     for (;;)
     {
         if (xQueueReceive(xCANRcvQueue, &RxMsg, 100) == pdTRUE)
-        { // 接收队列中的消息
+        {
 
             taskENTER_CRITICAL(); // 临界区保护
-            canDispatch(&RxMsg);  // 我们重写这个函数
+            canDispatch(&RxMsg);
             taskEXIT_CRITICAL();
-
-            /*  canDispatch 函数： 传参（can msg的指针）
-                 实现can 的分发 与 处理
-            */
         }
     }
 }
@@ -106,16 +102,9 @@ void canDispatch(CanMessage_t *msg)
         switch (id)
         {
             // 编码器处理
-            // 0x001 0x002是编码器的 id号
         case 0x01:
         case 0x02:
             // TODO 完成编码器canframe解析
-            //							if (id >= 0x001 && id <= 0x002) {
-            //                    get_encoder_data(&encoders[id - 0x001], data);
-            //                    // log_i("CAN1 Encoder %d received: Count = %lu\n", (id - 0x001) + 1, encoders[id - 0x001].encoder_count);
-            //              }
-            //                break;
-            // log_i("test:id:0x123\n");
             if (msg->dlc != 7)
                 log_w("wrong data length\n");
             get_encoder_data(&oid_encoder[id - 0x001], data);
@@ -125,7 +114,6 @@ void canDispatch(CanMessage_t *msg)
         case 0x202:
         case 0x203:
         case 0x204:
-            // log_i("test:id:0x201\n");
             get_dji_motor_measure(&motor_lift[id - 0x201], data);
             break;
 
@@ -141,9 +129,11 @@ void canDispatch(CanMessage_t *msg)
         case 0x202:
         case 0x203:
         case 0x204:
+            get_dji_motor_measure(&motor_arm[id - 0x201], data);
+            break;
         case 0x205:
         case 0x206:
-            get_dji_motor_measure(&motor_arm[id - 0x201], data);
+            get_dji_motor_measure(&motor_wrist[id - 0x205], data);
             break;
         case 0x207:
             get_dji_motor_measure(&motor_stretch, data);

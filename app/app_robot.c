@@ -24,8 +24,8 @@ Lift_t *robot_get_lift()
 int robot_init(Robot_t *robot)
 {
     robot->arm = robot_get_arm(); // 获取全局变量 结构体Arm
-    // robot->joint = robot_get_joint();
-    // robot->lift = robot_get_lift();
+                                  // robot->joint = robot_get_joint();
+    robot->lift = robot_get_lift();
     int ret = 0;
     // pid初始化 获取回馈can帧的指针 ARM的状态设置为ARM_INIT 设置没有校准 然后把一些ARM结构体成员变量初始化0
     ret = arm_init(robot->arm);
@@ -83,11 +83,16 @@ int robot_check(Robot_t *robot)
     int ret_arm = arm_check(robot->arm);
     if (ret_arm != 0)
     {
-        log_e("Robot check found issues in arm\n");
+        log_e("Robot check found issues in claw\n");
         return -1;
     }
 
-    // int ret_lift = lift_check(robot->lift);
+    int ret_lift = lift_check(robot->lift);
+    if (ret_lift != 0)
+    {
+        log_e("Robot check found issues in lift\n");
+        return -1;
+    }
     // int ret_joint = joint_check(robot->joint);
     // if (ret_arm != 0 || ret_lift != 0 || ret_joint != 0)
     // {
@@ -102,9 +107,7 @@ int robot_control(Robot_t *robot)
     if (robot->status == ROBOT_DEBUG)
     {
         robot->arm->status = ARM_DEBUG;
-        // arm_debug(robot->arm);
-        // lift_debug(robot->lift);
-        // joint_debug(robot->joint);
+        robot->lift->status = LIFT_DEBUG;
     }
     else if (robot->status == ROBOT_INITED)
     {
@@ -170,8 +173,8 @@ int robot_control(Robot_t *robot)
     // {
     //     // reset pid interg 归零积分 防止有问题
     // }
-    arm_control(robot->arm);
-    // lift_control(robot->lift);
+    // arm_control(robot->arm);
+    lift_control(robot->lift);
     // joint_control(robot->joint);
     robot->last_status = robot->status;
     return 0;

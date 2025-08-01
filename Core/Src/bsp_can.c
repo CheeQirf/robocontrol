@@ -168,7 +168,7 @@ HAL_StatusTypeDef CAN_send_motor_currents(uint8_t can_index, uint32_t id_tag,
     msg.ide = 0; // 标准帧
     msg.id = id_tag;
     msg.dlc = 8;
-	
+
     // 填充数据 (高位在前)
     msg.data[0] = (uint8_t)(current1 >> 8);
     msg.data[1] = (uint8_t)(current1);
@@ -212,6 +212,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
         Message.ide = (RxMessage.IDE == 0) ? false : true;
         Message.id = Message.ide ? RxMessage.ExtId : RxMessage.StdId;
         Message.can_index = (hcan == &hcan1) ? 1 : 2;
+        Message.dlc = RxMessage.DLC;
         CAN_Rcv_DataFromISR(&Message);
     }
 }
