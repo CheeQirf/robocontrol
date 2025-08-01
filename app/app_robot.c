@@ -34,11 +34,11 @@ int robot_init(Robot_t *robot)
         log_e("error while init arm");
     }
     log_i("arm init succesffuly\n");
-    // ret = lift_init(robot->lift);
-    // while (ret)
-    // {
-    //     log_e("error while init lift");
-    // }
+    ret = lift_init(robot->lift);
+    while (ret)
+    {
+        log_e("error while init lift");
+    }
     // ret = joint_init(robot->joint);
     // while (ret)
     // {
@@ -101,6 +101,7 @@ int robot_control(Robot_t *robot)
 {
     if (robot->status == ROBOT_DEBUG)
     {
+        robot->arm->status = ARM_DEBUG;
         // arm_debug(robot->arm);
         // lift_debug(robot->lift);
         // joint_debug(robot->joint);
@@ -108,7 +109,6 @@ int robot_control(Robot_t *robot)
     else if (robot->status == ROBOT_INITED)
     {
         robot->status = ROBOT_DEBUG;
-        robot->arm->status = ARM_DEBUG;
     }
     else if (robot->status == ROBOT_CALIBRATE) // 校准模式
     {

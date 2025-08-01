@@ -19,7 +19,7 @@ motorMeasure_t* get_motor_stretch_measure_ptr(void);
 
 motorMeasure_t* get_motor_wrist_measure_ptr(uint8_t i);
 
-OID_Encoder_t * get_encoder_measuer_ptr(uint8_t i);
+OID_Encoder_t *get_encoder_measure_ptr(uint8_t i);
 
 
 

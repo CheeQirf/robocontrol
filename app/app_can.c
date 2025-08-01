@@ -17,7 +17,7 @@ static motorMeasure_t motor_arm[4];
 static motorMeasure_t motor_wrist[2];
 static motorMeasure_t motor_lift[4];
 static motorMeasure_t motor_stretch;
-
+static OID_Encoder_t oid_encoder[2];
 void canDispatch(CanMessage_t *msg);
 
 #define get_dji_motor_measure(ptr, data)                                    \
@@ -55,9 +55,9 @@ void canDispatch(CanMessage_t *msg);
         }                                                                   \
         (ptr)->pos += delta_angle;                                          \
     }
-#define get_encoder_data(ptr, data)                                    \
-    {                                                                  \
-        (ptr)->encoder_count = data[3] << 16 | data[4] << 8 | data[5]; \
+#define get_encoder_data(ptr, data)                                                    \
+    {                                                                                  \
+        (ptr)->encoder_count = data[6] << 24 | data[5] << 16 | data[4] << 8 | data[3]; \
     }
 void CAN_Rx_Task(void *pvParameters)
 {
@@ -115,14 +115,17 @@ void canDispatch(CanMessage_t *msg)
             //                    // log_i("CAN1 Encoder %d received: Count = %lu\n", (id - 0x001) + 1, encoders[id - 0x001].encoder_count);
             //              }
             //                break;
-            log_i("test:id:0x123\n");
+            // log_i("test:id:0x123\n");
+            if (msg->dlc != 7)
+                log_w("wrong data length\n");
+            get_encoder_data(&oid_encoder[id - 0x001], data);
             break;
             // 电机处理
         case 0x201:
         case 0x202:
         case 0x203:
         case 0x204:
-            log_i("test:id:0x201\n");
+            // log_i("test:id:0x201\n");
             get_dji_motor_measure(&motor_lift[id - 0x201], data);
             break;
 
@@ -167,4 +170,8 @@ inline motorMeasure_t *get_motor_stretch_measure_ptr(void)
 inline motorMeasure_t *get_motor_wrist_measure_ptr(uint8_t i)
 {
     return &motor_wrist[i];
+}
+inline OID_Encoder_t *get_encoder_measure_ptr(uint8_t i)
+{
+    return &oid_encoder[i];
 }

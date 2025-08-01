@@ -15,12 +15,6 @@
 #define ENCODER_TO_ARM_CLOSE_ANGLE (360.0f / 8192.0f)
 #define RPM_TO_ARM_STRETCH_SPEED 0.0f
 
-static int g_debug_motor_group = 0;   // -1:关闭调试, 0:左爪, 1:右爪, 2:腕0, 3:腕1, 4:伸缩
-static int g_debug_mode = 0;          // 0:直接电流, 1:速度环, 2:位置环
-static float g_debug_target = 500.0f; // 你的目标值 (e.g., 500mA, 100rpm, 30deg)
-
-const float GRAVITY_COMPENSATION_CURRENT = 1600.0f;
-
 // 全局变量：
 // motorMeasure_t arm_m2006_measure[6]; // 6个电机测量值
 // motorMeasure_t arm_m3508_measure;    // 单个3508 测量值 在手臂部分的
@@ -212,6 +206,7 @@ int arm_init(Arm_t *arm)
     pid_set_parameters(&arm->close_current_pid[1], 0.6, 1, 0, 3000, 8000);
     pid_set_parameters(&arm->close_speed_pid[0], 7, 2, 0, 3000, 8000);
     pid_set_parameters(&arm->close_speed_pid[1], 7, 2, 0, 3000, 8000);
+
     pid_set_parameters(&arm->wrist_current_pid[0], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->wrist_current_pid[1], 0, 0, 0, 0, 0);
     pid_set_parameters(&arm->wrist_speed_pid[0], 0, 0, 0, 0, 0);
@@ -340,7 +335,6 @@ void arm_debug(Arm_t *arm)
 
             arm_set_close_speed(arm, 0, g_debug_target);
 
-            // 2. 打印速度的目标值和实际值，用于Vofa+绘图
             myprintf("%f,%f\n", g_debug_target, (float)arm->avg_close_speed[0]);
         }
         else if (g_debug_mode == 2)
@@ -420,6 +414,10 @@ int arm_control(Arm_t *arm)
                 arm_set_stretch_speed_control(arm, 0);
             }
         }
+        // else if (arm->status == ARM_INIT)
+        // {
+        //     return 1;
+        // }
     }
 
     CAN_send_motor_currents(2, 0x200,

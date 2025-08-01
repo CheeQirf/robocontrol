@@ -86,6 +86,7 @@
     "app_robot.h": "c",
     "string.h": "c",
     "math.h": "c",
-    "cm_backtrace.h": "c"
+    "cm_backtrace.h": "c",
+    "app_init.h": "c"
   }
 }

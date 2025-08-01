@@ -27,34 +27,56 @@ Project File Date:  07/31/2025
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\develop\MCU\Keil\ARM\ARMCC\Bin'
 Build target 'robocontrol'
+compiling app_lift.c...
+..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_lift.h(63): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_lift.c(39): warning:  #940-D: missing return statement at end of non-void function "lift_calibrate" 
+  }
+..\app\app_lift.c(92): warning:  #1-D: last line of file ends without a newline
+  }
+..\app\app_lift.c(88): warning:  #177-D: variable "g_debug_motor_group"  was declared but never referenced
+      int g_debug_motor_group = 0;
+..\app\app_lift.c(89): warning:  #177-D: variable "g_debug_mode"  was declared but never referenced
+      int g_debug_mode = 1;
+..\app\app_lift.c(90): warning:  #177-D: variable "g_debug_target"  was declared but never referenced
+      float g_debug_target = -100.0f;
+..\app\app_lift.c: 7 warnings, 0 errors
 compiling app_arm.c...
 ..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_lift.h(52): warning:  #1-D: last line of file ends without a newline
+..\app\app_lift.h(63): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\app\app_joint.h(45): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\app\app_arm.h(113): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_arm.c(250): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\app\app_arm.c(246): warning:  #1035-D: single-precision operand implicitly converted to double-precision
               arm->avg_close_speed[i] < CALIBRATE_CLOSE_SPEED * 0.5)
-..\app\app_arm.c(318): warning:  #940-D: missing return statement at end of non-void function "arm_error_solve" 
+..\app\app_arm.c(314): warning:  #940-D: missing return statement at end of non-void function "arm_error_solve" 
   }
-..\app\app_arm.c(437): warning:  #1-D: last line of file ends without a newline
+..\app\app_arm.c(436): warning:  #1-D: last line of file ends without a newline
   }
-..\app\app_arm.c(18): warning:  #177-D: variable "g_debug_motor_group"  was declared but never referenced
-  static int g_debug_motor_group = 0;   // -1:关闭调试, 0:左爪, 1:右爪, 2:�?0, 3:�?1, 4:伸缩
-..\app\app_arm.c(19): warning:  #177-D: variable "g_debug_mode"  was declared but never referenced
-  static int g_debug_mode = 0;          // 0:直接电流, 1:速度�?, 2:位置�?
-..\app\app_arm.c(20): warning:  #177-D: variable "g_debug_target"  was declared but never referenced
-  static float g_debug_target = 500.0f; // 你的目标�? (e.g., 500mA, 100rpm, 30deg)
-..\app\app_arm.c(315): warning:  #177-D: function "arm_error_solve"  was declared but never referenced
+..\app\app_arm.c(311): warning:  #177-D: function "arm_error_solve"  was declared but never referenced
   static int arm_error_solve(Arm_t *arm)
-..\app\app_arm.c: 11 warnings, 0 errors
+..\app\app_arm.c: 8 warnings, 0 errors
+compiling bsp_can.c...
+../app/app_motor.h(72): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Core\Src\bsp_can.c: 1 warning, 0 errors
+compiling app_can.c...
+..\app\app_motor.h(72): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_can.c(101): warning:  #177-D: variable "len"  was declared but never referenced
+      uint8_t len = msg->dlc;
+..\app\app_can.c(177): warning:  #1-D: last line of file ends without a newline
+  }
+..\app\app_can.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=47312 RO-data=4168 RW-data=240 ZI-data=27288  
+Program Size: Code=47324 RO-data=4160 RW-data=240 ZI-data=27304  
 FromELF: creating hex file...
-"robocontrol\robocontrol.axf" - 0 Error(s), 11 Warning(s).
+"robocontrol\robocontrol.axf" - 0 Error(s), 19 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -77,7 +99,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:05
+Build Time Elapsed:  00:00:07
 </pre>
 </body>
 </html>
