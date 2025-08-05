@@ -153,14 +153,8 @@ static void arm_set_wrist_speed_control(Arm_t *arm, int index, float target_spee
 
 int arm_init(Arm_t *arm)
 {
-
     if (arm == NULL)
-    {
-        /* code */
-        log_w("ptr arm created failed\n");
         return 1;
-    }
-
     for (int i = 0; i < 4; ++i)
     {
         arm->close_motor[i].measure = get_motor_arm_measure_ptr(i);

@@ -22,25 +22,35 @@ Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
 D:\code\robocontrol\MDK-ARM\robocontrol.uvprojx
-Project File Date:  07/31/2025
+Project File Date:  08/05/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\develop\MCU\Keil\ARM\ARMCC\Bin'
 Build target 'robocontrol'
-compiling app_lift.c...
-..\app\app_motor.h(59): warning:  #1-D: last line of file ends without a newline
+compiling app_init.c...
+..\app\app_mavlink.h(5): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_lift.h(65): warning:  #1-D: last line of file ends without a newline
+..\app\app_init.c: 1 warning, 0 errors
+compiling app_mavlink.c...
+..\app\app_mavlink.h(5): warning:  #1-D: last line of file ends without a newline
   #endif
-..\app\app_lift.c(175): warning:  #177-D: variable "left_total_ticks"  was declared but never referenced
-      int32_t left_total_ticks = (int32_t)lift->encoders[0]->encoder_count;
-..\app\app_lift.c(263): warning:  #1-D: last line of file ends without a newline
+../libs/c_library_v2/ardupilotmega/../common/common.h(142): warning:  #66-D: enumeration value is out of "int" range
+     MAV_SYS_STATUS_EXTENSION_USED=2147483648, /* 0x80000000 Extended bit-field are used for further sensor status bits (needs to be set in onboard_control_sensors_present only) | */
+../libs/c_library_v2/ardupilotmega/../common/common.h(143): warning:  #66-D: enumeration value is out of "int" range
+     MAV_SYS_STATUS_SENSOR_ENUM_END=2147483649, /*  | */
+../libs/c_library_v2/ardupilotmega/../common/common.h(2595): warning:  #66-D: enumeration value is out of "int" range
+     HIL_SENSOR_UPDATED_RESET=2147483648, /* Full reset of attitude/position/velocities/etc was performed in sim (Bit 31). | */
+../libs/c_library_v2/ardupilotmega/../common/common.h(2596): warning:  #66-D: enumeration value is out of "int" range
+     HIL_SENSOR_UPDATED_FLAGS_ENUM_END=2147483649, /*  | */
+..\app\app_mavlink.c(19): warning:  #111-D: statement is unreachable
+  		break;
+..\app\app_mavlink.c(57): warning:  #1-D: last line of file ends without a newline
   }
-..\app\app_lift.c: 4 warnings, 0 errors
+..\app\app_mavlink.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=47944 RO-data=4160 RW-data=252 ZI-data=27948  
+Program Size: Code=53362 RO-data=6358 RW-data=240 ZI-data=29912  
 FromELF: creating hex file...
-"robocontrol\robocontrol.axf" - 0 Error(s), 4 Warning(s).
+"robocontrol\robocontrol.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -63,7 +73,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:06
+Build Time Elapsed:  00:00:13
 </pre>
 </body>
 </html>

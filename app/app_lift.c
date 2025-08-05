@@ -5,9 +5,10 @@
 #include "usart.h"
 Lift_t Lift;
 
-#define M3508_CURRENT_LIMIT 4000
+#define PI 3.14159265358979323846
+#define M3508_CURRENT_LIMIT 10000
 
-#define TICKS_TO_LIFT_HEIGHT (0.0019073f)
+#define TICKS_TO_LIFT_HEIGHT (4096.0f / (37.05f * PI)) // 单位mm
 
 #define ENCODER_TOTAL_TICKS (16.0f * 4096.0f)
 

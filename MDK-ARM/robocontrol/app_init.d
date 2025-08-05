@@ -44,3 +44,4 @@ robocontrol\app_init.o: ../libs/cm_backtrace/cmb_cfg.h
 robocontrol\app_init.o: D:\develop\MCU\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 robocontrol\app_init.o: ../Core/Inc/bsp_uart.h
 robocontrol\app_init.o: ../Core/Inc/bsp_can.h
+robocontrol\app_init.o: ..\app\app_mavlink.h

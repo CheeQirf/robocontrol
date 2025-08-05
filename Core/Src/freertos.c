@@ -53,23 +53,23 @@
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
-    .name = "defaultTask",
-    .stack_size = 128 * 4,
-    .priority = (osPriority_t)osPriorityNormal,
+  .name = "defaultTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for canRxTask */
 osThreadId_t canRxTaskHandle;
 const osThreadAttr_t canRxTask_attributes = {
-    .name = "canRxTask",
-    .stack_size = 1024 * 4,
-    .priority = (osPriority_t)osPriorityHigh,
+  .name = "canRxTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityHigh,
 };
 /* Definitions for robotTask */
 osThreadId_t robotTaskHandle;
 const osThreadAttr_t robotTask_attributes = {
-    .name = "robotTask",
-    .stack_size = 1024 * 4,
-    .priority = (osPriority_t)osPriorityHigh1,
+  .name = "robotTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityHigh1,
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -84,12 +84,11 @@ void robot_loop(void *argument);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
- * @brief  FreeRTOS initialization
- * @param  None
- * @retval None
- */
-void MX_FREERTOS_Init(void)
-{
+  * @brief  FreeRTOS initialization
+  * @param  None
+  * @retval None
+  */
+void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
@@ -127,6 +126,7 @@ void MX_FREERTOS_Init(void)
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
+
 }
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -196,3 +196,4 @@ __weak void robot_loop(void *argument)
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
+

@@ -87,6 +87,11 @@
     "string.h": "c",
     "math.h": "c",
     "cm_backtrace.h": "c",
-    "app_init.h": "c"
+    "app_init.h": "c",
+    "crc_ccitt.h": "c",
+    "motor_control.h": "c",
+    "dma.h": "c",
+    "lwrb.h": "c",
+    "bsp_unitree.h": "c"
   }
 }
