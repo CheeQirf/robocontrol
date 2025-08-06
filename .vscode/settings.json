@@ -92,6 +92,11 @@
     "motor_control.h": "c",
     "dma.h": "c",
     "lwrb.h": "c",
-    "bsp_unitree.h": "c"
+    "bsp_unitree.h": "c",
+    "mavlink.h": "c",
+    "version.h": "c",
+    "app_mavlink.h": "c",
+    "mavlink_types.h": "c",
+    "mavlink_get_info.h": "c"
   }
 }

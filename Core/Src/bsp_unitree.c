@@ -22,53 +22,53 @@ void unitree_motor_init(UnitreeMotor_t *motor, uint8_t id, const UnitreeMotor_Me
     motor->torque_set = 0.0f;
 }
 
-// int unitree_motor_control_send(UnitreeMotor_t *motor)
-// {
-//     if (!motor || !motor->measure)
-//     {
-//         return -1;
-//     }
+ int unitree_motor_control_send(UnitreeMotor_t *motor)
+ {
+     if (!motor || !motor->measure)
+     {
+         return -1;
+     }
 
-//     // 1. 准备发送和接收的底层结构体
-//     MOTOR_send cmd_to_send;
-//     MOTOR_recv data_received;
+     // 1. 准备发送和接收的底层结构体
+     MOTOR_send cmd_to_send;
+     MOTOR_recv data_received;
 
-//     // 2. 将上层应用的控制指令(rad, N.m)转换为底层结构体需要的格式
-//     //    这一步由官方底层函数 modify_data() 完成
-//     cmd_to_send.id = motor->id;
-//     cmd_to_send.mode = motor->mode_set;
-//     cmd_to_send.Pos = motor->pos_set;
-//     cmd_to_send.W = motor->speed_set;
-//     cmd_to_send.K_P = motor->kp_set;
-//     cmd_to_send.K_W = motor->kw_set;
-//     cmd_to_send.T = motor->torque_set;
+     // 2. 将上层应用的控制指令(rad, N.m)转换为底层结构体需要的格式
+     //    这一步由官方底层函数 modify_data() 完成
+     cmd_to_send.id = motor->id;
+     cmd_to_send.mode = motor->mode_set;
+     cmd_to_send.Pos = motor->pos_set;
+     cmd_to_send.W = motor->speed_set;
+     cmd_to_send.K_P = motor->kp_set;
+     cmd_to_send.K_W = motor->kw_set;
+     cmd_to_send.T = motor->torque_set;
 
-//     // 3. 调用官方底层函数，执行通信。这是个阻塞操作。
-//     HAL_StatusTypeDef ret = SERVO_Send_recv(&cmd_to_send, &data_received);
+     // 3. 调用官方底层函数，执行通信。这是个阻塞操作。
+     HAL_StatusTypeDef ret = SERVO_Send_recv(&cmd_to_send, &data_received);
 
-//     // 4. 将收到的数据更新到 motor->measure 指向的全局数据区
-//     //    需要一个可写的指针来操作 const 指针指向的内容
-//     UnitreeMotor_Measure_t *writable_measure = (UnitreeMotor_Measure_t *)motor->measure;
+     // 4. 将收到的数据更新到 motor->measure 指向的全局数据区
+     //    需要一个可写的指针来操作 const 指针指向的内容
+     UnitreeMotor_Measure_t *writable_measure = (UnitreeMotor_Measure_t *)motor->measure;
 
-//     if (ret == HAL_OK && data_received.correct)
-//     {
-//         // 通信成功，更新数据快照
-//         writable_measure->theta_rad = data_received.Pos;
-//         writable_measure->omega_rad_s = data_received.W;
-//         writable_measure->tau_N_m = data_received.T;
-//         writable_measure->temp = data_received.Temp;
-//         writable_measure->merror = data_received.MError;
-//         writable_measure->data_is_valid = true;
-//         writable_measure->last_update_time = hrt_absolute_time();
-//     }
-//     else
-//     {
-//         // 通信失败，将数据标记为无效
-//         writable_measure->data_is_valid = false;
-//     }
+     if (ret == HAL_OK && data_received.correct)
+     {
+         // 通信成功，更新数据快照
+         writable_measure->theta_rad = data_received.Pos;
+         writable_measure->omega_rad_s = data_received.W;
+         writable_measure->tau_N_m = data_received.T;
+         writable_measure->temp = data_received.Temp;
+         writable_measure->merror = data_received.MError;
+         writable_measure->data_is_valid = true;
+         writable_measure->last_update_time = hrt_absolute_time();
+     }
+     else
+     {
+         // 通信失败，将数据标记为无效
+         writable_measure->data_is_valid = false;
+     }
 
-//     return ret;
-// }
+     return ret;
+ }
 bool unitree_motor_control_start(UnitreeMotor_t *motor)
 {
     // 如果串口不处于空闲状态，则返回false，表示正忙
@@ -165,6 +165,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
             g_uart_comm_state = UART_STATE_IDLE;
         }
     }
+		
 }
 
 inline UnitreeMotor_Measure_t *get_unitree_motor_measure_ptr(uint8_t index)

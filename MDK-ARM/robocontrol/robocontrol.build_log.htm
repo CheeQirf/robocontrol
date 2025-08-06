@@ -22,35 +22,37 @@ Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
 D:\code\robocontrol\MDK-ARM\robocontrol.uvprojx
-Project File Date:  08/05/2025
+Project File Date:  08/06/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\develop\MCU\Keil\ARM\ARMCC\Bin'
 Build target 'robocontrol'
-compiling app_init.c...
-..\app\app_mavlink.h(5): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\app\app_init.c: 1 warning, 0 errors
 compiling app_mavlink.c...
 ..\app\app_mavlink.h(5): warning:  #1-D: last line of file ends without a newline
   #endif
-../libs/c_library_v2/ardupilotmega/../common/common.h(142): warning:  #66-D: enumeration value is out of "int" range
+../libs/c_library_v2/common/common.h(142): warning:  #66-D: enumeration value is out of "int" range
      MAV_SYS_STATUS_EXTENSION_USED=2147483648, /* 0x80000000 Extended bit-field are used for further sensor status bits (needs to be set in onboard_control_sensors_present only) | */
-../libs/c_library_v2/ardupilotmega/../common/common.h(143): warning:  #66-D: enumeration value is out of "int" range
+../libs/c_library_v2/common/common.h(143): warning:  #66-D: enumeration value is out of "int" range
      MAV_SYS_STATUS_SENSOR_ENUM_END=2147483649, /*  | */
-../libs/c_library_v2/ardupilotmega/../common/common.h(2595): warning:  #66-D: enumeration value is out of "int" range
+../libs/c_library_v2/common/common.h(2595): warning:  #66-D: enumeration value is out of "int" range
      HIL_SENSOR_UPDATED_RESET=2147483648, /* Full reset of attitude/position/velocities/etc was performed in sim (Bit 31). | */
-../libs/c_library_v2/ardupilotmega/../common/common.h(2596): warning:  #66-D: enumeration value is out of "int" range
+../libs/c_library_v2/common/common.h(2596): warning:  #66-D: enumeration value is out of "int" range
      HIL_SENSOR_UPDATED_FLAGS_ENUM_END=2147483649, /*  | */
-..\app\app_mavlink.c(19): warning:  #111-D: statement is unreachable
-  		break;
-..\app\app_mavlink.c(57): warning:  #1-D: last line of file ends without a newline
-  }
-..\app\app_mavlink.c: 7 warnings, 0 errors
+..\app\app_motor.h(90): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_lift.h(65): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_joint.h(48): warning:  #1-D: last line of file ends without a newline
+  // 角速度 逆时针为�?
+..\app\app_arm.h(113): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_robot.h(41): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\app_mavlink.c: 10 warnings, 0 errors
 linking...
-Program Size: Code=53362 RO-data=6358 RW-data=240 ZI-data=29912  
+Program Size: Code=53786 RO-data=5282 RW-data=240 ZI-data=30048  
 FromELF: creating hex file...
-"robocontrol\robocontrol.axf" - 0 Error(s), 8 Warning(s).
+"robocontrol\robocontrol.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -73,7 +75,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:13
+Build Time Elapsed:  00:00:09
 </pre>
 </body>
 </html>

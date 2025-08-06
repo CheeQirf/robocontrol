@@ -23,7 +23,7 @@ Lift_t *robot_get_lift()
 
 int robot_init(Robot_t *robot)
 {
-    robot->arm = robot_get_arm(); // 获取全局变量 结构体Arm
+    robot->arm = robot_get_arm();
     robot->joint = robot_get_joint();
     robot->lift = robot_get_lift();
 
@@ -53,33 +53,8 @@ int robot_init(Robot_t *robot)
     return 0;
 }
 
-int robot_recv_command(Robot_t *robot)
-{
-    // 接收到calibrated
-    // 例如：if (robot->command_received.type == COMMAND_CALIBRATE && robot->calibrated == false)
-    if (1 && robot->calibrated == false) // ？？？？？
-    {
-        robot->status = ROBOT_CALIBRATE;
-    }
-}
-
 int robot_check(Robot_t *robot)
 {
-
-    // 1. 把mavlink接收到的控制值赋给相应的量
-    //
-    // uint8_t flag; // 作用是控制模式 他有最高的优先级 1.校准 2.伸长手臂 3.运球 4.投球
-    // float stretch_speed;
-    // float stretch_pos;
-    // float arm_close_angle;
-    // float lift_speed;
-    // float lift_pos;
-    // float joint_angle;
-    // float throw_distance;
-
-    // set_arm_stretch_distance
-    // set_arm_close_angle
-    // set_arm_stretch_speed
 
     int ret_arm = arm_check(robot->arm);
     if (ret_arm != 0)
@@ -102,79 +77,65 @@ int robot_check(Robot_t *robot)
     }
     return 0;
 }
+static void robot_update_subsystem_states(Robot_t *robot)
+{
+    // 默认情况下，所有子系统都处于锁定状态
+    ArmStatus_t target_arm_status = ARM_LOCK;
+    LiftStatusCode_t target_lift_status = LIFT_LOCK;
+    JointStatus_t target_joint_status = JOINT_HOLD;
 
+    // 根据主状态进行分发
+    switch (robot->status)
+    {
+    case ROBOT_CONTROL:
+        target_arm_status = ARM_CONTROL;
+        target_lift_status = LIFT_CONTROL;
+        target_joint_status = JOINT_CONTROL;
+        break;
+
+    case ROBOT_DEBUG:
+        target_arm_status = ARM_DEBUG;
+        target_lift_status = LIFT_DEBUG;
+        target_joint_status = JOINT_DEBUG;
+        break;
+
+    case ROBOT_LOCK:
+        // 使用默认的锁定状态
+        break;
+    }
+
+    robot->arm->status = target_arm_status;
+    robot->lift->status = target_lift_status;
+    robot->joint->status = target_joint_status;
+}
 int robot_control(Robot_t *robot)
 {
-    if (robot->status == ROBOT_DEBUG)
+    robot_update_subsystem_states(robot);
+    if (robot->status != robot->last_status)
     {
-        robot->arm->status = ARM_DEBUG;
-        robot->lift->status = LIFT_DEBUG;
-        robot->joint->status = JOINT_DEBUG;
-    }
-    else if (robot->status == ROBOT_INITED)
-    {
-        robot->status = ROBOT_DEBUG;
-    }
-    else if (robot->status == ROBOT_CALIBRATE) // 校准模式
-    {
-        if (robot->calibrated == true)
+        for (int i = 0; i < 2; i++)
         {
-            robot->status = ROBOT_LOCK; // 校准完就会锁住
-            log_w("robot has calibreated once!");
+            pid_reset_integral(&robot->arm->close_angle_pid[i]);
+            pid_reset_integral(&robot->arm->close_speed_pid[i]);
+            pid_reset_integral(&robot->arm->close_current_pid[i]);
+
+            pid_reset_integral(&robot->arm->wrist_angle_pid[i]);
+            pid_reset_integral(&robot->arm->wrist_speed_pid[i]);
+            pid_reset_integral(&robot->arm->wrist_current_pid[i]);
         }
-        else
+
+        pid_reset_integral(&robot->arm->stretch_pos_pid);
+        pid_reset_integral(&robot->arm->stretch_speed_pid);
+        pid_reset_integral(&robot->arm->stretch_current_pid);
+
+        pid_reset_integral(&robot->lift->pos_pid);
+
+        for (int i = 0; i < 2; i++)
         {
-            int ret = 0;
-            // 这里是校准顺序： 我这里假设是先lift 后 joint 最后arm
-            // 蜂鸣器响 and delay
-            // TODO buzz
-
-            if (robot->lift->calibrated == false)
-            {
-                robot->lift->status = LIFT_CALIBRATING;
-                // ret = lift_calibrate(robot->lift);
-            }
-            else if (robot->lift->calibrated == true && robot->joint->calibrated == false)
-            {
-                robot->lift->status = LIFT_LOCK;
-                robot->joint->status = JOINT_CALIBRATING;
-                // ret = joint_calibrate(robot->joint);
-            }
-            else if (robot->arm->calibrated == false && robot->lift->calibrated == true && robot->joint->calibrated == true)
-            {
-                robot->joint->status = JOINT_HOLD;
-                robot->arm->status = ARM_CALIBRATING;
-                // ret = arm_calibrate(robot->arm);
-            }
-
-            if (robot->arm->calibrated == true && robot->lift->calibrated == true && robot->joint->calibrated == true)
-            {
-                robot->calibrated = true;
-                robot->status = ROBOT_LOCK;
-                log_i("robot calibrated successfully");
-                return 0;
-            }
-            // robot->last_status = ROBOT_CALIBRATE;
-            //  return ret;
+            pid_reset_integral(&robot->lift->speed_pid[i]);
+            pid_reset_integral(&robot->lift->current_pid[i]);
         }
     }
-    else if (robot->status == ROBOT_LOCK) // 这是闭环控制锁住模式 就是校准完所有电机保证原位不动了
-    {
-        /* code */
-        robot->arm->status = ARM_LOCK;
-        robot->joint->status = JOINT_HOLD;
-        robot->lift->status = LIFT_LOCK;
-
-        robot->last_status = ROBOT_LOCK;
-    }
-    else if (robot->status == ROBOT_CONTROL) // 真正的控制模式
-    {
-    }
-
-    // if (robot->status != robot->last_status) // 可能说明切换状态了
-    // {
-    //     // reset pid interg 归零积分 防止有问题
-    // }
     arm_control(robot->arm);
     lift_control(robot->lift);
     joint_control(robot->joint);
@@ -192,8 +153,6 @@ void robot_loop(void *param)
     for (;;)
     {
         robot_check(robot); // 获取来自mavlink的控制值
-
-        // robot_recv_command(robot); // 命令的切换，比如是要校准还是控制，应该也是来自mavlink的消息
 
         robot_control(robot); // 最终的实际控制函数
 

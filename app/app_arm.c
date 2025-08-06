@@ -229,41 +229,41 @@ int arm_init(Arm_t *arm)
     校准 ： 上电的时候 回到正确位置
 
 */
-int arm_calibrate(Arm_t *arm)
-{
+// int arm_calibrate(Arm_t *arm)
+// {
 
-    const float close_cali_speed = CALIBRATE_CLOSE_SPEED; // 校准想要的闭合速度，需更改
-    float close_cmd[2];
-    float close_current[2];
-    for (int i = 0; i < 2; ++i)
-    {
-        if (arm->avg_close_current[i] > CALIBRATE_CURRENT &&
-            arm->avg_close_speed[i] < CALIBRATE_CLOSE_SPEED * 0.5)
-        {
-            if (arm->close_calibrated[i] == false)
-            {
-                arm->close_calibrated[i] = true;
-                pid_reset_integral(&arm->close_current_pid[i]);
-                pid_reset_integral(&arm->close_speed_pid[i]);
-                arm->close_angle_offset[i] = arm->avg_close_angle[i];
-            }
-            else
-            {
-                // arm->motor_cmd_current[i] = arm->motor_cmd_current[i + 2] = (int16_t)arm_set_close_speed_control(arm, i, 0);
-            }
-        }
-        else
-        {
-            close_current[i] = pid_calculate(&arm->close_speed_pid[i], close_cali_speed, arm->avg_close_speed[i], 0, arm->dt);
-            close_cmd[i] = pid_calculate(&arm->close_current_pid[i], close_current[i], arm->avg_close_current[i], 0, arm->dt);
-            float final_current = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, close_cmd[i]));
+//     const float close_cali_speed = CALIBRATE_CLOSE_SPEED; // 校准想要的闭合速度，需更改
+//     float close_cmd[2];
+//     float close_current[2];
+//     for (int i = 0; i < 2; ++i)
+//     {
+//         if (arm->avg_close_current[i] > CALIBRATE_CURRENT &&
+//             arm->avg_close_speed[i] < CALIBRATE_CLOSE_SPEED * 0.5)
+//         {
+//             if (arm->close_calibrated[i] == false)
+//             {
+//                 arm->close_calibrated[i] = true;
+//                 pid_reset_integral(&arm->close_current_pid[i]);
+//                 pid_reset_integral(&arm->close_speed_pid[i]);
+//                 arm->close_angle_offset[i] = arm->avg_close_angle[i];
+//             }
+//             else
+//             {
+//                 // arm->motor_cmd_current[i] = arm->motor_cmd_current[i + 2] = (int16_t)arm_set_close_speed_control(arm, i, 0);
+//             }
+//         }
+//         else
+//         {
+//             close_current[i] = pid_calculate(&arm->close_speed_pid[i], close_cali_speed, arm->avg_close_speed[i], 0, arm->dt);
+//             close_cmd[i] = pid_calculate(&arm->close_current_pid[i], close_current[i], arm->avg_close_current[i], 0, arm->dt);
+//             float final_current = fmaxf(-M2006_CURRENT_LIMIT, fminf(M2006_CURRENT_LIMIT, close_cmd[i]));
 
-            arm->motor_cmd_current[i] = (int16_t)final_current;
-            arm->motor_cmd_current[i + 2] = (int16_t)final_current;
-        }
-    }
-    return 0;
-}
+//             arm->motor_cmd_current[i] = (int16_t)final_current;
+//             arm->motor_cmd_current[i + 2] = (int16_t)final_current;
+//         }
+//     }
+//     return 0;
+// }
 
 int arm_update_data(Arm_t *arm)
 {
@@ -298,13 +298,13 @@ int arm_check(Arm_t *arm)
     arm_update_data(arm);
     if (arm->status == ARM_CALIBRATING)
         return 1; // 因为校准的时候会有碰撞
-    // TODO 检测电流过高报警
+    //  检测电流过高报警
     return 0;
 }
 
 static int arm_error_solve(Arm_t *arm)
 {
-    // TODO 如果报警 修正
+    //  如果报警 修正
 }
 
 // in app_arm.c
@@ -315,8 +315,6 @@ void arm_debug(Arm_t *arm)
     int g_debug_mode = 1;           // 0 = 直接电流控制
     float g_debug_target = -100.0f; // 目标
     // ---------------------
-
-    // float final_current_cmd = 0.0f;
 
     if (g_debug_motor_group == 0) // 调试左爪
     {
@@ -367,48 +365,22 @@ int arm_control(Arm_t *arm)
     {
         arm_debug(arm);
     }
-    else
+    else if (arm->status == ARM_LOCK)
     {
-        if (arm->status == ARM_CALIBRATING) // robot初始化完之后就会进入校准模式,然后对应各个部分的calibrating
-        {
-            arm_calibrate(arm);
-            arm_set_wrist_position_control(arm, 0, 0);
-            arm_set_wrist_position_control(arm, 1, 0);
-            arm_set_stretch_speed_control(arm, 0);
-        }
-        else if (arm->status == ARM_LOCK)
-        {
-            // arm_set_close_speed_control(arm, 0, 0);
-            // arm_set_close_speed_control(arm, 1, 0);
-            arm_set_wrist_position_control(arm, 0, 0);
-            arm_set_wrist_position_control(arm, 1, 0);
-            arm_set_stretch_speed_control(arm, 0);
-        }
-        else if (arm->status == ARM_CONTROL)
-        {
-            if (arm->mode & CLOSE_ANGLE)
-            {
-                // arm_set_close_angle_control(arm, 0, arm->angle_closed_set);
-                // arm_set_close_angle_control(arm, 1, arm->angle_closed_set);
-            }
-            else
-            {
-                // arm_set_close_speed_control(arm, 0, 0);
-                // arm_set_close_speed_control(arm, 1, 0);
-            }
-            if (arm->mode & STRETCH_POS)
-            {
-                arm_set_stretch_position_control(arm, arm->stretch_set);
-            }
-            else if (arm->mode & STRETCH_SPEED)
-            {
-                arm_set_stretch_speed_control(arm, arm->stretch_speed_set);
-            }
-            else
-            {
-                arm_set_stretch_speed_control(arm, 0);
-            }
-        }
+        arm_set_close_speed(arm, 0, 0);
+        arm_set_close_speed(arm, 1, 0);
+        arm_set_wrist_position_control(arm, 0, 0);
+        arm_set_wrist_position_control(arm, 1, 0);
+        arm_set_stretch_speed_control(arm, 0);
+    }
+    else if (arm->status == ARM_CONTROL)
+    {
+        arm_set_close_angle(arm, 0, arm->angle_closed_set);
+        arm_set_close_angle(arm, 1, arm->angle_closed_set);
+
+        // arm_set_wrist_position_control(arm, 0, 0);
+        // arm_set_wrist_position_control(arm, 1, 0);
+        arm_set_stretch_speed_control(arm, arm->stretch_speed_set);
     }
 
     CAN_send_motor_currents(2, 0x200,
